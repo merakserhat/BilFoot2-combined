@@ -5,7 +5,7 @@ class PageRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case FirstPage.routeName:
-        return MaterialPageRoute(builder: (_) => FirstPage());
+        return MaterialPageRoute(builder: (_) => const FirstPage());
       default:
         return MaterialPageRoute(builder: (_) => const FirstPage());
     }
