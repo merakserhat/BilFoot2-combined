@@ -8,7 +8,7 @@ class PlayerModel {
     required this.specialSkills,
     required this.averagePoint,
     required this.pointerNum,
-    required this.imageUrl,
+    this.imageUrl,
     required this.teams,
   });
   late final String email;
@@ -17,7 +17,7 @@ class PlayerModel {
   late final List<String> specialSkills;
   late final double averagePoint;
   late final int pointerNum;
-  late final String imageUrl;
+  late final String? imageUrl;
   late final List<TeamModel> teams;
 
   PlayerModel.fromJson(Map<String, dynamic> json) {

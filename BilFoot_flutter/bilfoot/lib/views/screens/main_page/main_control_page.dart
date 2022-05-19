@@ -1,4 +1,5 @@
-import 'package:bilfoot/views/screens/first_page/first_page.dart';
+import 'package:bilfoot/views/screens/home_page/home_page.dart';
+import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import "package:flutter/material.dart";
 
 // ignore: constant_identifier_names
@@ -77,9 +78,9 @@ class _MainControlPageState extends State<MainControlPage> {
   Widget _getPage(MainPages activePage) {
     switch (activePage) {
       case MainPages.HOME_PAGE:
-        return const FirstPage();
+        return const HomePage();
       case MainPages.PROFILE_PAGE:
-        return const FirstPage();
+        return const ProfilePage();
       default:
         return const Text("Empty Page");
     }
