@@ -1,6 +1,7 @@
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:equatable/equatable.dart';
 
-class PlayerModel {
+class PlayerModel extends Equatable {
   PlayerModel({
     required this.email,
     required this.fullName,
@@ -31,4 +32,7 @@ class PlayerModel {
     imageUrl = json['imageUrl'];
     teams = List.from(json['teams']).map((e) => TeamModel.fromJson(e)).toList();
   }
+
+  @override
+  List<Object?> get props => [email];
 }

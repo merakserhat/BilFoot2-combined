@@ -1,4 +1,5 @@
 import 'package:bilfoot/data/models/player_model.dart';
+import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_photo.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_skills_table.dart';
@@ -42,6 +43,8 @@ class ProfilePage extends StatelessWidget {
         ],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
+
+    Program.program.user = dummyPlayer2;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

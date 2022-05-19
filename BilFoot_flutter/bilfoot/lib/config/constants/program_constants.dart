@@ -2,6 +2,9 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 
 class ProgramConstants {
+  static const EdgeInsets pagePadding =
+      EdgeInsets.symmetric(vertical: 16, horizontal: 24);
+
   static List<BoxShadow>? getDefaultBoxShadow(BuildContext context) {
     return AdaptiveTheme.of(context).theme ==
             AdaptiveTheme.of(context).lightTheme
