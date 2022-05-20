@@ -3,9 +3,13 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/player_list_in_team_card.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'edit_panel/bloc/team_edit_bloc.dart';
 
 class TeamPage extends StatefulWidget {
   static const String routeName = "profile_page";
@@ -57,7 +61,8 @@ class _TeamPageState extends State<TeamPage> {
                       teamModel: widget.team,
                       bigLogo: true,
                     ),
-                    if (viewMode == CAPTAIN_VIEW) _buildEditTeamButton(),
+                    // if (viewMode == CAPTAIN_VIEW) _buildEditTeamButton(),
+                    _buildEditTeamButton(),
                   ],
                 ),
                 const SizedBox.square(dimension: 30),
@@ -80,7 +85,14 @@ class _TeamPageState extends State<TeamPage> {
       bottom: 35,
       child: GestureDetector(
         onTap: () {
-          //TODO: edit team
+          ProgramConstants.showBlurryBackground(
+              context: context,
+              child: BlocProvider(
+                create: (context) => TeamEditBloc(),
+                child: TeamEditPanel(
+                  teamModel: widget.team,
+                ),
+              ));
         },
         child: Container(
           width: 32,

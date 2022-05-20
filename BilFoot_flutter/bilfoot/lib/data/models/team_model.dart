@@ -6,16 +6,16 @@ class TeamModel {
     required this.shortName,
     required this.mainColor,
     required this.accentColor,
-    required this.creator,
-    required this.captain,
+    this.creator,
+    this.captain,
     required this.players,
   });
   late final String name;
   late final String shortName;
   late final String mainColor;
   late final String accentColor;
-  late final PlayerModel creator;
-  late final PlayerModel captain;
+  late final PlayerModel? creator;
+  late final PlayerModel? captain;
   late final List<PlayerModel> players;
 
   TeamModel.fromJson(Map<String, dynamic> json) {

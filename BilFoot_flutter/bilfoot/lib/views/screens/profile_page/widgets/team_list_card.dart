@@ -1,7 +1,10 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/team_list_item.dart';
+import 'package:bilfoot/views/screens/team_page/edit_panel/bloc/team_edit_bloc.dart';
+import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TeamListCard extends StatelessWidget {
   const TeamListCard({Key? key, required this.playerModel}) : super(key: key);
@@ -55,7 +58,12 @@ class TeamListCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(100),
         onTap: () {
-          //TODO: Create team screen
+          ProgramConstants.showBlurryBackground(
+              context: context,
+              child: BlocProvider(
+                create: (context) => TeamEditBloc(),
+                child: const TeamEditPanel(),
+              ));
         },
         child: Container(
           width: 40,
