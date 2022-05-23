@@ -14,4 +14,15 @@ class Program {
 
   //Home data
   PlayerModel? user;
+
+  PlayerModel dummyPlayer1 = PlayerModel(
+      email: "ayberk.senguder@ug.bilkent.edu.tr",
+      fullName: "Ayberk Şengüder",
+      preferredPositions: ["GK", "St"],
+      specialSkills: ["Tireless", "Playmaker"],
+      averagePoint: 4.6,
+      pointerNum: 17,
+      teams: [],
+      imageUrl:
+          "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
 }

@@ -13,17 +13,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PlayerModel dummyPlayer1 = PlayerModel(
-        email: "ayberk.senguder@ug.bilkent.edu.tr",
-        fullName: "Ayberk Şengüder",
-        preferredPositions: ["GK", "St"],
-        specialSkills: ["Tireless", "Playmaker"],
-        averagePoint: 4.6,
-        pointerNum: 17,
-        teams: [],
-        imageUrl:
-            "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
     PlayerModel dummyPlayer2 = PlayerModel(
         email: "serhat.merak@ug.bilkent.edu.tr",
         fullName: "Serhat Merak",
@@ -37,8 +26,8 @@ class ProfilePage extends StatelessWidget {
               shortName: "CU",
               mainColor: "#347282",
               accentColor: "#f6f2c2",
-              creator: dummyPlayer1,
-              captain: dummyPlayer1,
+              creator: Program.program.dummyPlayer1,
+              captain: Program.program.dummyPlayer1,
               players: [])
         ],
         imageUrl:

@@ -2,6 +2,7 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/player_list_item.dart';
+import 'package:bilfoot/views/screens/team_page/widgets/team_add_member_panel.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListInTeamCard extends StatelessWidget {
@@ -63,7 +64,8 @@ class PlayerListInTeamCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(100),
         onTap: () {
-          //TODO: add player
+          ProgramConstants.showBlurryBackground(
+              context: context, child: const TeamAddMemberPanel());
         },
         child: Container(
           width: 40,

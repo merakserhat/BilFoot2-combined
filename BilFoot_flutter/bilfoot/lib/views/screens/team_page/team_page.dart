@@ -119,7 +119,7 @@ class _TeamPageState extends State<TeamPage> {
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () {
-            //TODO: add player
+            //TODO: quit player
           },
           child: Container(
               width: 120,

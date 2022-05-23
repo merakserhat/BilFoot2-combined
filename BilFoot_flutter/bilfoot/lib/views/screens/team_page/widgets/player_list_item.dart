@@ -2,6 +2,7 @@
 
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/player_model.dart';
+import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListItem extends StatelessWidget {
@@ -38,80 +39,98 @@ class PlayerListItem extends StatelessWidget {
   }
 
   Widget _buildButtons(BuildContext context) {
-    const double buttonSize = 24;
-    const double iconSize = 16;
-
-    Widget kickButton = GestureDetector(
-      onTap: () {
-        //TODO: kick
-      },
-      child: Container(
-        width: buttonSize,
-        height: buttonSize,
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100), color: Colors.red),
-        child: const Center(
-          child: Icon(
-            Icons.close,
-            color: Colors.white,
-            size: iconSize,
-          ),
-        ),
-      ),
-    );
-
-    Widget captainButton = GestureDetector(
-      onTap: () {
-        //TODO: captain
-      },
-      child: Container(
-        width: buttonSize,
-        height: buttonSize,
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100), color: Colors.orange),
-        child: Center(
-          child: Text(
-            "C",
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: iconSize),
-          ),
-        ),
-      ),
-    );
-
-    Widget profileButton = GestureDetector(
-      onTap: () {
-        //TODO: profile
-      },
-      child: Container(
-        width: buttonSize,
-        height: buttonSize,
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            color: Theme.of(context).primaryColor),
-        child: const Center(
-          child: Icon(
-            Icons.person,
-            color: Colors.white,
-            size: iconSize,
-          ),
-        ),
-      ),
-    );
+    // const double buttonSize = 24;
+    // const double iconSize = 16;
+    //
+    // Widget kickButton = GestureDetector(
+    //   onTap: () {
+    //     //TODO: kick
+    //   },
+    //   child: Container(
+    //     width: buttonSize,
+    //     height: buttonSize,
+    //     margin: const EdgeInsets.all(4),
+    //     decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.circular(100), color: Colors.red),
+    //     child: const Center(
+    //       child: Icon(
+    //         Icons.close,
+    //         color: Colors.white,
+    //         size: iconSize,
+    //       ),
+    //     ),
+    //   ),
+    // );
+    //
+    // Widget captainButton = GestureDetector(
+    //   onTap: () {
+    //     //TODO: captain
+    //   },
+    //   child: Container(
+    //     width: buttonSize,
+    //     height: buttonSize,
+    //     margin: const EdgeInsets.all(4),
+    //     decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.circular(100), color: Colors.orange),
+    //     child: Center(
+    //       child: Text(
+    //         "C",
+    //         style: Theme.of(context).textTheme.bodyText1!.copyWith(
+    //             fontWeight: FontWeight.bold,
+    //             color: Colors.white,
+    //             fontSize: iconSize),
+    //       ),
+    //     ),
+    //   ),
+    // );
+    //
+    // Widget profileButton = GestureDetector(
+    //   onTap: () {
+    //     //TODO: profile
+    //   },
+    //   child: Container(
+    //     width: buttonSize,
+    //     height: buttonSize,
+    //     margin: const EdgeInsets.all(4),
+    //     decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.circular(100),
+    //         color: Theme.of(context).primaryColor),
+    //     child: const Center(
+    //       child: Icon(
+    //         Icons.person,
+    //         color: Colors.white,
+    //         size: iconSize,
+    //       ),
+    //     ),
+    //   ),
+    // );
 
     List<Widget> buttons = [];
 
     if (!owner) {
-      buttons.add(profileButton);
+      buttons.add(
+        CircularButtonInListItem(
+            buttonType: CircularButtonInListItem.profileButton,
+            onTap: () {
+              //TODO: show profile
+            }),
+      );
     }
 
     if (authorized && !owner) {
-      buttons = [captainButton, kickButton, ...buttons];
+      buttons = [
+        CircularButtonInListItem(
+            buttonType: CircularButtonInListItem.captainButton,
+            onTap: () {
+              //TODO: captain
+            }),
+        CircularButtonInListItem(
+            buttonType: CircularButtonInListItem.kickButton,
+            onTap: () {
+              //TODO: kick
+            }),
+        ...buttons
+      ];
     }
 
     return Row(
