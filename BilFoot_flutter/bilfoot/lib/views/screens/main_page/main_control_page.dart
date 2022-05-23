@@ -28,7 +28,7 @@ class _MainControlPageState extends State<MainControlPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white.withOpacity(0),
       appBar: AppBar(
-        title: const Text("text"),
+        title: const Text("BilFoot"),
       ),
       body: _getPage(MainPages.values[_currentIndex]),
       bottomNavigationBar: _getBottomBar(),
