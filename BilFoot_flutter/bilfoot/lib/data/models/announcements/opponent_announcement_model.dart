@@ -12,7 +12,7 @@ class OpponentAnnouncementModel {
   late final PlayerModel announcer;
   late final MatchModel? match;
   late final DateTime date;
-  late final TeamModel? teamModel;
+  late final TeamModel teamModel;
 
   OpponentAnnouncementModel.fromJson(Map<String, dynamic> json) {
     announcer = PlayerModel.fromJson(json['pitch']);
@@ -20,6 +20,6 @@ class OpponentAnnouncementModel {
         json['match'] == null ? null : MatchModel.fromJson(json['matchTime']);
     DateTime dataDate = DateTime.parse(json['date']);
     date = DateTime(dataDate.year, dataDate.month, dataDate.day);
-    teamModel = json["team"] = TeamModel.fromJson(json["team"]);
+    teamModel = TeamModel.fromJson(json["team"]);
   }
 }
