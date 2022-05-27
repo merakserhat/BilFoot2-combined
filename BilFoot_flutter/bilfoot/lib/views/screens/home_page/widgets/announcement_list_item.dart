@@ -109,7 +109,7 @@ class _AnnouncementItemState extends State<AnnouncementListItem> {
     }
   }
 
-  Widget _getLeadingButton() {
+  Widget _getLeadingButton() { 
     if (widget.opponentAnnouncement != null ||
         (widget.playerAnnouncement != null &&
             widget.playerAnnouncement!.forTeam)) {

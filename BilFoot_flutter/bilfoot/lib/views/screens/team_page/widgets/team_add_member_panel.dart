@@ -2,6 +2,7 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
+import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:flutter/material.dart';
 
 class TeamAddMemberPanel extends StatefulWidget {
@@ -16,76 +17,58 @@ class _TeamAddMemberPanelState extends State<TeamAddMemberPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return PanelBase(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(
+              child: Text(
+            "Add Player",
+            style: Theme.of(context).textTheme.headline5,
+          )),
+          const SizedBox.square(dimension: 20),
+          TextFormField(
+            decoration: const InputDecoration(hintText: "Player Name"),
+            onChanged: (value) {
+              //TODO: get user data from database
+            },
+          ),
+          const SizedBox.square(dimension: 15),
           Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-            child: Material(
-              borderRadius: BorderRadius.circular(20),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 36, horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                        child: Text(
-                      "Add Player",
-                      style: Theme.of(context).textTheme.headline5,
-                    )),
-                    const SizedBox.square(dimension: 20),
-                    TextFormField(
-                      decoration:
-                          const InputDecoration(hintText: "Player Name"),
-                      onChanged: (value) {
-                        //TODO: get user data from database
-                      },
-                    ),
-                    const SizedBox.square(dimension: 15),
-                    Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        boxShadow:
-                            ProgramConstants.getDefaultBoxShadow(context),
-                        color: Colors.white,
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            ),
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            ),
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            ),
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            ),
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            ),
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            ),
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            ),
-                            AddPlayerListItem(
-                              playerModel: Program.program.dummyPlayer1,
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: ProgramConstants.getDefaultBoxShadow(context),
+              color: Colors.white,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  ),
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  ),
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  ),
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  ),
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  ),
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  ),
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  ),
+                  AddPlayerListItem(
+                    playerModel: Program.program.dummyPlayer1,
+                  )
+                ],
               ),
             ),
           )

@@ -3,6 +3,7 @@ import 'package:bilfoot/config/utils/hex_color.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/team_page/edit_panel/bloc/team_edit_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
+import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -30,54 +31,36 @@ class _TeamEditPanelState extends State<TeamEditPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Material(
-              borderRadius: BorderRadius.circular(20),
-              child: BlocBuilder<TeamEditBloc, TeamEditState>(
-                builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 36, horizontal: 24),
-                    child: Column(
-                      children: [
-                        Text(state.isEditing ? "Edit Team" : "Create Team",
-                            style: Theme.of(context).textTheme.headline4),
-                        const SizedBox.square(dimension: 20),
-                        if (state.shortName.isNotEmpty && state.name.isNotEmpty)
-                          FittedBox(
-                            child: TeamLogoTitle(
-                              bigLogo: true,
-                              teamModel: TeamModel(
-                                  name: state.name,
-                                  shortName: state.shortName,
-                                  mainColor: state.mainColor,
-                                  accentColor: state.accentColor,
-                                  players: []),
-                            ),
-                          ),
+    return PanelBase(
+      child: BlocBuilder<TeamEditBloc, TeamEditState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              Text(state.isEditing ? "Edit Team" : "Create Team",
+                  style: Theme.of(context).textTheme.headline4),
+              const SizedBox.square(dimension: 20),
+              if (state.shortName.isNotEmpty && state.name.isNotEmpty)
+                FittedBox(
+                  child: TeamLogoTitle(
+                    bigLogo: true,
+                    teamModel: TeamModel(
+                        name: state.name,
+                        shortName: state.shortName,
+                        mainColor: state.mainColor,
+                        accentColor: state.accentColor,
+                        players: []),
+                  ),
+                ),
 
-                        //edit part
-                        _buildEditionPart(state),
-                        const SizedBox.square(dimension: 20),
-                        ElevatedButton(
-                            onPressed: () {},
-                            child: Text(state.isEditing ? "Edit" : "Create"))
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
+              //edit part
+              _buildEditionPart(state),
+              const SizedBox.square(dimension: 20),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: Text(state.isEditing ? "Edit" : "Create"))
+            ],
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/views/screens/home_page/widgets/announcement_table.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_type_panel.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -68,7 +69,8 @@ class HomePage extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
       child: InkWell(
         onTap: () {
-          //TODO: new announcement
+          ProgramConstants.showBlurryBackground(
+              context: context, child: const NewAnnouncementTypePanel());
         },
         child: const SizedBox(
           height: 50,
