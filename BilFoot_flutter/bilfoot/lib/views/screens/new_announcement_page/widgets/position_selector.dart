@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PositionSelector extends StatefulWidget {
-  const PositionSelector({Key? key}) : super(key: key);
+  const PositionSelector({Key? key, required this.onSelectionChange})
+      : super(key: key);
+
+  final Function(List<String> positions) onSelectionChange;
 
   @override
   State<PositionSelector> createState() => _PositionSelectorState();
@@ -68,6 +71,8 @@ class _PositionSelectorState extends State<PositionSelector> {
     } else {
       selectedPositions.remove(value);
     }
+
+    widget.onSelectionChange(selectedPositions);
   }
 }
 

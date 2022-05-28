@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 
 class TeamOrMatchToggle extends StatefulWidget {
   const TeamOrMatchToggle(
-      {Key? key, required this.teams, required this.onSelectionChanged})
+      {Key? key,
+      required this.teams,
+      required this.onSelectionChanged,
+      required this.onToggleChanged})
       : super(key: key);
 
   final List<TeamModel> teams;
   final Function(TeamModel) onSelectionChanged;
+  final Function(bool) onToggleChanged;
 
   @override
   State<TeamOrMatchToggle> createState() => _TeamOrMatchToggleState();
@@ -32,10 +36,12 @@ class _TeamOrMatchToggleState extends State<TeamOrMatchToggle> {
                   if (index == 0 && !forMatch) {
                     setState(() {
                       forMatch = true;
+                      widget.onToggleChanged(forMatch); //for team
                     });
                   } else if (index != 0 && forMatch) {
                     setState(() {
                       forMatch = false;
+                      widget.onToggleChanged(forMatch); //for team
                     });
                   }
                 }),

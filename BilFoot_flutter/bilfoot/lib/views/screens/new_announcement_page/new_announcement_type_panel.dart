@@ -22,6 +22,8 @@ class NewAnnouncementTypePanel extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
+              Navigator.of(context).pop();
+
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                 return const NewAnnouncementPage(
                     announcementType: AnnouncementTypes.player);
@@ -35,6 +37,8 @@ class NewAnnouncementTypePanel extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
+              Navigator.of(context).pop();
+
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                 return const NewAnnouncementPage(
                     announcementType: AnnouncementTypes.opponent);
@@ -48,6 +52,7 @@ class NewAnnouncementTypePanel extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
+              Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                 return const NewAnnouncementPage(
                     announcementType: AnnouncementTypes.match);
