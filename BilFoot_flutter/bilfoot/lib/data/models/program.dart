@@ -1,4 +1,5 @@
 import 'package:bilfoot/data/models/player_model.dart';
+import 'package:bilfoot/data/models/team_model.dart';
 
 ///A singleton class that holds some variables that is required in most of the pages.
 class Program {
@@ -25,4 +26,13 @@ class Program {
       teams: [],
       imageUrl:
           "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
+
+  TeamModel dummyTeam1 = TeamModel(
+      name: "Cu S.K",
+      shortName: "CU",
+      mainColor: "#347282",
+      accentColor: "#f6f2c2",
+      creator: Program.program.dummyPlayer1,
+      captain: Program.program.dummyPlayer1,
+      players: []);
 }
