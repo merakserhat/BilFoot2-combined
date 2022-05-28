@@ -36,6 +36,7 @@ class TeamLogoTitle extends StatelessWidget {
         const SizedBox.square(dimension: 5),
         Text(
           teamModel.name,
+          softWrap: true,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontWeight: FontWeight.w500,
               ),

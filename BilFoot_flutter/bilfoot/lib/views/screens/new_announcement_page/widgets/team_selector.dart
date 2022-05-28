@@ -19,12 +19,17 @@ class _TeamSelectorState extends State<TeamSelector> {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-          height: 200.0,
+          viewportFraction: 0.42,
+          enlargeCenterPage: true,
+          enableInfiniteScroll: false,
           onPageChanged: (index, _) {
             widget.onSelectionChanged(widget.teams[index]);
           }),
       items: widget.teams.map((team) {
-        return TeamLogoTitle(teamModel: team);
+        return TeamLogoTitle(
+          teamModel: team,
+          bigLogo: true,
+        );
       }).toList(),
     );
   }

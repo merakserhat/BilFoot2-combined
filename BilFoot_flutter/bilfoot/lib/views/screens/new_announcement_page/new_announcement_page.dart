@@ -1,7 +1,6 @@
 import 'package:bilfoot/config/constants/announcement_types.dart';
-import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/program.dart';
-import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -16,19 +15,20 @@ class NewAnnouncementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BasicAppBar(),
-      body: Padding(
-        padding: ProgramConstants.pagePadding,
-        child: Column(
-          children: [
-            Text(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
               _getOpponentTitle(),
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline5,
             ),
-            const Divider(),
-            const SizedBox.square(dimension: 15),
-            ..._getAnnouncementOptions(),
-          ],
-        ),
+          ),
+          const Divider(),
+          const SizedBox.square(dimension: 15),
+          ..._getAnnouncementOptions(),
+        ],
       ),
     );
   }
@@ -47,10 +47,18 @@ class NewAnnouncementPage extends StatelessWidget {
   List<Widget> _getAnnouncementOptions() {
     switch (announcementType) {
       case AnnouncementTypes.player:
-        return [];
+        return [
+          const AnnouncementOptionTitle(title: "For What?"),
+          TeamOrMatchToggle(teams: [
+            Program.program.dummyTeam1,
+            Program.program.dummyTeam1,
+            Program.program.dummyTeam1,
+            Program.program.dummyTeam1,
+          ], onSelectionChanged: (team) {})
+        ];
       case AnnouncementTypes.opponent:
         return [
-          const AnnouncementOptionTitle(title: "Your Team:"),
+          const AnnouncementOptionTitle(title: "Your Team"),
           TeamSelector(teams: [
             Program.program.dummyTeam1,
             Program.program.dummyTeam1,
@@ -73,7 +81,7 @@ class AnnouncementOptionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 15, bottom: 5),
+      padding: const EdgeInsets.only(top: 15, bottom: 10),
       child: Text(
         title,
         style: Theme.of(context).textTheme.headline6,

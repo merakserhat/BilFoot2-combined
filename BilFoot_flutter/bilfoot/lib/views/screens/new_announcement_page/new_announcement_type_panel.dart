@@ -1,3 +1,5 @@
+import 'package:bilfoot/config/constants/announcement_types.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_page.dart';
 import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,7 +22,10 @@ class NewAnnouncementTypePanel extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              //TODO: player announcement page
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const NewAnnouncementPage(
+                    announcementType: AnnouncementTypes.player);
+              }));
             },
             child: const Text("Player"),
           ),
@@ -30,7 +35,10 @@ class NewAnnouncementTypePanel extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              //TODO: opponent announcement page
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const NewAnnouncementPage(
+                    announcementType: AnnouncementTypes.opponent);
+              }));
             },
             child: const Text("Opponent"),
           ),
@@ -40,7 +48,10 @@ class NewAnnouncementTypePanel extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              //TODO: match announcement page
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const NewAnnouncementPage(
+                    announcementType: AnnouncementTypes.match);
+              }));
             },
             child: const Text("Match"),
           ),
