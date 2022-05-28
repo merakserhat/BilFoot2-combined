@@ -1,5 +1,6 @@
 import 'package:bilfoot/config/constants/announcement_types.dart';
 import 'package:bilfoot/data/models/program.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/widgets/position_selector.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
@@ -15,20 +16,22 @@ class NewAnnouncementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BasicAppBar(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              _getOpponentTitle(),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline5,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                _getOpponentTitle(),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline5,
+              ),
             ),
-          ),
-          const Divider(),
-          const SizedBox.square(dimension: 15),
-          ..._getAnnouncementOptions(),
-        ],
+            const Divider(),
+            const SizedBox.square(dimension: 15),
+            ..._getAnnouncementOptions(),
+          ],
+        ),
       ),
     );
   }
@@ -54,7 +57,9 @@ class NewAnnouncementPage extends StatelessWidget {
             Program.program.dummyTeam1,
             Program.program.dummyTeam1,
             Program.program.dummyTeam1,
-          ], onSelectionChanged: (team) {})
+          ], onSelectionChanged: (team) {}),
+          const AnnouncementOptionTitle(title: "Player's positions"),
+          PositionSelector()
         ];
       case AnnouncementTypes.opponent:
         return [
