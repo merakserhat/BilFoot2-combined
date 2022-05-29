@@ -1,8 +1,13 @@
+import 'package:bilfoot/config/constants/program_colors.dart';
 import 'package:flutter/material.dart';
 
 class MyThemes {
   static final darkTheme = ThemeData(
-      /*scaffoldBackgroundColor: ProgramColors.gloneraDarkBackground,
+    textTheme:
+        getTextTheme(textColor: Colors.yellow, buttonColor: Colors.white),
+    fontFamily: "Poppins",
+
+    /*scaffoldBackgroundColor: ProgramColors.gloneraDarkBackground,
     fontFamily: "Poppins",
     primaryColor: ProgramColors.gloneraDarkMainGray,
     colorScheme: ColorScheme.dark(
@@ -30,16 +35,44 @@ class MyThemes {
         disabledColor: Colors.white),
     snackBarTheme:
     SnackBarThemeData(backgroundColor: ProgramColors.gloneraDarkMainGray),*/
-      );
+  );
 
   static final lightTheme = ThemeData(
-      /*scaffoldBackgroundColor: Colors.white,
+    textTheme: getTextTheme(
+      textColor: Colors.black87,
+      buttonColor: Colors.white,
+    ),
+    fontFamily: "Poppins",
+    primaryColor: ProgramColors.bilkentPalette[1],
+    colorScheme: ColorScheme.light(
+      primary: ProgramColors.bilkentPalette[1],
+      secondary: ProgramColors.bilkentPalette[0],
+      onBackground: ProgramColors.bilkentPalette[4],
+    ),
+    iconTheme: const IconThemeData(color: Colors.white),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              const EdgeInsets.symmetric(vertical: 8, horizontal: 16)),
+          elevation: MaterialStateProperty.all(0),
+          textStyle: MaterialStateProperty.all<TextStyle>(
+            const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              fontFamily: "Poppins",
+            ),
+          )),
+    ),
+    appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(
+          color: Colors.white, fontWeight: FontWeight.w500, fontSize: 18),
+    ),
+    /*scaffoldBackgroundColor: Colors.white,
     fontFamily: "Poppins",
     primaryColor: ProgramColors.gloneraMainGreen,
-    colorScheme: ColorScheme.light(
-        primary: ProgramColors.gloneraMainGreen,
-        secondary: Colors.white,
-        onBackground: Colors.white),
+
     iconTheme: IconThemeData(color: Colors.white),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -64,8 +97,8 @@ class MyThemes {
         color: Colors.white,
         selectedColor: ProgramColors.gloneraMainGreen,
         disabledColor: ProgramColors.gloneraMainGreen),*/
-      );
-/*
+  );
+
   static TextTheme getTextTheme(
       {required Color textColor, required Color buttonColor}) {
     return TextTheme(
@@ -93,5 +126,5 @@ class MyThemes {
           fontSize: 9,
           letterSpacing: 0.1),
     );
-  }*/
+  }
 }

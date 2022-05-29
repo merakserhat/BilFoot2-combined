@@ -6,6 +6,7 @@ import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/player_list_in_team_card.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
+import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,7 +47,7 @@ class _TeamPageState extends State<TeamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const BasicAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: ProgramConstants.pagePadding,
@@ -81,8 +82,8 @@ class _TeamPageState extends State<TeamPage> {
 
   Widget _buildEditTeamButton() {
     return Positioned(
-      right: 5,
-      bottom: 35,
+      right: 0,
+      bottom: 20,
       child: GestureDetector(
         onTap: () {
           ProgramConstants.showBlurryBackground(

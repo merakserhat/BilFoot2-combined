@@ -15,7 +15,7 @@ class NewAnnouncementTypePanel extends StatelessWidget {
         Text(
           "New Announcement",
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.headline3,
         ),
         const Divider(),
         SizedBox(
@@ -32,7 +32,6 @@ class NewAnnouncementTypePanel extends StatelessWidget {
             child: const Text("Player"),
           ),
         ),
-        const SizedBox.square(dimension: 5),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -47,7 +46,6 @@ class NewAnnouncementTypePanel extends StatelessWidget {
             child: const Text("Opponent"),
           ),
         ),
-        const SizedBox.square(dimension: 5),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(

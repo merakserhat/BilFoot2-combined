@@ -47,7 +47,7 @@ class _AnnouncementItemState extends State<AnnouncementListItem> {
       ),
       margin: const EdgeInsets.all(4),
       child: Theme(
-        data: ThemeData().copyWith(
+        data: Theme.of(context).copyWith(
           dividerColor: Colors.transparent,
         ), //removes outlined when activated
         child: ExpansionTile(
@@ -109,7 +109,7 @@ class _AnnouncementItemState extends State<AnnouncementListItem> {
     }
   }
 
-  Widget _getLeadingButton() { 
+  Widget _getLeadingButton() {
     if (widget.opponentAnnouncement != null ||
         (widget.playerAnnouncement != null &&
             widget.playerAnnouncement!.forTeam)) {

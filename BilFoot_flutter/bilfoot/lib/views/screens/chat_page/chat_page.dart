@@ -2,6 +2,7 @@ import 'package:bilfoot/data/models/conversation_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/views/screens/chat_page/widgets/chat_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -119,6 +120,12 @@ class ChatPageState extends State<ChatPage> {
           //     .read<ChatBloc>()
           //     .add(ChatSendMessage(text: textEditingController.value.text));
           setState(() {
+            conversationModel.messages.add(MessageModel(
+                fromMail: Program.program.user!.email,
+                content: textEditingController.text,
+                date: DateTime.now()));
+          });
+          setState(() {
             textEditingController.text = "";
           });
         }
@@ -151,14 +158,11 @@ class ChatPageState extends State<ChatPage> {
       child: Builder(
         builder: (context) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            if (_scrollController.position.viewportDimension <
-                _scrollController.position.maxScrollExtent) {
-              _scrollController.animateTo(
-                _scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeOut,
-              );
-            }
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOut,
+            );
           });
           return Column(
             children: [
@@ -172,6 +176,7 @@ class ChatPageState extends State<ChatPage> {
                   isOwnMessage: conversationModel.messages[index].fromMail ==
                       Program.program.user!.email,
                   content: conversationModel.messages[index].content,
+                  date: conversationModel.messages[index].date,
                 ),
               ),
             ],
@@ -182,28 +187,45 @@ class ChatPageState extends State<ChatPage> {
   }
 }
 
-class ChatBubble extends StatelessWidget {
+class ChatBubble extends StatefulWidget {
   final String content;
   final bool isContinuation;
   final bool isOwnMessage;
+  final DateTime date;
 
   const ChatBubble({
     Key? key,
     this.content = "",
     this.isContinuation = false,
     this.isOwnMessage = true,
+    required this.date,
   }) : super(key: key);
 
   @override
+  State<ChatBubble> createState() => _ChatBubbleState();
+}
+
+class _ChatBubbleState extends State<ChatBubble> {
+  bool displayingData = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Align(
-          alignment:
-              isOwnMessage ? Alignment.centerRight : Alignment.centerLeft,
-          child: _getContent(content: content, context: context),
-        ),
-      ],
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          displayingData = !displayingData;
+        });
+      },
+      child: Stack(
+        children: [
+          Align(
+            alignment: widget.isOwnMessage
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: _getContent(content: widget.content, context: context),
+          ),
+        ],
+      ),
     );
   }
 
@@ -211,24 +233,39 @@ class ChatBubble extends StatelessWidget {
     double maxWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      margin: EdgeInsets.only(
-          left: 16, right: 16, bottom: 0, top: isContinuation ? 8 : 16),
-      padding: const EdgeInsets.all(16),
       width: maxWidth * 0.6,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: isOwnMessage
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).colorScheme.secondary,
-      ),
-      child: Text(
-        content,
-        style: Theme.of(context)
-            .textTheme
-            .headline5!
-            .copyWith(height: 1.2, color: Colors.white),
-        softWrap: true,
-        textAlign: TextAlign.left,
+      margin: EdgeInsets.only(
+          left: 16, right: 16, bottom: 0, top: widget.isContinuation ? 8 : 16),
+      child: AnimatedSize(
+        duration: Duration(milliseconds: 200),
+        alignment: Alignment.topCenter,
+        child: Column(
+          crossAxisAlignment: widget.isOwnMessage
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              width: maxWidth * 0.6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: widget.isOwnMessage
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).colorScheme.secondary,
+              ),
+              child: Text(
+                content,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5!
+                    .copyWith(height: 1.2, color: Colors.white),
+                softWrap: true,
+                textAlign: TextAlign.left,
+              ),
+            ),
+            displayingData ? Text(DateFormat('yyyy-MM-dd – kk:mm').format(widget.date)) : Container(),
+          ],
+        ),
       ),
     );
   }

@@ -58,8 +58,9 @@ class TeamLogoTitle extends StatelessWidget {
           child: Center(
             child: Text(
               teamModel.shortName.toUpperCase(),
-              style: Theme.of(context).textTheme.headline4!.copyWith(
+              style: Theme.of(context).textTheme.headline1!.copyWith(
                   fontWeight: FontWeight.bold,
+                  fontSize: 24,
                   color: HexColor(teamModel.accentColor)),
             ),
           ),

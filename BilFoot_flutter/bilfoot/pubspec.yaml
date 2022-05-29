@@ -34,6 +34,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_colorpicker: ^1.0.3
   carousel_slider: ^4.1.1
+  intl: ^0.17.0
 
 
 
@@ -69,6 +70,20 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/nav_buttons/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 800
+        - asset: assets/fonts/Poppins-Black.ttf
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+    - family: CustomIcons
+      fonts:
+        - asset: assets/fonts/CustomIcons.ttf
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

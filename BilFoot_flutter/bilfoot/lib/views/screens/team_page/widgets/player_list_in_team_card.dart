@@ -21,7 +21,7 @@ class PlayerListInTeamCard extends StatelessWidget {
           children: [
             Text(
               "Players",
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headline3,
             ),
             _buildAddPlayerButton(context)
           ],

@@ -121,7 +121,7 @@ class AnnouncementOptionTitle extends StatelessWidget {
       padding: const EdgeInsets.only(top: 15, bottom: 10),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.headline5,
       ),
     );
   }

@@ -19,16 +19,16 @@ class ProfileSkillsTable extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
-                'Preferred Positions: ${playerModel.preferredPositions.toString().replaceAll("[", "").replaceAll("]", "")}',
-                style: Theme.of(context).textTheme.bodyText1,
+                'Positions: ${playerModel.preferredPositions.toString().replaceAll("[", "").replaceAll("]", "")}',
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
             const SizedBox.square(dimension: 10),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
-                'Special Skills: ${playerModel.specialSkills.toString().replaceAll("[", "").replaceAll("]", "")}',
-                style: Theme.of(context).textTheme.bodyText1,
+                'Skills: ${playerModel.specialSkills.toString().replaceAll("[", "").replaceAll("]", "")}',
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ),
           ],

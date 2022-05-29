@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 
 class ProgramConstants {
@@ -9,24 +8,25 @@ class ProgramConstants {
 
   static List<BoxShadow>? getDefaultBoxShadow(BuildContext context,
       {bool smallShadow = false}) {
-    return AdaptiveTheme.of(context).theme ==
-            AdaptiveTheme.of(context).lightTheme
-        ? [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: smallShadow ? 1 : 2,
-              blurRadius: smallShadow ? 1.5 : 3,
-              offset: const Offset(0, 1), // changes position of shadow
-            ),
-          ]
-        : [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: smallShadow ? 1 : 2,
-              blurRadius: smallShadow ? 1.5 : 3,
-              offset: const Offset(0, 1), // changes position of shadow
-            ),
-          ]; //null instead
+    // return AdaptiveTheme.of(context).theme ==
+    //         AdaptiveTheme.of(context).lightTheme
+    //     ?
+    return [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.2),
+        spreadRadius: smallShadow ? 1 : 2,
+        blurRadius: smallShadow ? 1.5 : 3,
+        offset: const Offset(0, 1), // changes position of shadow
+      ),
+    ];
+    // : [
+    //     BoxShadow(
+    //       color: Colors.grey.withOpacity(0.2),
+    //       spreadRadius: smallShadow ? 1 : 2,
+    //       blurRadius: smallShadow ? 1.5 : 3,
+    //       offset: const Offset(0, 1), // changes position of shadow
+    //     ),
+    //   ]; //null instead
   }
 
   static void showBlurryBackground({
