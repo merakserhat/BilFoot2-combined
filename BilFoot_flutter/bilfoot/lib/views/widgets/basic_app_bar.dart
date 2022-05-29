@@ -1,7 +1,8 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 
 class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const BasicAppBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -14,7 +15,8 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  final Size preferredSize = Size.fromHeight(kToolbarHeight);
+  @override
+  final Size preferredSize = const Size.fromHeight(kToolbarHeight);
 }
 
 /*

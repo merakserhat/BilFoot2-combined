@@ -3,7 +3,6 @@ import 'package:bilfoot/views/routes/router.dart';
 import 'package:bilfoot/views/themes/my_themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 void main() async {
   runApp(MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       builder: (theme, darkTheme) => MaterialApp(
         title: 'First Page',
         theme: darkTheme,
-        //debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,
         darkTheme: darkTheme,
         onGenerateRoute: PageRouter.generateRoute,
       ),

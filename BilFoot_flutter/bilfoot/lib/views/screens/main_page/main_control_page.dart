@@ -1,3 +1,4 @@
+import 'package:bilfoot/views/screens/chat_page/chat_page.dart';
 import 'package:bilfoot/views/screens/home_page/home_page.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import "package:flutter/material.dart";
@@ -29,6 +30,19 @@ class _MainControlPageState extends State<MainControlPage> {
       backgroundColor: Colors.white.withOpacity(0),
       appBar: AppBar(
         title: const Text("BilFoot"),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const ChatPage()));
+            },
+            child: const Icon(
+              Icons.message_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox.square(dimension: 16),
+        ],
       ),
       body: _getPage(MainPages.values[_currentIndex]),
       bottomNavigationBar: _getBottomBar(),

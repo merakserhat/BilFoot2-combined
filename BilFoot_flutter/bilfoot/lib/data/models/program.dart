@@ -27,6 +27,17 @@ class Program {
       imageUrl:
           "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
 
+  PlayerModel dummyPlayer2 = PlayerModel(
+      email: "serhat.merak@ug.bilkent.edu.tr",
+      fullName: "Serhat Merak",
+      preferredPositions: ["GK", "St"],
+      specialSkills: ["Tireless", "Playmaker"],
+      averagePoint: 4.6,
+      pointerNum: 17,
+      teams: [],
+      imageUrl:
+          "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
+
   TeamModel dummyTeam1 = TeamModel(
       name: "Cu S.K",
       shortName: "CU",
