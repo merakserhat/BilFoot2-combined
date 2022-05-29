@@ -1,11 +1,12 @@
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePhoto extends StatelessWidget {
+class ProfilePagePhoto extends StatelessWidget {
   final PlayerModel playerModel;
   final double imageSize = 100;
 
-  const ProfilePhoto({required this.playerModel, Key? key}) : super(key: key);
+  const ProfilePagePhoto({required this.playerModel, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

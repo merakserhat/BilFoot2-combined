@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({Key? key, required this.conversationModel}) : super(key: key);
 
-  // final ConversationModel conversationModel;
+  final ConversationModel conversationModel;
 
   @override
   ChatPageState createState() => ChatPageState();
@@ -16,44 +16,17 @@ class ChatPage extends StatefulWidget {
 class ChatPageState extends State<ChatPage> {
   var isSubmitted = false;
   TextEditingController textEditingController = TextEditingController();
-  late ConversationModel conversationModel;
 
   @override
   void initState() {
     super.initState();
-
-    conversationModel = ConversationModel(
-      members: [Program.program.dummyPlayer1, Program.program.dummyPlayer2],
-      messages: [
-        MessageModel(
-          fromMail: "serhat.merak@ug.bilkent.edu.tr",
-          content: "Deneme bir dummy mesajı",
-          date: DateTime.now(),
-        ),
-        MessageModel(
-          fromMail: "serhat.merak@ug.bilkent.edu.tr",
-          content: "Gönderen serhat merak",
-          date: DateTime.now(),
-        ),
-        MessageModel(
-          fromMail: "ayberk.senguder@ug.bilkent.edu.tr",
-          content: "Deneme bir response",
-          date: DateTime.now(),
-        ),
-        MessageModel(
-          fromMail: "ayberk.senguder@ug.bilkent.edu.tr",
-          content: "Gönderen ayberk şengüder",
-          date: DateTime.now(),
-        ),
-      ],
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ChatAppBar(
-          playerModel: conversationModel.members.firstWhere(
+          playerModel: widget.conversationModel.members.firstWhere(
               (element) => element.email != Program.program.user!.email)),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -120,7 +93,7 @@ class ChatPageState extends State<ChatPage> {
           //     .read<ChatBloc>()
           //     .add(ChatSendMessage(text: textEditingController.value.text));
           setState(() {
-            conversationModel.messages.add(MessageModel(
+            widget.conversationModel.messages.add(MessageModel(
                 fromMail: Program.program.user!.email,
                 content: textEditingController.text,
                 date: DateTime.now()));
@@ -167,16 +140,17 @@ class ChatPageState extends State<ChatPage> {
           return Column(
             children: [
               ...List.generate(
-                conversationModel.messages.length,
+                widget.conversationModel.messages.length,
                 (index) => ChatBubble(
                   isContinuation: index == 0
                       ? false
-                      : conversationModel.messages[index].fromMail ==
-                          conversationModel.messages[index - 1].fromMail,
-                  isOwnMessage: conversationModel.messages[index].fromMail ==
-                      Program.program.user!.email,
-                  content: conversationModel.messages[index].content,
-                  date: conversationModel.messages[index].date,
+                      : widget.conversationModel.messages[index].fromMail ==
+                          widget.conversationModel.messages[index - 1].fromMail,
+                  isOwnMessage:
+                      widget.conversationModel.messages[index].fromMail ==
+                          Program.program.user!.email,
+                  content: widget.conversationModel.messages[index].content,
+                  date: widget.conversationModel.messages[index].date,
                 ),
               ),
             ],
@@ -263,7 +237,9 @@ class _ChatBubbleState extends State<ChatBubble> {
                 textAlign: TextAlign.left,
               ),
             ),
-            displayingData ? Text(DateFormat('yyyy-MM-dd – kk:mm').format(widget.date)) : Container(),
+            displayingData
+                ? Text(DateFormat('yyyy-MM-dd – kk:mm').format(widget.date))
+                : Container(),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:bilfoot/data/models/player_model.dart';
+import 'package:bilfoot/views/widgets/profile_photo.dart';
 import 'package:flutter/material.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -14,13 +15,12 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.network(
-                playerModel.imageUrl!, //TODO: default image
-                height: 36,
+            Hero(
+              tag: "CHAT_PROFILE_PHOTO",
+              child: SizedBox(
                 width: 36,
-                fit: BoxFit.cover,
+                height: 36,
+                child: ProfilePhoto(imageUrl: playerModel.imageUrl!),
               ),
             ),
             const SizedBox.square(dimension: 10),

@@ -1,4 +1,4 @@
-import 'package:bilfoot/views/screens/chat_page/chat_page.dart';
+import 'package:bilfoot/views/screens/chat_page/chat_people_page.dart';
 import 'package:bilfoot/views/screens/home_page/home_page.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import "package:flutter/material.dart";
@@ -33,8 +33,8 @@ class _MainControlPageState extends State<MainControlPage> {
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const ChatPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ChatPeoplePage()));
             },
             child: const Icon(
               Icons.message_outlined,

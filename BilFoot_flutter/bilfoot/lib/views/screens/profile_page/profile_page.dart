@@ -1,7 +1,7 @@
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
-import 'package:bilfoot/views/screens/profile_page/widgets/profile_photo.dart';
+import 'package:bilfoot/views/screens/profile_page/widgets/profile_page_photo.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_skills_table.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/team_list_card.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox.square(dimension: 20),
-              ProfilePhoto(playerModel: dummyPlayer2),
+              ProfilePagePhoto(playerModel: dummyPlayer2),
               const SizedBox.square(dimension: 30),
               ProfileSkillsTable(playerModel: dummyPlayer2),
               const SizedBox.square(dimension: 30),
