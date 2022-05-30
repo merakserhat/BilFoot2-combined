@@ -1,7 +1,9 @@
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
+import 'package:bilfoot/views/screens/auth_page/forms/verification_form.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/change_auth_type_text.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/my_form_field.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/remember_me_checkbox.dart';
+import 'package:bilfoot/views/screens/auth_page/widgets/verification_field.dart';
 import 'package:flutter/material.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -19,8 +21,14 @@ class _RegisterFormState extends State<RegisterForm> {
   TextEditingController passController = TextEditingController();
   TextEditingController passAgainController = TextEditingController();
 
+  bool verificationState = false;
+
   @override
   Widget build(BuildContext context) {
+    if (verificationState) {
+      return VerificationForm(email: mailController.value.text);
+    }
+
     return Form(
       key: loginFormKey,
       child: Column(
@@ -48,6 +56,10 @@ class _RegisterFormState extends State<RegisterForm> {
           ElevatedButton(
             onPressed: () {
               //TODO: register clicked
+              //TODO remove
+              setState(() {
+                verificationState = true;
+              });
             },
             child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 50),

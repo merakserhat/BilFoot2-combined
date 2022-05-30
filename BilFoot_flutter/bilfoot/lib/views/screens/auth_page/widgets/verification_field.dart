@@ -16,7 +16,7 @@ class _VerificationFieldState extends State<VerificationField> {
   @override
   Widget build(BuildContext context) {
     final borderColor = Theme.of(context).primaryColor;
-    final boxColor = Theme.of(context).primaryColor.withOpacity(0.5);
+    final boxColor = Theme.of(context).primaryColor.withOpacity(0.3);
 
     double width = MediaQuery.of(context).size.width;
     return Padding(
