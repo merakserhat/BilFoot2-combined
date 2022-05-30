@@ -1,4 +1,5 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/home_page/widgets/announcement_table.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_type_panel.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,9 @@ class HomePage extends StatelessWidget {
         child: InkWell(
           onTap: () {
             //TODO: my announcements
+            //TODO remove this
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const AuthPage()));
           },
           child: SizedBox(
               height: 50,
