@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "503170625129",
+    "project_id": "bilfootv2",
+    "storage_bucket": "bilfootv2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503170625129:android:f73df12083046a37ab7cf8",
+        "android_client_info": {
+          "package_name": "com.example.bilfoot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503170625129-7k5bmb2p2ahg7b4qi2ilr92uknvu4psq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bilfoot",
+            "certificate_hash": "9597f4a0d49b5ddb2deb134ef2502f4af8390d5e"
+          }
+        },
+        {
+          "client_id": "503170625129-iv8vohief0r8b4n8si8chq30dn9pgeam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUV89G_vY_lW72OvmnTjznZ286wnTqZ6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503170625129-iv8vohief0r8b4n8si8chq30dn9pgeam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,12 +2,33 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/home_page/widgets/announcement_table.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_type_panel.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
   static const String routeName = "home_page";
 
-  const HomePage({Key? key}) : super(key: key);
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
