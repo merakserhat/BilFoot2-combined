@@ -10,6 +10,7 @@ import announcementRoute from "./routes/announcement_r.js";
 import chatRoute from "./routes/chat_r.js";
 import playerRoute from "./routes/player_r.js";
 import teamRoute from "./routes/team_r.js";
+import { initializeApp } from "firebase-admin/app";
 
 // #endregion
 
@@ -19,6 +20,8 @@ const __dirname = dirname(__filename);
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+initializeApp();
 
 // test post
 app.post("/test", (req, res, next) => {
