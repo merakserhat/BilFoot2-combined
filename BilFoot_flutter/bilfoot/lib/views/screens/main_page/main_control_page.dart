@@ -1,3 +1,4 @@
+import 'package:bilfoot/config/utils/fcm_service.dart';
 import 'package:bilfoot/views/screens/chat_page/chat_people_page.dart';
 import 'package:bilfoot/views/screens/home_page/home_page.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
@@ -19,6 +20,8 @@ class _MainControlPageState extends State<MainControlPage> {
   @override
   void initState() {
     super.initState();
+    FCMService fcmService = FCMService(context: context);
+    fcmService.init();
   }
 
   int _currentIndex = 0;
