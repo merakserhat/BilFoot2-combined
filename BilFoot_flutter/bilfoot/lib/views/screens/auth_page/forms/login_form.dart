@@ -1,3 +1,4 @@
+import 'package:bilfoot/config/utils/auth_service.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/change_auth_type_text.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/my_form_field.dart';
@@ -40,9 +41,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox.square(dimension: 30),
           ElevatedButton(
-            onPressed: () {
-              //TODO: login clicked
-            },
+            onPressed: handleLoginClicked,
             child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 50),
               child: Text("Login"),
@@ -58,5 +57,10 @@ class _LoginFormState extends State<LoginForm> {
         ],
       ),
     );
+  }
+
+  void handleLoginClicked() {
+    AuthService.service.login(
+        emailAddress: mailController.text, password: passController.text);
   }
 }

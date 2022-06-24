@@ -3,9 +3,9 @@ import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import "package:flutter/material.dart";
 
 class AuthTitle extends StatelessWidget {
-  final AuthType authType;
+  final AuthType? authType;
 
-  const AuthTitle({Key? key, required this.authType}) : super(key: key);
+  const AuthTitle({Key? key, this.authType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class AuthTitle extends StatelessWidget {
           dimension: 60,
         ),
         Text(
-          authType == AuthType.register ? "Register" : "Login",
+          _getAuthTitle(),
           style: Theme.of(context).textTheme.headline2,
         ),
         const SizedBox.square(
@@ -39,5 +39,13 @@ class AuthTitle extends StatelessWidget {
       ],
     );
     ;
+  }
+
+  String _getAuthTitle() {
+    if (authType == null) {
+      return "Verification";
+    } else {
+      return authType == AuthType.register ? "Register" : "Login";
+    }
   }
 }

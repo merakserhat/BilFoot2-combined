@@ -1,4 +1,6 @@
+import 'package:bilfoot/config/utils/auth_service.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
+import 'package:bilfoot/views/screens/auth_page/auth_verification_page.dart';
 import 'package:bilfoot/views/screens/auth_page/forms/verification_form.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/change_auth_type_text.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/my_form_field.dart';
@@ -54,13 +56,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           const SizedBox.square(dimension: 30),
           ElevatedButton(
-            onPressed: () {
-              //TODO: register clicked
-              //TODO remove
-              setState(() {
-                verificationState = true;
-              });
-            },
+            onPressed: handleRegisterClicked,
             child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 50),
               child: Text("Register"),
@@ -76,5 +72,15 @@ class _RegisterFormState extends State<RegisterForm> {
         ],
       ),
     );
+  }
+
+  void handleRegisterClicked() async {
+    bool isSuccessful = await AuthService.service.register(
+        emailAddress: mailController.text, password: passController.text);
+    if (isSuccessful) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const AuthVerificationPage()));
+      AuthService.service.sendVerificationLink();
+    }
   }
 }

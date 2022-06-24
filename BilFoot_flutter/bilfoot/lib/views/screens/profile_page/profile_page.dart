@@ -1,3 +1,4 @@
+import 'package:bilfoot/config/utils/auth_service.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
@@ -46,6 +47,11 @@ class ProfilePage extends StatelessWidget {
               ProfileSkillsTable(playerModel: dummyPlayer2),
               const SizedBox.square(dimension: 30),
               TeamListCard(playerModel: dummyPlayer2),
+              ElevatedButton(
+                  onPressed: () {
+                    AuthService.service.logout();
+                  },
+                  child: const Text("Log out"))
             ],
           ),
         ),

@@ -8,7 +8,7 @@ class PageRouter {
       case FirstPage.routeName:
         return MaterialPageRoute(builder: (_) => const FirstPage());
       default:
-        return MaterialPageRoute(builder: (_) => const MainControlPage());
+        return MaterialPageRoute(builder: (_) => const FirstPage());
     }
   }
 }
