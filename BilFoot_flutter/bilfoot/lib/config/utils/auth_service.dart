@@ -41,7 +41,8 @@ class AuthService {
     });
   }
 
-  Future<bool> register(
+  ///returns error if exists
+  Future<String?> register(
       {required String emailAddress, required String password}) async {
     try {
       final credential =
@@ -49,30 +50,40 @@ class AuthService {
         email: emailAddress,
         password: password,
       );
-      return true;
+      return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        //print('The password provided is too weak.');
+        return "Your password is so weak!";
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        //print('The account already exists for that email.');
+        return "This email adress is already in use.";
       }
     } catch (e) {
-      print(e);
+      return "An error occured!.";
     }
-    return false;
+    return null;
   }
 
-  void login({required String emailAddress, required String password}) async {
+  ///returns error if exists
+  Future<String?> login(
+      {required String emailAddress, required String password}) async {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
+      return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        //print('No user found for that email.');
+        return 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        //print('Wrong password provided for that user.');
+        return 'Wrong password provided for that user.';
       }
+    } catch (e) {
+      return "An error occured!.";
     }
+    return null;
   }
 
   void logout() async {

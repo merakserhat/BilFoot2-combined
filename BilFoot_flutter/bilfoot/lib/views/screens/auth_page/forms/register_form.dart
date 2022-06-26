@@ -24,6 +24,8 @@ class _RegisterFormState extends State<RegisterForm> {
   TextEditingController passAgainController = TextEditingController();
 
   bool verificationState = false;
+  String? error;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +41,24 @@ class _RegisterFormState extends State<RegisterForm> {
             title: "Bilkent Mail",
             textInputType: TextInputType.emailAddress,
             textEditingController: mailController,
+            onChange: (_) {
+              resolveError();
+            },
           ),
           MyFormField(
             title: "Password",
             obscureText: true,
             textEditingController: passController,
+            onChange: (_) {
+              resolveError();
+            },
           ),
           MyFormField(
             title: "Password Again",
             obscureText: true,
+            onChange: (_) {
+              resolveError();
+            },
             textEditingController: passAgainController,
           ),
           const SizedBox.square(dimension: 10),
@@ -55,13 +66,25 @@ class _RegisterFormState extends State<RegisterForm> {
             onChanged: (bool? isSigned) {},
           ),
           const SizedBox.square(dimension: 30),
-          ElevatedButton(
-            onPressed: handleRegisterClicked,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 50),
-              child: Text("Register"),
-            ),
-          ),
+          isLoading
+              ? const CircularProgressIndicator()
+              : ElevatedButton(
+                  onPressed: handleRegisterClicked,
+                  child: const Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 12.0, horizontal: 50),
+                    child: Text("Register"),
+                  ),
+                ),
+          error != null
+              ? Text(
+                  error!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(color: Theme.of(context).errorColor),
+                )
+              : Container(),
           const SizedBox.square(dimension: 26),
           ChangeAuthTypeText(
             currentAuthType: AuthType.register,
@@ -75,12 +98,30 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void handleRegisterClicked() async {
-    bool isSuccessful = await AuthService.service.register(
+    setState(() {
+      isLoading = true;
+    });
+    String? error = await AuthService.service.register(
         emailAddress: mailController.text, password: passController.text);
-    if (isSuccessful) {
+    if (error == null) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const AuthVerificationPage()));
       AuthService.service.sendVerificationLink();
+    } else {
+      setState(() {
+        this.error = error;
+      });
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void resolveError() {
+    if (error != null) {
+      setState(() {
+        error = null;
+      });
     }
   }
 }

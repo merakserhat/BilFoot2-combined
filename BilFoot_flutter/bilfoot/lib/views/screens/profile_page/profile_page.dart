@@ -2,6 +2,7 @@ import 'package:bilfoot/config/utils/auth_service.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/views/screens/first_page/first_page.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_page_photo.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_skills_table.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/team_list_card.dart';
@@ -50,6 +51,8 @@ class ProfilePage extends StatelessWidget {
               ElevatedButton(
                   onPressed: () {
                     AuthService.service.logout();
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => const FirstPage()));
                   },
                   child: const Text("Log out"))
             ],

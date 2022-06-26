@@ -7,6 +7,7 @@ class MyFormField extends StatefulWidget {
   final TextEditingController textEditingController;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
+  final Function(String)? onChange;
   final bool obscureText;
   final bool usernameError;
   final bool emailError;
@@ -19,6 +20,7 @@ class MyFormField extends StatefulWidget {
       this.textInputType,
       required this.textEditingController,
       this.inputFormatters,
+      this.onChange,
       this.validator,
       this.usernameError = false,
       this.emailError = false,
@@ -71,7 +73,14 @@ class _MyFormFieldState extends State<MyFormField>
           cursorColor: Theme.of(context).textTheme.headline1!.color,
           keyboardType: widget.textInputType,
           inputFormatters: widget.inputFormatters,
-          onChanged: widget.enableOnlyNumberAndLetter ? onChanged : null,
+          onChanged: widget.enableOnlyNumberAndLetter
+              ? (value) {
+                  onChanged(value);
+                  if (widget.onChange != null) {
+                    widget.onChange!(value);
+                  }
+                }
+              : widget.onChange,
           validator: widget.validator,
           decoration: InputDecoration(
             errorText: widget.usernameError
