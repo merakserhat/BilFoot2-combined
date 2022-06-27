@@ -1,5 +1,6 @@
 import 'package:bilfoot/config/utils/auth_service.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
+import 'package:bilfoot/views/screens/auth_page/forgot_password_page.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/change_auth_type_text.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/my_form_field.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/remember_me_checkbox.dart';
@@ -33,15 +34,44 @@ class _LoginFormState extends State<LoginForm> {
             title: "Kullanıcı Adı veya E-Posta",
             textInputType: TextInputType.emailAddress,
             textEditingController: mailController,
+            onChange: (_) {
+              resolveError();
+            },
           ),
           MyFormField(
             title: "Şifre",
             obscureText: true,
             textEditingController: passController,
+            onChange: (_) {
+              resolveError();
+            },
           ),
           const SizedBox.square(dimension: 10),
-          RememberMeCheckbox(
-            onChanged: (bool? isSigned) {},
+          Row(
+            children: [
+              Expanded(
+                child: RememberMeCheckbox(
+                  onChanged: (bool? isSigned) {},
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const ForgotPasswordPage()));
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text(
+                    "Forgot Password",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(color: Theme.of(context).primaryColor),
+                  ),
+                ),
+              )
+            ],
           ),
           const SizedBox.square(dimension: 30),
           isLoading

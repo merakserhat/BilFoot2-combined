@@ -34,16 +34,27 @@ class _MainControlPageState extends State<MainControlPage> {
       appBar: AppBar(
         title: const Text("BilFoot"),
         actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ChatPeoplePage()));
-            },
-            child: const Icon(
-              Icons.message_outlined,
-              color: Colors.white,
-            ),
-          ),
+          _currentIndex == 0
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ChatPeoplePage()));
+                  },
+                  child: const Icon(
+                    Icons.message_outlined,
+                    color: Colors.white,
+                  ),
+                )
+              : GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ChatPeoplePage()));
+                  },
+                  child: const Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  ),
+                ),
           const SizedBox.square(dimension: 16),
         ],
       ),

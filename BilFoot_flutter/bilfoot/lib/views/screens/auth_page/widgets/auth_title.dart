@@ -1,11 +1,12 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import "package:flutter/material.dart";
 
 class AuthTitle extends StatelessWidget {
   final AuthType? authType;
+  final String? customTitle;
 
-  const AuthTitle({Key? key, this.authType}) : super(key: key);
+  const AuthTitle({Key? key, this.authType, this.customTitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class AuthTitle extends StatelessWidget {
 
   String _getAuthTitle() {
     if (authType == null) {
-      return "Verification";
+      return customTitle ?? "Title";
     } else {
       return authType == AuthType.register ? "Register" : "Login";
     }
