@@ -6,20 +6,22 @@ import 'package:bilfoot/views/screens/first_page/first_page.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_page_photo.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_skills_table.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/team_list_card.dart';
+import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String routeName = "profile_page";
+  final PlayerModel? playerModel;
 
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key, this.playerModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     PlayerModel dummyPlayer2 = PlayerModel(
         email: "serhat.merak@ug.bilkent.edu.tr",
         fullName: "Serhat Merak",
-        preferredPositions: ["GK", "St"],
-        specialSkills: ["Tireless", "Playmaker"],
+        preferredPositions: const ["GK", "St"],
+        specialSkills: const ["Tireless", "Playmaker"],
         averagePoint: 4.6,
         pointerNum: 17,
         teams: [
@@ -37,6 +39,7 @@ class ProfilePage extends StatelessWidget {
 
     Program.program.user = dummyPlayer2;
     return Scaffold(
+      appBar: playerModel == null ? null : const BasicAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -47,14 +50,18 @@ class ProfilePage extends StatelessWidget {
               const SizedBox.square(dimension: 30),
               ProfileSkillsTable(playerModel: dummyPlayer2),
               const SizedBox.square(dimension: 30),
-              TeamListCard(playerModel: dummyPlayer2),
-              ElevatedButton(
-                  onPressed: () {
-                    AuthService.service.logout();
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => const FirstPage()));
-                  },
-                  child: const Text("Log out"))
+              TeamListCard(
+                  playerModel: dummyPlayer2,
+                  isStrangerView: playerModel != null),
+              playerModel == null
+                  ? ElevatedButton(
+                      onPressed: () {
+                        AuthService.service.logout();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (_) => const FirstPage()));
+                      },
+                      child: const Text("Log out"))
+                  : Container(),
             ],
           ),
         ),

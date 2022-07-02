@@ -1,17 +1,39 @@
+import 'package:bilfoot/data/models/player_model.dart';
+
 class MatchModel {
   MatchModel({
-    required this.pitch,
-    required this.matchTime,
     required this.date,
+    required this.hour,
+    required this.pitch,
+    required this.isPitchApproved,
+    required this.creator,
+    required this.people,
+    required this.authPeople,
+    required this.showOnTable,
+    required this.peopleLimit,
   });
+  late final String date;
+  late final String hour;
   late final String pitch;
-  late final String matchTime;
-  late final DateTime date;
+  late final bool isPitchApproved;
+  late final PlayerModel creator;
+  late final List<PlayerModel> people;
+  late final List<PlayerModel> authPeople;
+  late final bool showOnTable;
+  late final int peopleLimit;
 
   MatchModel.fromJson(Map<String, dynamic> json) {
+    date = json['date'];
+    hour = json['hour'];
     pitch = json['pitch'];
-    matchTime = json['matchTime'];
-    DateTime dataDate = DateTime.parse(json['date']);
-    date = DateTime(dataDate.year, dataDate.month, dataDate.day);
+    isPitchApproved = json['isPitchApproved'];
+    creator = PlayerModel.fromJson(json["creator"]);
+    people =
+        List.from(json["people"]).map((e) => PlayerModel.fromJson(e)).toList();
+    authPeople = List.from(json["auth_people"])
+        .map((e) => PlayerModel.fromJson(e))
+        .toList();
+    showOnTable = json['show_on_table'];
+    peopleLimit = json['people_limit'];
   }
 }

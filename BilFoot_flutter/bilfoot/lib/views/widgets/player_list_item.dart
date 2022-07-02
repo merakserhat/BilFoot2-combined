@@ -2,25 +2,33 @@
 
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/player_model.dart';
+import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListItem extends StatelessWidget {
   const PlayerListItem({
     Key? key,
+    this.isForTeam = false,
     required this.playerModel,
-    required this.authorized,
-    required this.owner,
+    required this.isStrangerView,
+    required this.isCurrentUser,
+    required this.isCurrentAuthorized,
+    required this.isAuthorized,
   }) : super(key: key);
 
   final PlayerModel playerModel;
-  final bool authorized;
-  final bool owner;
+  final bool isForTeam;
+  final bool isStrangerView;
+  final bool isCurrentUser;
+  final bool isCurrentAuthorized;
+  final bool isAuthorized;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      margin: const EdgeInsets.all(4),
       height: 50,
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
@@ -31,7 +39,29 @@ class PlayerListItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(playerModel.fullName),
+          Row(
+            children: [
+              Row(
+                children: [
+                  Text(playerModel.fullName),
+                  const SizedBox.square(dimension: 20),
+                  isAuthorized
+                      ? Text(
+                          isForTeam ? "(c)" : "(a)",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  color:
+                                      isForTeam ? Colors.orange : Colors.green,
+                                  fontWeight: FontWeight.bold),
+                        )
+                      : Container()
+                ],
+              ),
+              const Icon(Icons.approval)
+            ],
+          ),
           _buildButtons(context),
         ],
       ),
@@ -107,30 +137,41 @@ class PlayerListItem extends StatelessWidget {
 
     List<Widget> buttons = [];
 
-    if (!owner) {
+    if (!isCurrentUser) {
       buttons.add(
         CircularButtonInListItem(
             buttonType: CircularButtonInListItem.profileButton,
             onTap: () {
-              //TODO: show profile
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => ProfilePage(
+                        playerModel: playerModel,
+                      )));
             }),
       );
     }
 
-    if (authorized && !owner) {
-      buttons = [
-        CircularButtonInListItem(
-            buttonType: CircularButtonInListItem.captainButton,
-            onTap: () {
-              //TODO: captain
-            }),
-        CircularButtonInListItem(
-            buttonType: CircularButtonInListItem.kickButton,
-            onTap: () {
-              //TODO: kick
-            }),
-        ...buttons
-      ];
+    if (!isStrangerView) {
+      if (isCurrentAuthorized && !isCurrentUser && !isAuthorized) {
+        buttons = [
+          isForTeam
+              ? CircularButtonInListItem(
+                  buttonType: CircularButtonInListItem.captainButton,
+                  onTap: () {
+                    //TODO: captain
+                  })
+              : CircularButtonInListItem(
+                  buttonType: CircularButtonInListItem.authButton,
+                  onTap: () {
+                    //TODO: auth
+                  }),
+          CircularButtonInListItem(
+              buttonType: CircularButtonInListItem.kickButton,
+              onTap: () {
+                //TODO: kick
+              }),
+          ...buttons
+        ];
+      }
     }
 
     return Row(

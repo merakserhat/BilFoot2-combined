@@ -14,6 +14,7 @@ class CircularButtonInListItem extends StatelessWidget {
   static const String captainButton = "captain";
   static const String inviteButton = "invite";
   static const String teamButton = "team";
+  static const String authButton = "auth";
 
   final Map<String, Map<String, dynamic>> buttonData = {
     profileButton: {
@@ -23,6 +24,10 @@ class CircularButtonInListItem extends StatelessWidget {
     captainButton: {
       "color": Colors.orange,
       "text": "C",
+    },
+    authButton: {
+      "color": Colors.green,
+      "text": "A",
     },
     kickButton: {
       "color": Colors.red,

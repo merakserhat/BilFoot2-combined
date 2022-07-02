@@ -5,14 +5,14 @@ import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_
 import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:flutter/material.dart';
 
-class TeamAddMemberPanel extends StatefulWidget {
-  const TeamAddMemberPanel({Key? key}) : super(key: key);
+class AddMemberPanel extends StatefulWidget {
+  const AddMemberPanel({Key? key}) : super(key: key);
 
   @override
-  State<TeamAddMemberPanel> createState() => _TeamAddMemberPanelState();
+  State<AddMemberPanel> createState() => _AddMemberPanelState();
 }
 
-class _TeamAddMemberPanelState extends State<TeamAddMemberPanel> {
+class _AddMemberPanelState extends State<AddMemberPanel> {
   List<PlayerModel> foundPlayers = [];
 
   @override

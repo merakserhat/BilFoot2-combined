@@ -1,18 +1,17 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
-import 'package:bilfoot/views/screens/profile_page/widgets/team_list_item.dart';
-import 'package:bilfoot/views/screens/team_page/edit_panel/bloc/team_edit_bloc.dart';
-import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart';
+import 'package:bilfoot/data/models/program.dart';
+import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/views/widgets/player_list_item.dart';
+import 'package:bilfoot/views/widgets/team_add_member_panel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TeamListCard extends StatelessWidget {
-  const TeamListCard(
-      {Key? key, required this.playerModel, this.isStrangerView = false})
+class PlayerListInMatchCard extends StatelessWidget {
+  const PlayerListInMatchCard({Key? key, required this.matchModel})
       : super(key: key);
 
-  final PlayerModel playerModel;
-  final bool isStrangerView;
+  final MatchModel matchModel;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +22,15 @@ class TeamListCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Teams",
-              style: Theme.of(context).textTheme.headline5,
+              "Players",
+              style: Theme.of(context).textTheme.headline3,
             ),
-            isStrangerView ? Container() : _buildCreateTeamButton(context)
+            _buildAddPlayerButton(context)
           ],
         ),
         const SizedBox.square(dimension: 10),
         ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 200),
+          constraints: const BoxConstraints(minHeight: 400),
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -42,8 +41,17 @@ class TeamListCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
-                children: playerModel.teams
-                    .map((e) => TeamListItem(teamModel: e))
+                children: matchModel.people
+                    .map((player) => PlayerListItem(
+                          playerModel: player,
+                          isCurrentAuthorized: matchModel.authPeople.contains(
+                              Program.program.user), //e == teamModel.captain;
+                          isCurrentUser: player == Program.program.user,
+                          isAuthorized: matchModel.authPeople.contains(player),
+                          isStrangerView: !matchModel.people.contains(
+                            Program.program.user,
+                          ), //e == Program.program.user
+                        ))
                     .toList(),
               ),
             ),
@@ -53,7 +61,7 @@ class TeamListCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCreateTeamButton(BuildContext context) {
+  Widget _buildAddPlayerButton(BuildContext context) {
     return Material(
       color: Theme.of(context).primaryColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
@@ -62,11 +70,7 @@ class TeamListCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         onTap: () {
           ProgramConstants.showBlurryBackground(
-              context: context,
-              child: BlocProvider(
-                create: (context) => TeamEditBloc(),
-                child: const TeamEditPanel(),
-              ));
+              context: context, child: const AddMemberPanel());
         },
         child: Container(
           width: 40,

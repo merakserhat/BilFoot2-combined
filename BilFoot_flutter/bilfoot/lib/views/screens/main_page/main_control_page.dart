@@ -1,11 +1,12 @@
 import 'package:bilfoot/config/utils/fcm_service.dart';
 import 'package:bilfoot/views/screens/chat_page/chat_people_page.dart';
 import 'package:bilfoot/views/screens/home_page/home_page.dart';
+import 'package:bilfoot/views/screens/match_page/match_list_page.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import "package:flutter/material.dart";
 
 // ignore: constant_identifier_names
-enum MainPages { HOME_PAGE, PROFILE_PAGE }
+enum MainPages { HOME_PAGE, MATCHES_PAGE, PROFILE_PAGE }
 
 class MainControlPage extends StatefulWidget {
   static const String routeName = "/main_control_page";
@@ -80,6 +81,17 @@ class _MainControlPageState extends State<MainControlPage> {
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
+            "assets/images/nav_buttons/home_icon.png",
+            height: 20,
+          ),
+          activeIcon: Image.asset(
+            "assets/images/nav_buttons/home_icon_gr.png",
+            height: 20,
+          ),
+          label: "Matches",
+        ),
+        BottomNavigationBarItem(
+          icon: Image.asset(
             "assets/images/nav_buttons/profile_icon.png",
             height: 20,
           ),
@@ -107,8 +119,10 @@ class _MainControlPageState extends State<MainControlPage> {
     switch (activePage) {
       case MainPages.HOME_PAGE:
         return const HomePage();
+      case MainPages.MATCHES_PAGE:
+        return const MatchListPage();
       case MainPages.PROFILE_PAGE:
-        return const ProfilePage();
+        return ProfilePage();
       default:
         return const Text("Empty Page");
     }
