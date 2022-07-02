@@ -98,6 +98,14 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void handleRegisterClicked() async {
+    bool isValidBilkentMail = checkBilkentMail();
+
+    if (!isValidBilkentMail) {
+      setState(() {
+        this.error = "This is not a valid Bilkent email address!";
+      });
+      return;
+    }
     setState(() {
       isLoading = true;
     });
@@ -123,5 +131,20 @@ class _RegisterFormState extends State<RegisterForm> {
         error = null;
       });
     }
+  }
+
+  bool checkBilkentMail() {
+    String mail = mailController.text;
+
+    if (!mail.contains("@")) {
+      return false;
+    }
+
+    if (mail.split("@")[1] == "ug.bilkent.edu.tr" ||
+        mail.split("@")[1] == "bilkent.edu.tr") {
+      return true;
+    }
+
+    return false;
   }
 }

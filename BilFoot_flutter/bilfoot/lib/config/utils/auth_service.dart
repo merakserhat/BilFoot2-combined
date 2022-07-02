@@ -106,4 +106,8 @@ class AuthService {
 
     return null;
   }
+
+  User? getUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
 }
