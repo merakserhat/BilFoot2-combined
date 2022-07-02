@@ -1,7 +1,7 @@
 import 'package:bilfoot/config/constants/announcement_types.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
-import 'package:bilfoot/views/screens/new_announcement_page/widgets/position_selector.dart';
+import 'package:bilfoot/views/widgets/position_selector.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';

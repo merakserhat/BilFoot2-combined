@@ -1,5 +1,7 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
+import 'package:bilfoot/views/screens/defining_page/position_selection_page.dart';
+import 'package:bilfoot/views/screens/defining_page/skill_selection_page.dart';
 import 'package:bilfoot/views/screens/home_page/widgets/announcement_table.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_type_panel.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -70,8 +72,21 @@ class _HomePageState extends State<HomePage> {
           onTap: () {
             //TODO: my announcements
             //TODO remove this
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => const AuthPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => PositionSelectionPage(
+                      onCallback: (List<String> positions) {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (_) => SkillSelectionPage(
+                                  onCallback:
+                                      (List<String> feet, List<String> skills) {
+                                    //TODO: all registration information is here
+                                    print(positions);
+                                    print(feet);
+                                    print(skills);
+                                  },
+                                )));
+                      },
+                    )));
           },
           child: SizedBox(
               height: 50,
