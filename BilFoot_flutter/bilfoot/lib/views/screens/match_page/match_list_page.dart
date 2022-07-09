@@ -1,6 +1,7 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
+import 'package:bilfoot/views/screens/match_page/create_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_table.dart';
 import "package:flutter/material.dart";
@@ -89,8 +90,8 @@ class _MatchListPageState extends State<MatchListPage> {
       borderRadius: BorderRadius.circular(5),
       child: InkWell(
         onTap: () {
-          //ProgramConstants.showBlurryBackground(
-          //    context: context, child: const NewAnnouncementTypePanel());
+          ProgramConstants.showBlurryBackground(
+              context: context, child: const CreateMatchPanel());
         },
         child: const SizedBox(
           height: 50,
