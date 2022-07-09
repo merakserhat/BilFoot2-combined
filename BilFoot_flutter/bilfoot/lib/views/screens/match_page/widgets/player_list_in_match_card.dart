@@ -8,10 +8,12 @@ import 'package:bilfoot/views/widgets/team_add_member_panel.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListInMatchCard extends StatelessWidget {
-  const PlayerListInMatchCard({Key? key, required this.matchModel})
+  const PlayerListInMatchCard(
+      {Key? key, required this.matchModel, required this.isAuthView})
       : super(key: key);
 
   final MatchModel matchModel;
+  final bool isAuthView;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class PlayerListInMatchCard extends StatelessWidget {
               "Players",
               style: Theme.of(context).textTheme.headline3,
             ),
-            _buildAddPlayerButton(context)
+            isAuthView ? _buildAddPlayerButton(context) : Container(),
           ],
         ),
         const SizedBox.square(dimension: 10),

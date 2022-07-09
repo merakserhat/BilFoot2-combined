@@ -60,16 +60,18 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
                 Stack(
                   children: [
                     MatchInfo(matchModel: widget.match),
-                    // if (viewMode == CAPTAIN_VIEW) _buildEditTeamButton(),
-                    _buildEditMatchButton(),
+                    if (viewMode == AUTH_VIEW) _buildEditMatchButton(),
                   ],
                 ),
                 const SizedBox.square(dimension: 30),
                 PlayerListInMatchCard(
                   matchModel: widget.match,
+                  isAuthView: viewMode == AUTH_VIEW,
                 ),
                 const SizedBox.square(dimension: 30),
-                if (viewMode != STRANGER_VIEW) _buildLeaveButton(context),
+                viewMode != STRANGER_VIEW
+                    ? _buildLeaveButton(context)
+                    : _buildJoinButton(context),
               ],
             ),
           ),
@@ -128,6 +130,37 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
               child: Center(
                 child: Text(
                   "QUIT MATCH",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(color: Colors.white, fontSize: 14),
+                ),
+              )),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildJoinButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Material(
+        color: Colors.green,
+        shadowColor: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () {
+            //TODO: Joint match
+          },
+          child: Container(
+              width: 120,
+              height: 40,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(100)),
+              child: Center(
+                child: Text(
+                  "JOIN MATCH",
                   style: Theme.of(context)
                       .textTheme
                       .headline6!

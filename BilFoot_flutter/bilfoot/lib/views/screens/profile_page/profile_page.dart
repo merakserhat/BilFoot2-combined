@@ -37,7 +37,18 @@ class ProfilePage extends StatelessWidget {
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
 
-    Program.program.user = dummyPlayer2;
+    PlayerModel dummyPlayer3 = PlayerModel(
+        email: "mirza.atalar@ug.bilkent.edu.tr",
+        fullName: "Mirza Atalar",
+        preferredPositions: ["GK", "St"],
+        specialSkills: ["Tireless", "Playmaker"],
+        averagePoint: 4.6,
+        pointerNum: 17,
+        teams: [],
+        imageUrl:
+            "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
+
+    Program.program.user = dummyPlayer3;
     return Scaffold(
       appBar: playerModel == null ? null : const BasicAppBar(),
       body: SingleChildScrollView(
