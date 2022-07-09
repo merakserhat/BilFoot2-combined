@@ -50,6 +50,9 @@ class _CreateMatchPanelState extends State<CreateMatchPanel> {
                     if (hour != null) {
                       setState(() {
                         selectedHour = hour;
+                        if (selectedHour == "??-??") {
+                          isReserved = false;
+                        }
                       });
                     }
                   },
@@ -95,6 +98,7 @@ class _CreateMatchPanelState extends State<CreateMatchPanel> {
             });
           },
           defaultValue: isReserved,
+          disabled: selectedHour == "??-??",
         ),
         const SizedBox.square(dimension: 20),
         PublishCheckbox(
