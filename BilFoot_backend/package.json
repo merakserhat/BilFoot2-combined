@@ -12,6 +12,7 @@
   "author": "Serhat Merak",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "firebase-admin": "^10.2.0",
     "mongodb": "^4.6.0",
