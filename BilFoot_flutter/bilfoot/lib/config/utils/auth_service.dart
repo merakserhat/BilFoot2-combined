@@ -29,6 +29,8 @@ class AuthService {
           initiallyNavigated = true;
           notifyAuthState(user);
         }
+
+        _getIdToken(user);
       }
     });
 
@@ -109,5 +111,10 @@ class AuthService {
 
   User? getUser() {
     return FirebaseAuth.instance.currentUser;
+  }
+
+  void _getIdToken(User user) async {
+    String token = await user.getIdToken();
+    print(token);
   }
 }

@@ -10,6 +10,7 @@ import announcementRoute from "./routes/announcement_r";
 import chatRoute from "./routes/chat_r";
 import playerRoute from "./routes/player_r";
 import teamRoute from "./routes/team_r";
+import adminRoute from "./routes/admin_r";
 import { getApp, initializeApp } from "firebase-admin/app";
 import admin from "firebase-admin";
 
@@ -32,10 +33,9 @@ app.use("/auth", authRoute);
 app.use("/user", announcementRoute);
 app.use("/product", chatRoute);
 app.use("/page", playerRoute);
-app.use("/test", teamRoute);
+app.use("/team", teamRoute);
+app.use("/admin", adminRoute);
 // #endregion<
-
-// app.listen(8080);
 
 console.log(process.env.MONGODB_URI);
 
@@ -43,6 +43,8 @@ mongoose
   .connect(process.env.MONGODB_URI || "error")
   .then((result) => {
     // console.log(result);
+    app.listen(8080);
+
     console.log("server is active");
   })
   .catch((err) => {
