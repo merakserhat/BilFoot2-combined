@@ -5,19 +5,19 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 // #region route imports
-import authRoute from "./routes/auth_r.js";
-import announcementRoute from "./routes/announcement_r.js";
-import chatRoute from "./routes/chat_r.js";
-import playerRoute from "./routes/player_r.js";
-import teamRoute from "./routes/team_r.js";
+import authRoute from "./routes/auth_r";
+import announcementRoute from "./routes/announcement_r";
+import chatRoute from "./routes/chat_r";
+import playerRoute from "./routes/player_r";
+import teamRoute from "./routes/team_r";
 import { getApp, initializeApp } from "firebase-admin/app";
 import admin from "firebase-admin";
 
 //run this before npm start
 //export GOOGLE_APPLICATION_CREDENTIALS="/Users/serhatmerak/Documents/GitHub/BilFoot2/BilFoot_backend/firebase/serviceAccountKey.json"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +26,8 @@ app.use(express.json());
 initializeApp();
 
 console.log(getApp().name); // '[DEFAULT]'
+
+const serhat = 12;
 
 // test post
 app.post("/test", (req, res, next) => {
