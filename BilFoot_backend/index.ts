@@ -30,9 +30,9 @@ initializeApp();
 
 // #region route registers
 app.use("/auth", authRoute);
-app.use("/user", announcementRoute);
-app.use("/product", chatRoute);
-app.use("/page", playerRoute);
+app.use("/announcement", announcementRoute);
+app.use("/chat", chatRoute);
+app.use("/player", playerRoute);
 app.use("/team", teamRoute);
 app.use("/admin", adminRoute);
 // #endregion<

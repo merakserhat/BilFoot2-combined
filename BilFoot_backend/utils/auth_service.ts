@@ -17,7 +17,8 @@ export const isAuth = async (
       .then((value) => {
         //Successfully signed in
         //TODO send user or email
-        console.log(value);
+        (req as any).user_email = value.email;
+        return next();
       })
       .catch((error) => console.error(error));
   } else {

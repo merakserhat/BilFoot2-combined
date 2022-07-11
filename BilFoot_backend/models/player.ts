@@ -1,6 +1,7 @@
 import { Types, Schema, model } from "mongoose";
 
-interface IPlayer {
+export interface IPlayer {
+  _id: Types.ObjectId;
   firebase_id: string;
   email: string;
   full_name: string;
