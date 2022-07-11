@@ -1,6 +1,7 @@
 import { Types, Schema, model } from "mongoose";
 
 interface IPlayer {
+  firebase_id: string;
   email: string;
   full_name: string;
   preferred_positions: string[];
@@ -12,6 +13,7 @@ interface IPlayer {
 }
 
 const playerSchema = new Schema<IPlayer>({
+  firebase_id: { type: String, required: true },
   email: { type: String, required: true },
   full_name: { type: String, required: true },
   preferred_positions: [String],
