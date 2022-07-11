@@ -4,6 +4,7 @@ import 'package:bilfoot/views/screens/auth_page/forgot_password_page.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/change_auth_type_text.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/my_form_field.dart';
 import 'package:bilfoot/views/screens/auth_page/widgets/remember_me_checkbox.dart';
+import 'package:bilfoot/views/screens/first_page/first_page.dart';
 import 'package:bilfoot/views/screens/main_page/main_control_page.dart';
 import 'package:flutter/material.dart';
 
@@ -114,7 +115,7 @@ class _LoginFormState extends State<LoginForm> {
 
     if (error == null) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const MainControlPage()));
+          MaterialPageRoute(builder: (_) => const FirstPage()));
     } else {
       setState(() {
         this.error = error;

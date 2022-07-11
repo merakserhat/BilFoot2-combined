@@ -18,10 +18,10 @@ class _FirstPageState extends State<FirstPage> {
   @override
   void initState() {
     super.initState();
-    initAuthentication();
+    handleAuthentication();
   }
 
-  void initAuthentication() {
+  void handleAuthentication() async {
     AuthService.service.init((User? user) async {
       if (user == null) {
         Navigator.of(context).pushReplacement(
