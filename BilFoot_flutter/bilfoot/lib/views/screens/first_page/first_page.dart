@@ -1,4 +1,5 @@
 import 'package:bilfoot/config/utils/auth_service.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_verification_page.dart';
 import 'package:bilfoot/views/screens/main_page/main_control_page.dart';
@@ -21,7 +22,7 @@ class _FirstPageState extends State<FirstPage> {
   }
 
   void initAuthentication() {
-    AuthService.service.init((User? user) {
+    AuthService.service.init((User? user) async {
       if (user == null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const AuthPage()));
@@ -30,6 +31,15 @@ class _FirstPageState extends State<FirstPage> {
       if (!user.emailVerified) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const AuthVerificationPage()));
+        return;
+      }
+
+      await AuthService.service.getIdToken(user);
+      bool isSuccess = await BilfootClient().getHomeData();
+
+      if (!isSuccess) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const AuthPage()));
         return;
       }
 
@@ -43,14 +53,9 @@ class _FirstPageState extends State<FirstPage> {
     return Scaffold(
       body: Center(
         child: Column(
-          children: [
-            const Text("Loading..."),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => const AuthPage()));
-                },
-                child: const Text("Login"))
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text("Loading..."),
           ],
         ),
       ),

@@ -15,6 +15,7 @@ class Program {
 
   //Home data
   PlayerModel? user;
+  String? token;
 
   PlayerModel dummyPlayer1 = PlayerModel(
       email: "ayberk.senguder@ug.bilkent.edu.tr",

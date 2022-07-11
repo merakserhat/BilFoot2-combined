@@ -48,7 +48,6 @@ class ProfilePage extends StatelessWidget {
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
 
-    Program.program.user = dummyPlayer3;
     return Scaffold(
       appBar: playerModel == null ? null : const BasicAppBar(),
       body: SingleChildScrollView(
@@ -57,12 +56,12 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox.square(dimension: 20),
-              ProfilePagePhoto(playerModel: dummyPlayer2),
+              ProfilePagePhoto(playerModel: Program.program.user!),
               const SizedBox.square(dimension: 30),
-              ProfileSkillsTable(playerModel: dummyPlayer2),
+              ProfileSkillsTable(playerModel: Program.program.user!),
               const SizedBox.square(dimension: 30),
               TeamListCard(
-                  playerModel: dummyPlayer2,
+                  playerModel: Program.program.user!,
                   isStrangerView: playerModel != null),
               playerModel == null
                   ? ElevatedButton(

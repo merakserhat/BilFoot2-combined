@@ -1,3 +1,4 @@
+import 'package:bilfoot/data/models/program.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -29,8 +30,6 @@ class AuthService {
           initiallyNavigated = true;
           notifyAuthState(user);
         }
-
-        _getIdToken(user);
       }
     });
 
@@ -113,8 +112,8 @@ class AuthService {
     return FirebaseAuth.instance.currentUser;
   }
 
-  void _getIdToken(User user) async {
+  Future getIdToken(User user) async {
     String token = await user.getIdToken();
-    print(token);
+    Program.program.token = token;
   }
 }

@@ -23,13 +23,13 @@ class PlayerModel extends Equatable {
 
   PlayerModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
-    fullName = json['fullName'];
+    fullName = json['full_name'];
     preferredPositions =
-        List.castFrom<dynamic, String>(json['preferredPositions']);
-    specialSkills = List.castFrom<dynamic, String>(json['specialSkills']);
-    averagePoint = json['averagePoint'];
-    pointerNum = json['pointerNum'];
-    imageUrl = json['imageUrl'];
+        List.castFrom<dynamic, String>(json['preferred_positions']);
+    specialSkills = List.castFrom<dynamic, String>(json['special_skills']);
+    averagePoint = json['average_point'] * 1.0;
+    pointerNum = json['pointer_num'];
+    imageUrl = json['image_url'];
     teams = List.from(json['teams']).map((e) => TeamModel.fromJson(e)).toList();
   }
 
