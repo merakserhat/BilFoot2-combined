@@ -41,7 +41,7 @@ class _AuthPageState extends State<AuthPage> {
                 AuthTitle(
                   authType: currentAuthType,
                 ),
-                const SizedBox.square(dimension: 20),
+                const SizedBox.square(dimension: 8),
                 currentAuthType == AuthType.register
                     ? RegisterForm(
                         onAuthChanged: () {

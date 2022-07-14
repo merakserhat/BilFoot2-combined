@@ -1,6 +1,7 @@
 import { Types, Schema, model } from "mongoose";
 
-interface ITeam {
+export interface ITeam {
+  _id: Types.ObjectId;
   name: string;
   short_name: string;
   main_color: string;

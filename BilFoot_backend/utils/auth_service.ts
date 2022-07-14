@@ -20,7 +20,10 @@ export const isAuth = async (
         (req as any).user_email = value.email;
         return next();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        res.status(401).json({ error: error.message });
+      });
   } else {
     //TODO error
     res.status(401).json({ error: "Token not found" });

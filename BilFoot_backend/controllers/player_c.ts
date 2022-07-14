@@ -1,4 +1,4 @@
-import e, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import Player, { IPlayer } from "../models/player";
 
 interface IHomeDate {
@@ -23,4 +23,19 @@ export const getHomeData = async (
   };
 
   return res.status(200).json(homeData);
+};
+
+export const searchPlayers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { value } = req.query;
+  console.log(req.query);
+
+  const players: IPlayer[] = await Player.find({
+    full_name: new RegExp(value as string, "i"),
+  });
+
+  return res.status(200).json({ players });
 };
