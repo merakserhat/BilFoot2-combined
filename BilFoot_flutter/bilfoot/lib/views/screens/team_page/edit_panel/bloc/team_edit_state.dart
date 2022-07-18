@@ -7,8 +7,10 @@ class TeamEditState extends Equatable {
     this.mainColor = "ff0000",
     this.accentColor = "ffffff",
     this.isEditing = false,
+    this.isLoading = false,
   });
 
+  final bool isLoading;
   final bool isEditing;
   final String name;
   final String shortName;
@@ -21,6 +23,7 @@ class TeamEditState extends Equatable {
     String? mainColor,
     String? accentColor,
     bool? isEditing,
+    bool? isLoading,
   }) =>
       TeamEditState(
         name: name ?? this.name,
@@ -28,9 +31,10 @@ class TeamEditState extends Equatable {
         mainColor: mainColor ?? this.mainColor,
         accentColor: accentColor ?? this.accentColor,
         isEditing: isEditing ?? this.isEditing,
+        isLoading: isLoading ?? this.isLoading,
       );
 
   @override
   List<Object> get props =>
-      [name, shortName, mainColor, accentColor, isEditing];
+      [name, shortName, mainColor, accentColor, isEditing, isLoading];
 }

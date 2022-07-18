@@ -19,7 +19,7 @@ class PlayerModel extends Equatable {
   late final double averagePoint;
   late final int pointerNum;
   late final String? imageUrl;
-  late final List<TeamModel> teams;
+  late final List<String> teams;
 
   PlayerModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -30,7 +30,7 @@ class PlayerModel extends Equatable {
     averagePoint = json['average_point'] * 1.0;
     pointerNum = json['pointer_num'];
     imageUrl = json['image_url'];
-    teams = List.from(json['teams']).map((e) => TeamModel.fromJson(e)).toList();
+    teams = List.castFrom<dynamic, String>(json["teams"]);
   }
 
   @override

@@ -39,7 +39,8 @@ class _AnnouncementTableState extends State<AnnouncementTable> {
               child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return AnnouncementListItem(
+                  return Container();
+                  /* return AnnouncementListItem(
                     playerAnnouncement: PlayerAnnouncementModel(
                         announcer: Program.program.dummyPlayer1,
                         date: DateTime.now(),
@@ -54,6 +55,8 @@ class _AnnouncementTableState extends State<AnnouncementTable> {
                             captain: Program.program.dummyPlayer1,
                             players: [])),
                   ); //TODO: buraya list item
+
+                  */
                 },
               ),
             ),

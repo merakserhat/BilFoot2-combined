@@ -1,6 +1,7 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/config/utils/hex_color.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/screens/team_page/edit_panel/bloc/team_edit_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:bilfoot/views/widgets/panel_base.dart';
@@ -55,9 +56,15 @@ class _TeamEditPanelState extends State<TeamEditPanel> {
               //edit part
               _buildEditionPart(state),
               const SizedBox.square(dimension: 20),
-              ElevatedButton(
-                  onPressed: () {},
-                  child: Text(state.isEditing ? "Edit" : "Create"))
+              state.isLoading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () async {
+                        context
+                            .read<TeamEditBloc>()
+                            .add(TeamEditSaveButtonClicked());
+                      },
+                      child: Text(state.isEditing ? "Edit" : "Create"))
             ],
           );
         },

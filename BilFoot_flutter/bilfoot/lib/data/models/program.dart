@@ -55,25 +55,7 @@ class Program {
       shortName: "CU",
       mainColor: "#347282",
       accentColor: "#f6f2c2",
-      creator: PlayerModel(
-          email: "ayberk.senguder@ug.bilkent.edu.tr",
-          fullName: "Ayberk Şengüder",
-          preferredPositions: ["GK", "St"],
-          specialSkills: ["Tireless", "Playmaker"],
-          averagePoint: 4.6,
-          pointerNum: 17,
-          teams: [],
-          imageUrl:
-              "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg"),
-      captain: PlayerModel(
-          email: "ayberk.senguder@ug.bilkent.edu.tr",
-          fullName: "Ayberk Şengüder",
-          preferredPositions: ["GK", "St"],
-          specialSkills: ["Tireless", "Playmaker"],
-          averagePoint: 4.6,
-          pointerNum: 17,
-          teams: [],
-          imageUrl:
-              "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg"),
+      creator: "",
+      captain: "",
       players: []);
 }

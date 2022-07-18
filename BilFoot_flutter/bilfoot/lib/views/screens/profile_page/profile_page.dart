@@ -17,37 +17,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PlayerModel dummyPlayer2 = PlayerModel(
-        email: "serhat.merak@ug.bilkent.edu.tr",
-        fullName: "Serhat Merak",
-        preferredPositions: const ["GK", "St"],
-        specialSkills: const ["Tireless", "Playmaker"],
-        averagePoint: 4.6,
-        pointerNum: 17,
-        teams: [
-          TeamModel(
-              name: "Cu S.K",
-              shortName: "CU",
-              mainColor: "#347282",
-              accentColor: "#f6f2c2",
-              creator: Program.program.dummyPlayer1,
-              captain: Program.program.dummyPlayer1,
-              players: [])
-        ],
-        imageUrl:
-            "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
-    PlayerModel dummyPlayer3 = PlayerModel(
-        email: "mirza.atalar@ug.bilkent.edu.tr",
-        fullName: "Mirza Atalar",
-        preferredPositions: ["GK", "St"],
-        specialSkills: ["Tireless", "Playmaker"],
-        averagePoint: 4.6,
-        pointerNum: 17,
-        teams: [],
-        imageUrl:
-            "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
     return Scaffold(
       appBar: playerModel == null ? null : const BasicAppBar(),
       body: SingleChildScrollView(

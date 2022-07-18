@@ -14,18 +14,17 @@ class TeamModel {
   late final String shortName;
   late final String mainColor;
   late final String accentColor;
-  late final PlayerModel? creator;
-  late final PlayerModel? captain;
-  late final List<PlayerModel> players;
+  late final String? creator;
+  late final String? captain;
+  late final List<String> players;
 
   TeamModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    shortName = json['shortName'];
-    mainColor = json['mainColor'];
-    accentColor = json['accentColor'];
-    creator = PlayerModel.fromJson(json['creator']);
-    captain = PlayerModel.fromJson(json['captain']);
-    players =
-        List.from(json['players']).map((e) => PlayerModel.fromJson(e)).toList();
+    shortName = json['short_name'];
+    mainColor = json['main_color'];
+    accentColor = json['accent_color'];
+    creator = json['creator'];
+    captain = json['captain'];
+    players = List.castFrom<dynamic, String>(json["players"]);
   }
 }

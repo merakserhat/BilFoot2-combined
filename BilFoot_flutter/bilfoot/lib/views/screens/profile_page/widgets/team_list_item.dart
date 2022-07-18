@@ -1,20 +1,35 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/screens/team_page/team_page.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:flutter/material.dart';
 
-class TeamListItem extends StatelessWidget {
-  const TeamListItem({Key? key, required this.teamModel}) : super(key: key);
+class TeamListItem extends StatefulWidget {
+  const TeamListItem({Key? key, required this.teamId}) : super(key: key);
 
-  final TeamModel teamModel;
+  final String teamId;
+  @override
+  State<TeamListItem> createState() => _TeamListItemState();
+}
+
+class _TeamListItemState extends State<TeamListItem> {
+  TeamModel? teamModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _getTeamModel();
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => TeamPage(team: teamModel)));
+        if (teamModel != null) {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => TeamPage(team: teamModel!)));
+        }
       },
       child: Container(
         width: double.infinity,
@@ -25,14 +40,23 @@ class TeamListItem extends StatelessWidget {
           color: Colors.white,
           boxShadow: ProgramConstants.getDefaultBoxShadow(context),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TeamLogoTitle(teamModel: teamModel),
-            Text('${teamModel.players.length} players')
-          ],
-        ),
+        child: teamModel == null
+            ? const Center(
+                child: const CircularProgressIndicator(),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TeamLogoTitle(teamModel: teamModel!),
+                  Text('${teamModel!.players.length} players')
+                ],
+              ),
       ),
     );
+  }
+
+  void _getTeamModel() async {
+    teamModel = await BilfootClient().getTeamModel(id: widget.teamId);
+    setState(() {});
   }
 }

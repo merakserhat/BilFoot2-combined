@@ -43,7 +43,7 @@ class TeamListCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 children: playerModel.teams
-                    .map((e) => TeamListItem(teamModel: e))
+                    .map((e) => TeamListItem(teamId: e))
                     .toList(),
               ),
             ),
