@@ -16,9 +16,9 @@ const teamSchema = new Schema<ITeam>({
   short_name: { type: String, required: true },
   main_color: { type: String, required: true },
   accent_color: { type: String, required: true },
-  creator: Schema.Types.ObjectId,
-  captain: Schema.Types.ObjectId,
-  players: [Schema.Types.ObjectId],
+  creator: { type: Schema.Types.ObjectId, ref: "player" },
+  captain: { type: Schema.Types.ObjectId, ref: "player" },
+  players: [{ type: Schema.Types.ObjectId, ref: "player" }],
 });
 
 export default model<ITeam>("team", teamSchema);

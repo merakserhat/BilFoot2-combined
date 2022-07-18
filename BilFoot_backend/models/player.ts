@@ -1,4 +1,4 @@
-import { Types, Schema, model } from "mongoose";
+import { Types, Schema, model, Document } from "mongoose";
 
 export interface IPlayer {
   _id: Types.ObjectId;
@@ -22,7 +22,7 @@ const playerSchema = new Schema<IPlayer>({
   average_point: { type: Number, default: 0 },
   pointer_num: { type: Number, default: 0 },
   image_url: String,
-  teams: [Schema.Types.ObjectId],
+  teams: [{ type: Schema.Types.ObjectId, ref: "team" }],
 });
 
 export default model<IPlayer>("player", playerSchema);
