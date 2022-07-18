@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class PlayerModel extends Equatable {
   PlayerModel({
+    required this.id,
     required this.email,
     required this.fullName,
     required this.preferredPositions,
@@ -12,6 +13,7 @@ class PlayerModel extends Equatable {
     this.imageUrl,
     required this.teams,
   });
+  late final String id;
   late final String email;
   late final String fullName;
   late final List<String> preferredPositions;
@@ -23,6 +25,7 @@ class PlayerModel extends Equatable {
 
   PlayerModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
+    id = json['_id'];
     fullName = json['full_name'];
     preferredPositions =
         List.castFrom<dynamic, String>(json['preferred_positions']);

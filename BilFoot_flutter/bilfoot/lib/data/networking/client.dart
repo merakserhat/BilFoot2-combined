@@ -23,6 +23,7 @@ class BilfootClient {
   //User endpoints
   final userTest = UserService.test;
   final getHomeData = UserService.getHomeData;
+  final searchPlayers = UserService.searchPlayers;
 
   //Chat endpoints
   final chatTest = ChatService.test;
@@ -31,6 +32,9 @@ class BilfootClient {
   final teamTest = TeamService.test;
   final createTeam = TeamService.createTeam;
   final getTeamModel = TeamService.getTeamModel;
+  final getTeamInvitation = TeamService.getTeamInvitation;
+  final inviteToTeam = TeamService.inviteToTeam;
+
   //Announcement endpoints
   final announcementTest = AnnouncementService.test;
 

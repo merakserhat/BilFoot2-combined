@@ -2,6 +2,7 @@ import 'package:bilfoot/data/models/player_model.dart';
 
 class TeamModel {
   TeamModel({
+    required this.id,
     required this.name,
     required this.shortName,
     required this.mainColor,
@@ -10,6 +11,7 @@ class TeamModel {
     this.captain,
     required this.players,
   });
+  late final String id;
   late final String name;
   late final String shortName;
   late final String mainColor;
@@ -19,6 +21,7 @@ class TeamModel {
   late final List<String> players;
 
   TeamModel.fromJson(Map<String, dynamic> json) {
+    id = json['_id'];
     name = json['name'];
     shortName = json['short_name'];
     mainColor = json['main_color'];

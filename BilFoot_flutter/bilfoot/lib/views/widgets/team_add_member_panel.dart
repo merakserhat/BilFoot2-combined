@@ -1,12 +1,16 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
+import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:flutter/material.dart';
 
 class AddMemberPanel extends StatefulWidget {
-  const AddMemberPanel({Key? key}) : super(key: key);
+  const AddMemberPanel({Key? key, this.teamModel}) : super(key: key);
+
+  final TeamModel? teamModel;
 
   @override
   State<AddMemberPanel> createState() => _AddMemberPanelState();
@@ -29,8 +33,16 @@ class _AddMemberPanelState extends State<AddMemberPanel> {
           const SizedBox.square(dimension: 20),
           TextFormField(
             decoration: const InputDecoration(hintText: "Player Name"),
-            onChanged: (value) {
-              //TODO: get user data from database
+            onChanged: (value) async {
+              if (value.isNotEmpty) {
+                foundPlayers =
+                    await BilfootClient().searchPlayers(value: value);
+                setState(() {});
+              } else {
+                setState(() {
+                  foundPlayers = [];
+                });
+              }
             },
           ),
           const SizedBox.square(dimension: 15),
@@ -43,33 +55,13 @@ class _AddMemberPanelState extends State<AddMemberPanel> {
             ),
             child: SingleChildScrollView(
               child: Column(
-                children: [
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  ),
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  ),
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  ),
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  ),
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  ),
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  ),
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  ),
-                  AddPlayerListItem(
-                    playerModel: Program.program.dummyPlayer1,
-                  )
-                ],
-              ),
+                  children: foundPlayers
+                      .map((player) => AddPlayerListItem(
+                            playerModel: player,
+                            teamModel: widget.teamModel,
+                            key: ValueKey(player.id),
+                          ))
+                      .toList()),
             ),
           )
         ],
@@ -80,10 +72,14 @@ class _AddMemberPanelState extends State<AddMemberPanel> {
 
 class AddPlayerListItem extends StatefulWidget {
   const AddPlayerListItem(
-      {required this.playerModel, this.invitationAlreadySent = false, Key? key})
+      {required this.playerModel,
+      this.invitationAlreadySent = false,
+      Key? key,
+      this.teamModel})
       : super(key: key);
 
   final PlayerModel playerModel;
+  final TeamModel? teamModel;
   final bool invitationAlreadySent;
 
   @override
@@ -92,11 +88,13 @@ class AddPlayerListItem extends StatefulWidget {
 
 class _AddPlayerListItemState extends State<AddPlayerListItem> {
   late bool invitationSent;
+  bool invitationStatusLoading = true;
 
   @override
   void initState() {
     super.initState();
     invitationSent = widget.invitationAlreadySent;
+    _getInvitationStatus();
   }
 
   @override
@@ -125,29 +123,56 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
                   //TODO: profile
                 },
               ),
-              invitationSent
-                  ? Container(
-                      width: 26,
-                      height: 26,
-                      margin: const EdgeInsets.all(4),
-                      child: const Icon(
-                        Icons.check_outlined,
-                        color: Colors.green,
-                        size: 20,
-                      ))
-                  : CircularButtonInListItem(
-                      buttonType: CircularButtonInListItem.inviteButton,
-                      onTap: () {
-                        //TODO: invite
-                        setState(() {
-                          invitationSent = true;
-                        });
-                      },
-                    )
+              invitationStatusLoading
+                  ? const SizedBox(
+                      width: 34, height: 34, child: CircularProgressIndicator())
+                  : _buildInvitationAction()
             ],
           )),
         ],
       ),
     );
+  }
+
+  Widget _buildInvitationAction() {
+    if (invitationSent) {
+      return Container(
+          width: 26,
+          height: 26,
+          margin: const EdgeInsets.all(4),
+          child: const Icon(
+            Icons.check_outlined,
+            color: Colors.green,
+            size: 20,
+          ));
+    }
+    return CircularButtonInListItem(
+      buttonType: CircularButtonInListItem.inviteButton,
+      onTap: () async {
+        setState(() {
+          invitationStatusLoading = true;
+        });
+
+        if (widget.teamModel != null) {
+          print("giriyor");
+          await BilfootClient().inviteToTeam(
+              teamId: widget.teamModel!.id, toId: widget.playerModel.id);
+        }
+
+        setState(() {
+          invitationStatusLoading = false;
+
+          invitationSent = true;
+        });
+      },
+    );
+  }
+
+  void _getInvitationStatus() async {
+    invitationSent = await BilfootClient().getTeamInvitation(
+        fromId: Program.program.user!.id, toId: widget.playerModel.id);
+    setState(() {
+      invitationStatusLoading = false;
+    });
   }
 }

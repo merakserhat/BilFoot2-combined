@@ -35,4 +35,35 @@ class UserService {
 
     return false;
   }
+
+  static Future<List<PlayerModel>> searchPlayers(
+      {required String value}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "player/search-players?value=$value",
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response createTeam");
+      return [];
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status get team model");
+      print(response.body);
+      return [];
+    }
+
+    var jsonData = json.decode(response.body);
+    print("get team model");
+    print(jsonData);
+    if (jsonData["players"] != null) {
+      return List.from(jsonData['players'])
+          .map((e) => PlayerModel.fromJson(e))
+          .toList();
+    }
+
+    return [];
+  }
 }

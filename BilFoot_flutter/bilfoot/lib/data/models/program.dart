@@ -18,6 +18,7 @@ class Program {
   String? token;
 
   PlayerModel dummyPlayer1 = PlayerModel(
+      id: "",
       email: "ayberk.senguder@ug.bilkent.edu.tr",
       fullName: "Ayberk Şengüder",
       preferredPositions: ["GK", "St"],
@@ -29,6 +30,7 @@ class Program {
           "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
 
   PlayerModel dummyPlayer2 = PlayerModel(
+      id: "",
       email: "serhat.merak@ug.bilkent.edu.tr",
       fullName: "Serhat Merak",
       preferredPositions: ["GK", "St"],
@@ -40,6 +42,7 @@ class Program {
           "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
 
   PlayerModel dummyPlayer3 = PlayerModel(
+      id: "",
       email: "mirza.atalar@ug.bilkent.edu.tr",
       fullName: "Mirza Atalar",
       preferredPositions: ["GK", "St"],
@@ -51,6 +54,7 @@ class Program {
           "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
 
   TeamModel dummyTeam1 = TeamModel(
+      id: "",
       name: "Cu S.K",
       shortName: "CU",
       mainColor: "#347282",

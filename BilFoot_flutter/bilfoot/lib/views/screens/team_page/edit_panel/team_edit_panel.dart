@@ -45,6 +45,7 @@ class _TeamEditPanelState extends State<TeamEditPanel> {
                   child: TeamLogoTitle(
                     bigLogo: true,
                     teamModel: TeamModel(
+                        id: "",
                         name: state.name,
                         shortName: state.shortName,
                         mainColor: state.mainColor,

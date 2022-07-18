@@ -69,7 +69,10 @@ class PlayerListInTeamCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         onTap: () {
           ProgramConstants.showBlurryBackground(
-              context: context, child: const AddMemberPanel());
+              context: context,
+              child: AddMemberPanel(
+                teamModel: teamModel,
+              ));
         },
         child: Container(
           width: 40,

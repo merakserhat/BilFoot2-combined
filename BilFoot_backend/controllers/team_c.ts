@@ -116,7 +116,10 @@ export const getTeamInvitation = async (
   const invitation = await MutualNotification.findOne({
     from: new mongoose.Types.ObjectId(from_id),
     to: new mongoose.Types.ObjectId(to_id),
+    type: "team_invitation",
   });
+
+  console.log(invitation);
 
   res.status(200).json({ invitation });
 };
