@@ -124,6 +124,54 @@ export const getTeamInvitation = async (
   res.status(200).json({ invitation });
 };
 
+export const answerToTeamInvitation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { invitation_id, is_accepted } = req.body;
+
+  if (typeof invitation_id != "string" || typeof is_accepted != "boolean") {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const invitation = await MutualNotification.findById(
+    new mongoose.Types.ObjectId(invitation_id)
+  );
+
+  if (invitation === null) {
+    return res.status(404).json({ error: "invitation not found" });
+  }
+
+  const user = await Player.findOne({ email: (req as any).email });
+
+  if (user === null) {
+    return res.status(401).json({ error: "user not found" });
+  }
+
+  if (!invitation.from.equals(user._id)) {
+    return res
+      .status(401)
+      .json({ error: "invitation is not belong to this user" });
+  }
+
+  if (is_accepted) {
+    invitation.status = "accepted";
+    await invitation.save();
+    //TODO send notification to to user
+    const team = await Team.findById(invitation.object);
+    team?.players.push(user._id);
+    await team?.save();
+
+    team && user.teams.push(team?._id);
+    await user.save();
+  } else {
+    invitation.status = "refused";
+    await invitation.save();
+  }
+  res.status(200).json({ status: "success" });
+};
+
 export const makeCaptain = async (
   req: Request,
   res: Response,
