@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
-import MutualNotification, {
-  IMutualNotification,
-} from "../models/mutual_notification";
+import Notification, { INotification } from "../models/notification";
 import Player, { IPlayer } from "../models/player";
 import Team, { ITeam } from "../models/team";
 import { Types, Schema, model, Document } from "mongoose";
@@ -87,7 +85,7 @@ export const inviteToTeam = async (
       .json({ error: "You are not authorized to invite people!" });
   }
 
-  const invitation = new MutualNotification<IMutualNotification>({
+  const invitation = new Notification<INotification>({
     from: user._id,
     to: new mongoose.Types.ObjectId(to_id),
     object: team._id,
@@ -113,7 +111,7 @@ export const getTeamInvitation = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const invitation = await MutualNotification.findOne({
+  const invitation = await Notification.findOne({
     from: new mongoose.Types.ObjectId(from_id),
     to: new mongoose.Types.ObjectId(to_id),
     type: "team_invitation",
@@ -135,7 +133,7 @@ export const answerToTeamInvitation = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const invitation = await MutualNotification.findById(
+  const invitation = await Notification.findById(
     new mongoose.Types.ObjectId(invitation_id)
   );
 

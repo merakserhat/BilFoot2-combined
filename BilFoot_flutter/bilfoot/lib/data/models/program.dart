@@ -55,7 +55,7 @@ class Program {
 
   TeamModel dummyTeam1 = TeamModel(
       id: "",
-      name: "Cu S.K",
+      name: "TUTUNAMAYANLAR",
       shortName: "CU",
       mainColor: "#347282",
       accentColor: "#f6f2c2",
