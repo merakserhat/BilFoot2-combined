@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bilfoot/config/utils/hex_color.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:flutter/material.dart';
@@ -65,13 +66,19 @@ class TeamLogoTitle extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          teamModel.name,
-          style: Theme.of(context)
-              .textTheme
-              .headline4!
-              .copyWith(fontWeight: FontWeight.w500, color: Colors.black),
-        )
+        SizedBox(
+            width: 80,
+            child: AutoSizeText(
+              teamModel.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4!
+                  .copyWith(fontWeight: FontWeight.w500, color: Colors.black),
+              minFontSize: 9,
+              softWrap: false,
+              maxLines: 1,
+              overflow: TextOverflow.fade,
+            ))
       ],
     );
   }

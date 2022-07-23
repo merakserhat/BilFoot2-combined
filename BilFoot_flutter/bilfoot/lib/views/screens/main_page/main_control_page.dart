@@ -2,6 +2,7 @@ import 'package:bilfoot/config/utils/fcm_service.dart';
 import 'package:bilfoot/views/screens/chat_page/chat_people_page.dart';
 import 'package:bilfoot/views/screens/home_page/home_page.dart';
 import 'package:bilfoot/views/screens/match_page/match_list_page.dart';
+import 'package:bilfoot/views/screens/notifications_page/notifications_page.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import "package:flutter/material.dart";
 
@@ -34,30 +35,7 @@ class _MainControlPageState extends State<MainControlPage> {
       backgroundColor: Colors.white.withOpacity(0),
       appBar: AppBar(
         title: const Text("BilFoot"),
-        actions: [
-          _currentIndex == 0
-              ? GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ChatPeoplePage()));
-                  },
-                  child: const Icon(
-                    Icons.message_outlined,
-                    color: Colors.white,
-                  ),
-                )
-              : GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ChatPeoplePage()));
-                  },
-                  child: const Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                  ),
-                ),
-          const SizedBox.square(dimension: 16),
-        ],
+        actions: _getAppBarActions(),
       ),
       body: _getPage(MainPages.values[_currentIndex]),
       bottomNavigationBar: _getBottomBar(),
@@ -122,9 +100,54 @@ class _MainControlPageState extends State<MainControlPage> {
       case MainPages.MATCHES_PAGE:
         return const MatchListPage();
       case MainPages.PROFILE_PAGE:
-        return ProfilePage();
+        return const ProfilePage();
       default:
         return const Text("Empty Page");
     }
+  }
+
+  List<Widget> _getAppBarActions() {
+    var chat = GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const ChatPeoplePage()));
+      },
+      child: const Icon(
+        Icons.message_outlined,
+        color: Colors.white,
+      ),
+    );
+    var settings = GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const ChatPeoplePage()));
+      },
+      child: const Icon(
+        Icons.settings,
+        color: Colors.white,
+      ),
+    );
+    var notifications = GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const NotificationsPage()));
+      },
+      child: const Icon(
+        Icons.notifications,
+        color: Colors.white,
+      ),
+    );
+    List<Widget> actions = [];
+    if (_currentIndex == 0 || _currentIndex == 1) {
+      actions.add(notifications);
+      actions.add(const SizedBox.square(dimension: 16));
+      actions.add(chat);
+    } else {
+      actions.add(settings);
+    }
+
+    actions.add(const SizedBox.square(dimension: 16));
+
+    return actions;
   }
 }

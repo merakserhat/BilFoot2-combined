@@ -18,7 +18,7 @@ class BilfootClient {
   }
 
   //get ip by writing ipconfig to terminal
-  final String baseUrl = "http://192.168.1.103:8080/";
+  final String baseUrl = "http://192.168.1.100:8080/";
 
   //User endpoints
   final userTest = UserService.test;
