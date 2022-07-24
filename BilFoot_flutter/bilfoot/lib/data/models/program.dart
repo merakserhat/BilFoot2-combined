@@ -1,3 +1,4 @@
+import 'package:bilfoot/data/models/notification_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 
@@ -16,6 +17,7 @@ class Program {
   //Home data
   PlayerModel? user;
   String? token;
+  List<NotificationModel> notifications = [];
 
   PlayerModel dummyPlayer1 = PlayerModel(
       id: "",

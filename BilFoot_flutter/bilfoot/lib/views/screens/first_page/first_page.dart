@@ -36,6 +36,7 @@ class _FirstPageState extends State<FirstPage> {
 
       await AuthService.service.getIdToken(user);
       bool isSuccess = await BilfootClient().getHomeData();
+      bool isNotificationsSuccess = await BilfootClient().getNotifications();
 
       if (!isSuccess) {
         Navigator.of(context).pushReplacement(

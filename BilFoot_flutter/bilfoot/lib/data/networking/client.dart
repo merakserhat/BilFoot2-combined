@@ -23,6 +23,7 @@ class BilfootClient {
   //User endpoints
   final userTest = UserService.test;
   final getHomeData = UserService.getHomeData;
+  final getNotifications = UserService.getUserNotifications;
   final searchPlayers = UserService.searchPlayers;
 
   //Chat endpoints

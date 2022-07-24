@@ -134,6 +134,7 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   bool checkBilkentMail() {
+    return true;
     String mail = mailController.text;
 
     if (!mail.contains("@")) {

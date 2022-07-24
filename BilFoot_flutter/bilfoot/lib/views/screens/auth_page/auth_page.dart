@@ -28,39 +28,41 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Image.asset(
-            "assets/images/logo_huge.png",
-            color: Colors.black.withOpacity(0.03),
-          ),
-          Padding(
-            padding: ProgramConstants.pagePadding,
-            child: Column(
-              children: [
-                AuthTitle(
-                  authType: currentAuthType,
-                ),
-                const SizedBox.square(dimension: 8),
-                currentAuthType == AuthType.register
-                    ? RegisterForm(
-                        onAuthChanged: () {
-                          setState(() {
-                            currentAuthType = AuthType.login;
-                          });
-                        },
-                      )
-                    : LoginForm(
-                        onAuthChanged: () {
-                          setState(() {
-                            currentAuthType = AuthType.register;
-                          });
-                        },
-                      ),
-              ],
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Image.asset(
+              "assets/images/logo_huge.png",
+              color: Colors.black.withOpacity(0.03),
             ),
-          ),
-        ],
+            Padding(
+              padding: ProgramConstants.pagePadding,
+              child: Column(
+                children: [
+                  AuthTitle(
+                    authType: currentAuthType,
+                  ),
+                  const SizedBox.square(dimension: 8),
+                  currentAuthType == AuthType.register
+                      ? RegisterForm(
+                          onAuthChanged: () {
+                            setState(() {
+                              currentAuthType = AuthType.login;
+                            });
+                          },
+                        )
+                      : LoginForm(
+                          onAuthChanged: () {
+                            setState(() {
+                              currentAuthType = AuthType.register;
+                            });
+                          },
+                        ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

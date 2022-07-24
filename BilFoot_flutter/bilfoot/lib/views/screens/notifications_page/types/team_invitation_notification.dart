@@ -1,7 +1,13 @@
+import 'package:bilfoot/data/models/notification_model.dart';
+import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:flutter/material.dart';
 
 class TeamInvitationNotification extends StatefulWidget {
-  const TeamInvitationNotification({Key? key}) : super(key: key);
+  const TeamInvitationNotification(
+      {Key? key, required this.teamInvitationNotificationModel})
+      : super(key: key);
+
+  final TeamInvitationNotificationModel teamInvitationNotificationModel;
 
   @override
   State<TeamInvitationNotification> createState() =>
@@ -14,22 +20,41 @@ class _TeamInvitationNotificationState
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {},
-      child: SizedBox(
-        width: double.infinity,
-        height: 100,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: const Text(""),
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: FittedBox(
+                child: TeamLogoTitle(
+                  teamModel: widget.teamInvitationNotificationModel.team,
+                  bigLogo: true,
+                ),
               ),
             ),
+            const SizedBox.square(dimension: 10),
             Expanded(
                 child: Column(
               children: [
-                const Text("Serhat Merak is inviting you to Cu S.K"),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyText2,
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: widget
+                              .teamInvitationNotificationModel.player.fullName,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const TextSpan(text: ' is inviting you to his team '),
+                      TextSpan(
+                          text:
+                              widget.teamInvitationNotificationModel.team.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

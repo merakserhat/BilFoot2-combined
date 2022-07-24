@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bilfoot/data/models/notification_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/networking/client.dart';
@@ -30,6 +31,35 @@ class UserService {
     if (jsonData["player"] != null) {
       PlayerModel playerModel = PlayerModel.fromJson(jsonData["player"]);
       Program.program.user = playerModel;
+      return true;
+    }
+
+    return false;
+  }
+
+  static Future<bool> getUserNotifications() async {
+    Response? response = await BilfootClient()
+        .sendRequest(path: "player/get-player-notifications");
+
+    if (response == null) {
+      //TODO
+      print("null responde getHomeData");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status getUserNotifications");
+      return false;
+    }
+
+    var jsonData = json.decode(response.body);
+    print(jsonData);
+    if (jsonData["detailed_notifications"] != null) {
+      List<NotificationModel> notifications =
+          NotificationModel.splitDetailedNotifications(jsonData);
+
+      Program.program.notifications = notifications;
       return true;
     }
 

@@ -14,7 +14,7 @@ class OpponentAnnouncementNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {},
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
           children: [
@@ -39,7 +39,7 @@ class OpponentAnnouncementNotification extends StatelessWidget {
                       children: <TextSpan>[
                         TextSpan(
                             text: opponentAnnouncementNotificationModel
-                                .playerModel.fullName,
+                                .player.fullName,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                         const TextSpan(

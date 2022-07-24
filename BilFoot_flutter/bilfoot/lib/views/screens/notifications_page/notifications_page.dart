@@ -22,6 +22,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
   late final OpponentAnnouncementNotificationModel
       opponentAnnouncementNotification;
 
+  late final TeamInvitationNotificationModel teamInvitationNotificationModel;
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +35,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
             type: "opponent-announcement",
             status: "active"),
         team: Program.program.dummyTeam1,
-        playerModel: Program.program.dummyPlayer1);
+        player: Program.program.dummyPlayer1);
+
+    teamInvitationNotificationModel = TeamInvitationNotificationModel(
+        notification: NotificationModel(
+            id: "se",
+            from: "se",
+            type: "opponent-announcement",
+            status: "active"),
+        team: Program.program.dummyTeam1,
+        player: Program.program.dummyPlayer1);
   }
 
   @override
@@ -42,32 +53,34 @@ class _NotificationsPageState extends State<NotificationsPage> {
       appBar: const BasicAppBar(),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OpponentAnnouncementNotification(
-                opponentAnnouncementNotificationModel:
-                    opponentAnnouncementNotification),
-            OpponentAnnouncementNotification(
-                opponentAnnouncementNotificationModel:
-                    opponentAnnouncementNotification),
-            OpponentAnnouncementNotification(
-                opponentAnnouncementNotificationModel:
-                    opponentAnnouncementNotification),
-            OpponentAnnouncementNotification(
-                opponentAnnouncementNotificationModel:
-                    opponentAnnouncementNotification),
-            OpponentAnnouncementNotification(
-                opponentAnnouncementNotificationModel:
-                    opponentAnnouncementNotification),
-            OpponentAnnouncementNotification(
-                opponentAnnouncementNotificationModel:
-                    opponentAnnouncementNotification),
-            OpponentAnnouncementNotification(
-                opponentAnnouncementNotificationModel:
-                    opponentAnnouncementNotification),
-          ],
-        ),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: Program.program.notifications
+                .map(_getNotificationWidgets)
+                .toList()),
       ),
     );
+  }
+
+  Widget _getNotificationWidgets(NotificationModel notification) {
+    switch (notification.type) {
+      case Notifications.teamInvitation:
+        {
+          TeamInvitationNotificationModel teamInvitationNotificationModel =
+              (notification as TeamInvitationNotificationModel);
+          return TeamInvitationNotification(
+              teamInvitationNotificationModel: teamInvitationNotificationModel);
+        }
+      case Notifications.opponentAnnouncement:
+        {
+          OpponentAnnouncementNotificationModel
+              opponentAnnouncementNotificationModel =
+              (notification as OpponentAnnouncementNotificationModel);
+          return OpponentAnnouncementNotification(
+              opponentAnnouncementNotificationModel:
+                  opponentAnnouncementNotificationModel);
+        }
+    }
+
+    return const Text("Bilmiyoeruz bunu");
   }
 }

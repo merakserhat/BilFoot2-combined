@@ -92,7 +92,13 @@ class AuthService {
   }
 
   void sendVerificationLink() {
-    FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    print("current user");
+    print(FirebaseAuth.instance.currentUser);
+    FirebaseAuth.instance.currentUser
+        ?.sendEmailVerification()
+        .catchError((error) {
+      print(error);
+    });
   }
 
   Future<String?> sendPasswordResetLink({required String email}) async {
