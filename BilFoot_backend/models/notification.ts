@@ -5,7 +5,11 @@ export interface INotification {
   from: Types.ObjectId;
   to?: Types.ObjectId;
   object?: Types.ObjectId;
-  type: "team_invitation" | "match_invitation";
+  type:
+    | "team_invitation"
+    | "team_invitation_answer"
+    | "match_invitation"
+    | "match_invitation_answer";
   status: "vending" | "accepted" | "refused";
 }
 

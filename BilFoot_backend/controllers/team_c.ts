@@ -153,6 +153,13 @@ export const answerToTeamInvitation = async (
       .json({ error: "invitation is not belong to this user" });
   }
 
+  const answer_notification = new Notification<INotification>({
+    from: user._id,
+    to: invitation.from,
+    type: "team_invitation_answer",
+    status: "vending",
+  });
+
   if (is_accepted) {
     invitation.status = "accepted";
     await invitation.save();
@@ -163,10 +170,16 @@ export const answerToTeamInvitation = async (
 
     team && user.teams.push(team?._id);
     await user.save();
+
+    answer_notification.status = "accepted";
   } else {
     invitation.status = "refused";
     await invitation.save();
+    answer_notification.status = "refused";
   }
+
+  answer_notification.save();
+
   res.status(200).json({ status: "success" });
 };
 
