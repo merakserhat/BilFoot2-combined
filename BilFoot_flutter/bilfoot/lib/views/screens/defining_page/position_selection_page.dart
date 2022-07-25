@@ -1,14 +1,14 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/views/screens/defining_page/bloc/defining_bloc.dart';
 import 'package:bilfoot/views/screens/defining_page/skill_selection_page.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:bilfoot/views/widgets/page_title.dart';
 import 'package:bilfoot/views/widgets/position_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PositionSelectionPage extends StatefulWidget {
-  const PositionSelectionPage({Key? key, this.onCallback}) : super(key: key);
-
-  final Function(List<String> positions)? onCallback;
+  const PositionSelectionPage({Key? key}) : super(key: key);
 
   @override
   State<PositionSelectionPage> createState() => _PositionSelectionPageState();
@@ -29,6 +29,9 @@ class _PositionSelectionPageState extends State<PositionSelectionPage> {
             const PageTitle(title: "Select your favorite positions"),
             const SizedBox.square(dimension: 20),
             PositionSelector(onSelectionChange: (List<String> positions) {
+              context
+                  .read<DefiningBloc>()
+                  .add(SelectedPositionsChanged(positions: positions));
               setState(() {
                 this.positions = positions;
               });
@@ -37,9 +40,8 @@ class _PositionSelectionPageState extends State<PositionSelectionPage> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  if (widget.onCallback != null) {
-                    widget.onCallback!(positions);
-                  }
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (_) => const SkillSelectionPage()));
                 },
                 child: const Text("Save"),
               ),

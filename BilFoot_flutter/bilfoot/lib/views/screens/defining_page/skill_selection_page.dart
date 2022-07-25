@@ -3,11 +3,12 @@ import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:bilfoot/views/widgets/page_title.dart';
 import 'package:bilfoot/views/widgets/title_image_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/defining_bloc.dart';
 
 class SkillSelectionPage extends StatefulWidget {
-  const SkillSelectionPage({Key? key, this.onCallback}) : super(key: key);
-
-  final Function(List<String> skills, List<String> dominantFeet)? onCallback;
+  const SkillSelectionPage({Key? key}) : super(key: key);
 
   @override
   State<SkillSelectionPage> createState() => _SkillSelectionPageState();
@@ -75,11 +76,7 @@ class _SkillSelectionPageState extends State<SkillSelectionPage> {
             const SizedBox.square(dimension: 40),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  if (widget.onCallback != null) {
-                    widget.onCallback!(selectedSkills, dominantFeet);
-                  }
-                },
+                onPressed: () {},
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Text("Save Profile"),
@@ -100,6 +97,9 @@ class _SkillSelectionPageState extends State<SkillSelectionPage> {
       selectedSkills.add(label);
     }
 
+    context
+        .read<DefiningBloc>()
+        .add(SelectedSkillsChanged(selectedSkills: selectedSkills));
     setState(() {});
   }
 
@@ -111,6 +111,9 @@ class _SkillSelectionPageState extends State<SkillSelectionPage> {
       dominantFeet.add(label);
     }
 
+    context
+        .read<DefiningBloc>()
+        .add(DominantFeetChanged(dominantFeet: dominantFeet));
     setState(() {});
   }
 }

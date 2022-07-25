@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/config/utils/auth_service.dart';
+import 'package:bilfoot/views/screens/auth_page/bloc/authentication_bloc.dart';
 import 'package:bilfoot/views/screens/main_page/main_control_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/auth_title.dart';
 
@@ -24,8 +26,7 @@ class _AuthVerificationPageState extends State<AuthVerificationPage> {
     timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
       await FirebaseAuth.instance.currentUser!.reload();
       if (FirebaseAuth.instance.currentUser?.emailVerified ?? false) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const MainControlPage()));
+        context.read<AuthenticationBloc>().add(FirebaseEmailVerified());
         timer.cancel();
       }
     });
@@ -83,9 +84,7 @@ class _AuthVerificationPageState extends State<AuthVerificationPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    print("dispose");
     timer?.cancel();
   }
 }

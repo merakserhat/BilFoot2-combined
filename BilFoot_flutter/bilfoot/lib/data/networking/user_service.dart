@@ -9,20 +9,20 @@ import 'package:http/http.dart';
 class UserService {
   static void test() {}
 
-  static Future<bool> getHomeData() async {
+  static Future<PlayerModel?> getHomeData() async {
     Response? response =
         await BilfootClient().sendRequest(path: "player/get-home-data");
 
     if (response == null) {
       //TODO
       print("null responde getHomeData");
-      return false;
+      return null;
     }
 
     if (response.statusCode >= 400) {
       //TODO
       print("error status getHomeData");
-      return false;
+      return null;
     }
 
     var jsonData = json.decode(response.body);
@@ -31,10 +31,10 @@ class UserService {
     if (jsonData["player"] != null) {
       PlayerModel playerModel = PlayerModel.fromJson(jsonData["player"]);
       Program.program.user = playerModel;
-      return true;
+      return playerModel;
     }
 
-    return false;
+    return null;
   }
 
   static Future<bool> getUserNotifications() async {

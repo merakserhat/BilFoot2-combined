@@ -14,34 +14,6 @@ class AuthService {
 
   bool initiallyNavigated = false;
 
-  void init(Function(User?) notifyAuthState) {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-        if (!initiallyNavigated) {
-          initiallyNavigated = true;
-          notifyAuthState(null);
-        }
-        notifyAuthState(null);
-      } else {
-        print('User is signed in!');
-        print(user);
-        if (!initiallyNavigated) {
-          initiallyNavigated = true;
-          notifyAuthState(user);
-        }
-      }
-    });
-
-    FirebaseAuth.instance.idTokenChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-  }
-
   ///returns error if exists
   Future<String?> register(
       {required String emailAddress, required String password}) async {
@@ -120,7 +92,6 @@ class AuthService {
 
   Future getIdToken(User user) async {
     String token = await user.getIdToken();
-    print(token);
     Program.program.token = token;
   }
 }

@@ -18,35 +18,6 @@ class _FirstPageState extends State<FirstPage> {
   @override
   void initState() {
     super.initState();
-    handleAuthentication();
-  }
-
-  void handleAuthentication() async {
-    AuthService.service.init((User? user) async {
-      if (user == null) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const AuthPage()));
-        return;
-      }
-      if (!user.emailVerified) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const AuthVerificationPage()));
-        return;
-      }
-
-      await AuthService.service.getIdToken(user);
-      bool isSuccess = await BilfootClient().getHomeData();
-      bool isNotificationsSuccess = await BilfootClient().getNotifications();
-
-      if (!isSuccess) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const AuthPage()));
-        return;
-      }
-
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const MainControlPage()));
-    });
   }
 
   @override

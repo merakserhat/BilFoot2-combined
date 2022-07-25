@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(5),
         child: InkWell(
           onTap: () {
+            /*
             //TODO: my announcements
             //TODO remove this
             Navigator.of(context).push(MaterialPageRoute(
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                   },
                                 )));
                       },
-                    )));
+                    )));*/
           },
           child: SizedBox(
               height: 50,
