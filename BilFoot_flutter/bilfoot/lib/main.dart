@@ -3,6 +3,8 @@ import 'package:bilfoot/views/routes/router.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_verification_page.dart';
 import 'package:bilfoot/views/screens/auth_page/bloc/authentication_bloc.dart';
+import 'package:bilfoot/views/screens/defining_page/bloc/defining_bloc.dart';
+import 'package:bilfoot/views/screens/defining_page/defining_page.dart';
 import 'package:bilfoot/views/screens/main_page/main_control_page.dart';
 import 'package:bilfoot/views/themes/my_themes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,27 +21,42 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthenticationBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (BuildContext context) => AuthenticationBloc(),
+        ),
+        BlocProvider<DefiningBloc>(
+          create: (BuildContext context) => DefiningBloc(),
+        ),
+      ],
       child: MaterialApp(
         title: 'First Page',
         theme: MyThemes.lightTheme,
         debugShowCheckedModeBanner: false,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
+            print("state");
+            print(state);
             if (state is AuthenticationUninitialized) {
+              print("buraya nasıl girdi amk ");
+              print(state);
               return const Text("Loading");
             } else if (state is AuthenticationAuthenticated) {
               if (!state.emailVerified) {
+                print("email not verified");
                 return const AuthVerificationPage();
               }
 
-              if (!state.homeDataLoading) {
+              if (state.homeDataLoading) {
+                print("home data loading");
                 return const CircularProgressIndicator();
               }
 
               if (state.playerModel == null) {
-                return const Text("User defining settings");
+                print("player modal");
+
+                return const DefiningPage();
               }
 
               return const MainControlPage();

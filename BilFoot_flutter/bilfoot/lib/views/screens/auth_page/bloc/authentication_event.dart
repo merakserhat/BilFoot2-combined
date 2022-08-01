@@ -18,3 +18,20 @@ class FirebaseAuthenticated extends AuthenticationEvent {
 class FirebaseUnauthenticated extends AuthenticationEvent {}
 
 class FirebaseEmailVerified extends AuthenticationEvent {}
+
+class AuthenticationRegisterUser extends AuthenticationEvent {
+  final List<String> dominantFeet;
+  final List<String> preferredPositions;
+  final List<String> specialSkills;
+
+  AuthenticationRegisterUser({
+    required this.dominantFeet,
+    required this.preferredPositions,
+    required this.specialSkills,
+  });
+
+  @override
+  List<Object?> get props => [dominantFeet, preferredPositions, specialSkills];
+}
+
+class AuthenticationLogOut extends AuthenticationEvent {}

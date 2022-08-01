@@ -1,7 +1,10 @@
 part of 'defining_bloc.dart';
 
 @immutable
-abstract class DefiningEvent extends Equatable {}
+abstract class DefiningEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class SelectedPositionsChanged extends DefiningEvent {
   final List<String> positions;

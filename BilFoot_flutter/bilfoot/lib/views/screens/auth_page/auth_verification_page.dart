@@ -64,7 +64,9 @@ class _AuthVerificationPageState extends State<AuthVerificationPage> {
                         child: const Text("Send Again"),
                       ),
                       ElevatedButton(
-                        onPressed: () => AuthService.service.logout(),
+                        onPressed: () => context
+                            .read<AuthenticationBloc>()
+                            .add(AuthenticationLogOut()),
                         child: const Text("Log out"),
                       ),
                     ],

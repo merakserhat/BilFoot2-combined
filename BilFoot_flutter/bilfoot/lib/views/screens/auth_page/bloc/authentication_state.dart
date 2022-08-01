@@ -25,7 +25,6 @@ class AuthenticationAuthenticated extends AuthenticationState {
     User? user,
     bool? emailVerified,
     bool? homeDataLoading,
-    bool? homeDataRequested,
     PlayerModel? playerModel,
   }) =>
       AuthenticationAuthenticated(
@@ -37,7 +36,7 @@ class AuthenticationAuthenticated extends AuthenticationState {
 
   @override
   List<Object?> get props =>
-      [user, emailVerified, playerModel, homeDataLoading];
+      [user, playerModel, homeDataLoading, emailVerified];
 }
 
 class AuthenticationUnauthenticated extends AuthenticationState {

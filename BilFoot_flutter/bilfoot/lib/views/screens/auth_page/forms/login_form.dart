@@ -113,10 +113,7 @@ class _LoginFormState extends State<LoginForm> {
     String? error = await AuthService.service.login(
         emailAddress: mailController.text, password: passController.text);
 
-    if (error == null) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const FirstPage()));
-    } else {
+    if (error != null) {
       setState(() {
         this.error = error;
       });
