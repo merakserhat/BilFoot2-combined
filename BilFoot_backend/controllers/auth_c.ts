@@ -13,7 +13,13 @@ export const registerUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email, preferred_positions, special_skills, firebase_id } = req.body;
+  const {
+    email,
+    preferred_positions,
+    special_skills,
+    firebase_id,
+    dominant_feet,
+  } = req.body;
 
   //serhat.merak@ug.bilkent.edu.tr ->  serhat merak
   const full_name = getNameFromMail(email);
@@ -24,6 +30,7 @@ export const registerUser = async (
     preferred_positions,
     special_skills,
     firebase_id,
+    dominant_feet,
   });
 
   await player.save();

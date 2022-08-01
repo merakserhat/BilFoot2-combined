@@ -7,6 +7,7 @@ export interface IPlayer {
   full_name: string;
   preferred_positions: string[];
   special_skills: string[];
+  dominant_feet: string[];
   average_point: number;
   pointer_num: number;
   image_url?: string;
@@ -18,6 +19,7 @@ const playerSchema = new Schema<IPlayer>({
   email: { type: String, required: true },
   full_name: { type: String, required: true },
   preferred_positions: [String],
+  dominant_feet: [String],
   special_skills: [String],
   average_point: { type: Number, default: 0 },
   pointer_num: { type: Number, default: 0 },

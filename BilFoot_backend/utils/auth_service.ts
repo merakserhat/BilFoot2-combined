@@ -7,6 +7,7 @@ export const isAuth = async (
   next: NextFunction
 ) => {
   const bearerToken = req.headers.authorization;
+  console.log(bearerToken);
 
   if (typeof bearerToken === "string" && bearerToken.includes("Bearer")) {
     const saltToken = bearerToken.replace("Bearer ", "");
