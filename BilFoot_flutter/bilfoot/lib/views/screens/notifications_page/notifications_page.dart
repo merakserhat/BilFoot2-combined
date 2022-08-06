@@ -6,9 +6,9 @@ import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/match_page/create_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_table.dart';
-import 'package:bilfoot/views/screens/notifications_page/types/opponent_announcemnt_notification.dart';
-import 'package:bilfoot/views/screens/notifications_page/types/team_invitation_notification.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
+import 'package:bilfoot/views/widgets/notifications/opponent_announcemnt_notification.dart';
+import 'package:bilfoot/views/widgets/notifications/team_invitation_notification.dart';
 import "package:flutter/material.dart";
 
 class NotificationsPage extends StatefulWidget {
@@ -53,10 +53,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
       appBar: const BasicAppBar(),
       body: SingleChildScrollView(
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: Program.program.notifications
+          crossAxisAlignment: CrossAxisAlignment.start,
+          /*children: Program.program.notifications
                 .map(_getNotificationWidgets)
-                .toList()),
+                .toList()),*/
+          children: [
+            TeamInvitationNotification(
+                teamInvitationNotificationModel:
+                    teamInvitationNotificationModel)
+          ],
+        ),
       ),
     );
   }

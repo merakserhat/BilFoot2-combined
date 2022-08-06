@@ -1,3 +1,4 @@
+import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:flutter/material.dart';
 
 ///Base Component to show a panel above the blurry background
@@ -13,7 +14,9 @@ class PanelBase extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: ProgramConstants.getDefaultBoxShadow(context)),
             child: Material(
               borderRadius: BorderRadius.circular(20),
               child: Padding(

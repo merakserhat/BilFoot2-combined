@@ -41,7 +41,7 @@ class ProgramConstants {
       // barrierColor: ProgramColors.of(context).isLight()
       //     ? Colors.white.withOpacity(0.05)
       //     : Colors.black54.withOpacity(0.75),
-      barrierColor: Colors.black54.withOpacity(0.75),
+      barrierColor: Colors.white.withOpacity(0.05),
       transitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (ctx, anim1, anim2) => child,
       transitionBuilder: (ctx, anim1, anim2, child) {
