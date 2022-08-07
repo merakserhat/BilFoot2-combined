@@ -1,3 +1,4 @@
+import 'package:bilfoot/config/constants/program_colors.dart';
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/defining_page/position_selection_page.dart';
@@ -17,11 +18,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  late PageController pageController;
 
   @override
   void initState() {
     super.initState();
 
+    pageController = PageController();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
@@ -34,28 +37,67 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: ProgramConstants.pagePadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: Column(
           children: [
-            Text(
-              "Current Announcements:",
-              style:
-                  Theme.of(context).textTheme.headline5!.copyWith(fontSize: 20),
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1.5,
+                    color: Color(0xFFDDDDFF),
+                  ),
+                ),
+              ),
+              child: TabBar(
+                indicatorWeight: 4,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                labelColor: Theme.of(context).primaryColor,
+                indicatorColor: Theme.of(context).primaryColor,
+                unselectedLabelColor: Colors.black87,
+                labelStyle: Theme.of(context).textTheme.headline4,
+                tabs: const [
+                  Tab(
+                    text: "Player Announcement",
+                  ),
+                  Tab(
+                    text: "Player Announcement",
+                  ),
+                ],
+              ),
             ),
-            const SizedBox.square(dimension: 10),
-            const AnnouncementTable(),
-            const SizedBox.square(dimension: 20),
-            Row(
-              children: [
-                const SizedBox.square(dimension: 5),
-                _buildMyAnnouncementsButton(context),
-                const SizedBox.square(dimension: 10),
-                _buildNewAnnouncementButton(context),
-                const SizedBox.square(dimension: 5),
-              ],
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: const TabBarView(
+                  children: [
+                    Icon(Icons.directions_car),
+                    Icon(Icons.directions_transit),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    width: 1.5,
+                    color: Color(0xFFDDDDFF),
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const SizedBox.square(dimension: 5),
+                  _buildMyAnnouncementsButton(context),
+                  const SizedBox.square(dimension: 10),
+                  _buildNewAnnouncementButton(context),
+                  const SizedBox.square(dimension: 5),
+                ],
+              ),
             )
           ],
         ),
