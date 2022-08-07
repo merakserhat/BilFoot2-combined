@@ -4,6 +4,7 @@ import Notification, { INotification } from "../models/notification";
 import Player, { IPlayer } from "../models/player";
 import Team, { ITeam } from "../models/team";
 import { Types, Schema, model, Document } from "mongoose";
+import { NotificationTypes } from "../utils/notification_types";
 
 export const createTeam = async (
   req: Request,
@@ -88,9 +89,10 @@ export const inviteToTeam = async (
   const invitation = new Notification<INotification>({
     from: user._id,
     to: new mongoose.Types.ObjectId(to_id),
-    object: team._id,
-    type: "team_invitation",
+    team_model: team._id,
+    type: NotificationTypes.matchInvitation,
     status: "vending",
+    interaction: "approval",
   });
 
   await invitation.save();
@@ -114,7 +116,7 @@ export const getTeamInvitation = async (
   const invitation = await Notification.findOne({
     from: new mongoose.Types.ObjectId(from_id),
     to: new mongoose.Types.ObjectId(to_id),
-    type: "team_invitation",
+    type: NotificationTypes.teamInvitation,
   });
 
   console.log(invitation);
@@ -156,15 +158,16 @@ export const answerToTeamInvitation = async (
   const answer_notification = new Notification<INotification>({
     from: user._id,
     to: invitation.from,
-    type: "team_invitation_answer",
+    type: "",
     status: "vending",
+    interaction: "static",
   });
 
   if (is_accepted) {
     invitation.status = "accepted";
     await invitation.save();
     //TODO send notification to to user
-    const team = await Team.findById(invitation.object);
+    const team = await Team.findById(invitation.team_model);
     team?.players.push(user._id);
     await team?.save();
 
@@ -172,10 +175,12 @@ export const answerToTeamInvitation = async (
     await user.save();
 
     answer_notification.status = "accepted";
+    answer_notification.type = NotificationTypes.teamInvitationAccepted;
   } else {
     invitation.status = "refused";
     await invitation.save();
     answer_notification.status = "refused";
+    answer_notification.type = NotificationTypes.teamInvitationRefused;
   }
 
   answer_notification.save();

@@ -46,15 +46,15 @@ export const getPlayerNotifications = async (
     return res.status(401).json({ error: "User not found" });
   }
 
-  const notifications = await Notification.find({ to: player._id }).limit(10);
+  const notifications = await Notification.find({ to: player._id })
+    .populate("team_model player_model")
+    .limit(10); //TODO: match_model
 
   if (!notifications) {
     return res.status(400).json({ error: "Notifications not found" });
   }
 
-  const detailed_notifications = await getDetailedNotifications(notifications);
-
-  return res.status(200).json({ detailed_notifications });
+  return res.status(200).json({ notifications });
 };
 
 export const searchPlayers = async (
@@ -91,42 +91,3 @@ export const getPlayerModel = async (
 
   return res.status(200).json({ player_model });
 };
-
-async function getDetailedNotifications(
-  notifications: NotificationArray
-): Promise<any> {
-  const detailedNotifications = [];
-
-  for (const notification of notifications) {
-    let detailedNotification;
-
-    switch (notification.type) {
-      case "team_invitation":
-        {
-          const player = await Player.findById(notification.from);
-          const team = await Team.findById(notification.object!);
-          detailedNotification = {
-            notification,
-            player,
-            team,
-            type: notification.type,
-          };
-        }
-        break;
-
-      default:
-        {
-          detailedNotification = {
-            notification,
-          };
-        }
-        break;
-    }
-
-    if (detailedNotification) {
-      detailedNotifications.push(detailedNotification);
-    }
-  }
-
-  return detailedNotifications;
-}
