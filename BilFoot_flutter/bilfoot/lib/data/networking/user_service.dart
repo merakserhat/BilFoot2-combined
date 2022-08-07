@@ -92,10 +92,7 @@ class UserService {
     var jsonData = json.decode(response.body);
     print(jsonData);
     if (jsonData["detailed_notifications"] != null) {
-      List<NotificationModel> notifications =
-          NotificationModel.splitDetailedNotifications(jsonData);
-
-      Program.program.notifications = notifications;
+      //TODO get from backend
       return true;
     }
 

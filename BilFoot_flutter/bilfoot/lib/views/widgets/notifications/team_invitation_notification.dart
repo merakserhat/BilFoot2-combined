@@ -7,7 +7,7 @@ class TeamInvitationNotification extends StatefulWidget {
       {Key? key, required this.teamInvitationNotificationModel})
       : super(key: key);
 
-  final TeamInvitationNotificationModel teamInvitationNotificationModel;
+  final NotificationModel teamInvitationNotificationModel;
 
   @override
   State<TeamInvitationNotification> createState() =>
@@ -25,7 +25,7 @@ class _TeamInvitationNotificationState
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
           children: [
-            SizedBox(
+            /* SizedBox(
               width: 80,
               height: 80,
               child: FittedBox(
@@ -34,7 +34,7 @@ class _TeamInvitationNotificationState
                   bigLogo: true,
                 ),
               ),
-            ),
+            ),*/
             const SizedBox.square(dimension: 20),
             Expanded(
                 child: Padding(
@@ -47,14 +47,12 @@ class _TeamInvitationNotificationState
                       style: Theme.of(context).textTheme.bodyText2,
                       children: <TextSpan>[
                         TextSpan(
-                            text: widget.teamInvitationNotificationModel.player
-                                .fullName,
+                            text: widget.teamInvitationNotificationModel.to,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                         const TextSpan(text: ' is inviting you to his team '),
                         TextSpan(
-                            text: widget
-                                .teamInvitationNotificationModel.team.name,
+                            text: widget.teamInvitationNotificationModel.to,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                       ],
