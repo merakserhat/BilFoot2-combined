@@ -91,8 +91,13 @@ class UserService {
 
     var jsonData = json.decode(response.body);
     print(jsonData);
-    if (jsonData["detailed_notifications"] != null) {
-      //TODO get from backend
+    if (jsonData["notifications"] != null) {
+      List<NotificationModel> notifications =
+          (jsonData["notifications"] as List<dynamic>)
+              .map((e) => NotificationModel.fromJson(e))
+              .toList();
+
+      Program.program.notifications = notifications;
       return true;
     }
 
