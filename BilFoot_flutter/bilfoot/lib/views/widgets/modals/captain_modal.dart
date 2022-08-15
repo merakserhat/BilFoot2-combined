@@ -1,8 +1,6 @@
 import 'package:bilfoot/views/widgets/modals/base_modal.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/src/foundation/key.dart';
-
 import 'package:flutter/src/widgets/framework.dart';
 
 class CaptainModal extends StatelessWidget {
@@ -22,7 +20,7 @@ class CaptainModal extends StatelessWidget {
         //TODO:
       },
       refuseButtonText: "Hayır",
-      child: Text(
+      child: const Text(
         "C",
         style: TextStyle(
           decoration: TextDecoration.none,
