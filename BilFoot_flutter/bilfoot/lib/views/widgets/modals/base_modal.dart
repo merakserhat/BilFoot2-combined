@@ -53,6 +53,7 @@ class _BaseModalState extends State<BaseModal> {
                       height: 60,
                       width: 60,
                       child: FittedBox(
+                        fit: BoxFit.contain,
                         child:
                             (widget.icon == null) ? widget.child : widget.icon,
                       ),

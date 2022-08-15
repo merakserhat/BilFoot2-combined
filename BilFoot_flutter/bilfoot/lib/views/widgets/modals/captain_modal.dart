@@ -22,15 +22,12 @@ class CaptainModal extends StatelessWidget {
         //TODO:
       },
       refuseButtonText: "Hayır",
-      child: Material(
-        color: Colors.white,
-        child: const Text(
-          "C",
-          style: TextStyle(
-            fontSize: 50,
-            color: Colors.orange,
-            fontWeight: FontWeight.bold,
-          ),
+      child: Text(
+        "C",
+        style: TextStyle(
+          decoration: TextDecoration.none,
+          fontFamily: "assets/fonts/Poppins-ExtraBold.ttf",
+          color: Colors.orange,
         ),
       ),
     );
