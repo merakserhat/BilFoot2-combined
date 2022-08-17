@@ -4,6 +4,7 @@ import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/notification_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/screens/match_page/create_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_table.dart';
@@ -26,24 +27,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   void initState() {
     super.initState();
-    notificationModel1 = NotificationModel(
-        id: "a",
-        from: "from",
-        to: "to",
-        type: NotificationTypes.matchCaptainSelected,
-        status: "vending",
-        interaction: "approval",
-        matchModel: MatchModel(
-          date: "16 tem cuma",
-          hour: "22.00-23.00",
-          pitch: "M1",
-          isPitchApproved: false,
-          creator: Program.program.dummyPlayer1,
-          people: [],
-          authPeople: [],
-          showOnTable: true,
-          peopleLimit: 12,
-        ));
+    _getNotifications();
   }
 
   @override
@@ -53,16 +37,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            NotificationCard(notificationModel: notificationModel1),
-          ],
-          /*
-           children: Program.program.notifications
-                .map(() => Container())
-                .toList(),
-           */
+          children: Program.program.notifications
+              .map((e) => NotificationCard(notificationModel: e))
+              .toList(),
         ),
       ),
     );
+  }
+
+  void _getNotifications() async {
+    await BilfootClient().getNotifications();
+    setState(() {});
   }
 }

@@ -76,8 +76,10 @@ class AuthenticationBloc
 
       PlayerModel? playerModel = await BilfootClient().getHomeData();
 
-      emit((state as AuthenticationAuthenticated)
-          .copyWith(homeDataLoading: false, playerModel: playerModel));
+      emit((state as AuthenticationAuthenticated).copyWith(
+          homeDataLoading: false,
+          playerModel: playerModel,
+          emailVerified: true));
     }
   }
 
