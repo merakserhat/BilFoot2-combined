@@ -1,4 +1,5 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/views/widgets/bilfoot_button.dart';
 import 'package:flutter/material.dart';
 import 'package:bilfoot/views/themes/my_themes.dart';
 
@@ -15,6 +16,7 @@ class BaseModal extends StatefulWidget {
       this.icon,
       required this.onAccepted,
       required this.onRefused,
+      this.color,
       this.accepButtonText,
       this.refuseButtonText})
       : super(key: key);
@@ -26,6 +28,7 @@ class BaseModal extends StatefulWidget {
   final VoidCallback onRefused;
   final String? accepButtonText;
   final String? refuseButtonText;
+  final Color? color;
 
   @override
   State<BaseModal> createState() => _BaseModalState();
@@ -80,10 +83,16 @@ class _BaseModalState extends State<BaseModal> {
                   children: [
                     TextButton(
                         onPressed: widget.onRefused,
-                        child: Text(widget.refuseButtonText as String)),
-                    ElevatedButton(
-                        onPressed: widget.onAccepted,
-                        child: Text(widget.accepButtonText as String))
+                        child: Text(widget.refuseButtonText as String,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: Colors.black87))),
+                    BilfootButton(
+                      onPressed: widget.onAccepted,
+                      label: widget.accepButtonText as String,
+                      color: widget.color,
+                    )
                   ],
                 )
               : ElevatedButton(

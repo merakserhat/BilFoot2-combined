@@ -11,18 +11,19 @@ class QuitModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseModal(
-        type: Type.UNANSWERABLE,
+        type: Type.ANSWERABLE,
         text: "Takımdan ayrılmak istiyor musun?",
         //icon: //findicon,
         accepButtonText: "Evet",
         onAccepted: onAccepted,
+        color: Theme.of(context).errorColor,
         onRefused: () {
           Navigator.of(context).pop();
         },
         refuseButtonText: "Hayır",
-        icon: const Icon(
+        icon: Icon(
           Icons.warning_outlined,
-          color: Colors.red,
+          color: Theme.of(context).errorColor,
         ));
   }
 }
