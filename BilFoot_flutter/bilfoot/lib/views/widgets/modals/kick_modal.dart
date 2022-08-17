@@ -4,7 +4,9 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class KickModal extends StatelessWidget {
-  const KickModal({Key? key}) : super(key: key);
+  final VoidCallback onAccepted;
+
+  const KickModal({Key? key, required this.onAccepted}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +15,13 @@ class KickModal extends StatelessWidget {
         text: "Oyuncuyu takımdan atmak istiyor musun?",
         //icon: //findicon,
         accepButtonText: "Evet",
-        onAccepted: () {
-          //TODO:
-        },
+        onAccepted: onAccepted,
         onRefused: () {
-          //TODO:
+          Navigator.of(context).pop();
         },
         refuseButtonText: "Hayır",
         icon: const Icon(
-          Icons.delete,
+          Icons.warning_outlined,
           color: Colors.red,
         ));
   }

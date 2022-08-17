@@ -1,10 +1,14 @@
+import 'dart:ffi';
+
 import 'package:bilfoot/views/widgets/modals/base_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class CaptainModal extends StatelessWidget {
-  const CaptainModal({Key? key}) : super(key: key);
+  final VoidCallback onAccepted;
+
+  const CaptainModal({Key? key, required this.onAccepted}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +17,9 @@ class CaptainModal extends StatelessWidget {
       text: "Oyuncuyu kaptan yapmak istiyor musun?",
       //icon: //findicon,
       accepButtonText: "Evet",
-      onAccepted: () {
-        //TODO:
-      },
+      onAccepted: onAccepted,
       onRefused: () {
-        //TODO:
+        Navigator.of(context).pop();
       },
       refuseButtonText: "Hayır",
       child: const Text(

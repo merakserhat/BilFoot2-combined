@@ -13,8 +13,8 @@ class BaseModal extends StatefulWidget {
       required this.type,
       required this.text,
       this.icon,
-      this.onAccepted,
-      this.onRefused,
+      required this.onAccepted,
+      required this.onRefused,
       this.accepButtonText,
       this.refuseButtonText})
       : super(key: key);
@@ -22,8 +22,8 @@ class BaseModal extends StatefulWidget {
   final Type type;
   final String text;
   final Widget? icon;
-  final Function? onAccepted;
-  final Function? onRefused;
+  final VoidCallback onAccepted;
+  final VoidCallback onRefused;
   final String? accepButtonText;
   final String? refuseButtonText;
 
@@ -73,24 +73,21 @@ class _BaseModalState extends State<BaseModal> {
               ],
             ),
           ),
-          SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           (widget.type == Type.ANSWERABLE)
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                        onPressed: () => widget.onAccepted,
-                        child: Text(widget.accepButtonText as String)),
                     TextButton(
-                        onPressed: () => widget.onRefused,
-                        child: Text(widget.refuseButtonText as String))
+                        onPressed: widget.onRefused,
+                        child: Text(widget.refuseButtonText as String)),
+                    ElevatedButton(
+                        onPressed: widget.onAccepted,
+                        child: Text(widget.accepButtonText as String))
                   ],
                 )
-              : const SizedBox(
-                  height: 0,
-                )
+              : ElevatedButton(
+                  onPressed: () => widget.onAccepted, child: Text("Tamam"))
         ],
       ),
     );

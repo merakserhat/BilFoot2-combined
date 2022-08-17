@@ -5,6 +5,9 @@ import 'package:bilfoot/views/screens/defining_page/position_selection_page.dart
 import 'package:bilfoot/views/screens/defining_page/skill_selection_page.dart';
 import 'package:bilfoot/views/screens/home_page/widgets/announcement_table.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_type_panel.dart';
+import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
+import 'package:bilfoot/views/widgets/modals/kick_modal.dart';
+import 'package:bilfoot/views/widgets/modals/quit_modal.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -130,6 +133,12 @@ class _HomePageState extends State<HomePage> {
                                 )));
                       },
                     )));*/
+
+            ProgramConstants.showBlurryBackground(
+                context: context,
+                child: KickModal(
+                  onAccepted: () {},
+                ));
           },
           child: SizedBox(
               height: 50,
