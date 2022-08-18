@@ -2,6 +2,7 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/views/screens/match_page/match_detailed_page.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_info_card.dart';
+import 'package:bilfoot/views/screens/match_page/widgets/new_match_info_card.dart';
 import 'package:flutter/material.dart';
 
 class MatchListItem extends StatelessWidget {
@@ -16,7 +17,7 @@ class MatchListItem extends StatelessWidget {
             builder: (_) => MatchDetailedPage(match: matchModel),
           ));
         },
-        child: MatchInfoCard(
+        child: NewMatchInfoCard(
           matchModel: matchModel,
         )
         /*Container(
