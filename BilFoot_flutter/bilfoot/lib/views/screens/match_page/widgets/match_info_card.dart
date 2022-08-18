@@ -38,77 +38,73 @@ class MatchInfoCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        matchModel.date,
-                        textAlign: TextAlign.start,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline3!
-                            .copyWith(color: Theme.of(context).primaryColor),
-                      ),
-                      const Text(
-                        " / ",
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        matchModel.hour,
-                        textAlign: TextAlign.end,
-                        style: Theme.of(context).textTheme.headline3!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColorDark),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    matchModel.creator.fullName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3!
-                        .copyWith(fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              child: Text(
+                matchModel.creator.fullName,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3!
+                    .copyWith(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
             ),
             Expanded(
-              child: Row(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  SizedBox(
-                    height: 84,
-                    width: 60,
-                    child: FittedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                  Text(
+                    matchModel.hour,
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).textTheme.headline3!.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black45),
+                  ),
+                  Text(
+                    matchModel.date,
+                    textAlign: TextAlign.start,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(color: Colors.black54, fontSize: 14),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
                         children: [
                           SizedBox(
-                            height: 56,
+                            height: 20,
                             child: Image.asset(
                               "assets/images/pitch.png",
                               color: Colors.green,
                             ),
                           ),
-                          Text(
-                            matchModel.pitch,
-                            style: Theme.of(context).textTheme.headline3,
-                          )
+                          const SizedBox(
+                            width: 1,
+                          ),
+                          SizedBox(
+                            height: 20,
+                            child: Text(
+                              matchModel.pitch,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline3!
+                                  .copyWith(fontSize: 14),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ),
-                  Text(
-                    '${matchModel.people.length}/${matchModel.peopleLimit}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline2!
-                        .copyWith(fontSize: 16, color: _getColor()),
+                      Text(
+                        '${matchModel.people.length}/${matchModel.peopleLimit}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline2!
+                            .copyWith(fontSize: 14, color: _getColor()),
+                      ),
+                    ],
                   ),
                 ],
               ),
