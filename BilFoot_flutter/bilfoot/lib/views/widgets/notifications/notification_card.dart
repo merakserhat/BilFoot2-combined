@@ -39,7 +39,10 @@ class _NotificationCardState extends State<NotificationCard> {
               Expanded(
                 child: Column(
                   children: [
-                    MarkupText(_getText()),
+                    MarkupText(
+                      _getText(),
+                      textStyles: [Theme.of(context).textTheme.bodyText2!],
+                    ),
                     const SizedBox.square(dimension: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +75,7 @@ class _NotificationCardState extends State<NotificationCard> {
   }
 
   String _getText() {
-    return "Şimdilik burası <b>admin</> için bir deneme notification testi.";
+    return "Şimdilik burası [b]admin[] için bir deneme [#ff0000]notification[] testi.";
   }
 
   List<Widget> _getActions() {

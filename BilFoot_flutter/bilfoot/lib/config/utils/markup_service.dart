@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 void main() {
   String name = "Serhat Merak";
   String team = "Bilfoot";
@@ -21,7 +24,7 @@ void main() {
   if (markupPointers[0]["start"] != 0) {
     String style = "default"; // getTextStyle
     String text = exampleText.substring(0, markupPointers[0]["start"]);
-    markups.add(MarkupModel(textStyle: style, text: text));
+    markups.add(MarkupModel(textStyleHint: style, text: text));
   }
 
   for (int i = 0; i < markupPointers.length; i++) {
@@ -38,10 +41,11 @@ void main() {
       text = exampleText.substring(markupPointers[i]["end"]!);
     }
 
-    markups.add(MarkupModel(textStyle: style, text: text));
+    markups.add(MarkupModel(textStyleHint: style, text: text));
   }
 
   print(markups);
+  fillMarkupStyles(markups);
 
   /*
   while(exampleText.contains(regex)) {
@@ -57,20 +61,58 @@ void main() {
   //print(list);
 }
 
-class MarkupModel {
-  final String textStyle;
-  final String text;
+void fillMarkupStyles(List<MarkupModel> markups) {
+  List<TextStyle> textStyles = [
+    const TextStyle(color: Colors.red),
+    const TextStyle(color: Colors.blue)
+  ];
 
-  MarkupModel({required this.textStyle, required this.text});
+  for (MarkupModel markupModel in markups) {
+    if (markupModel.textStyleHint == "[]") {
+      markupModel.textStyle = textStyles[0];
+    } else {
+      List<String> markupHints = markupModel.textStyleHint
+          .replaceAll("[", "")
+          .replaceAll("]", "")
+          .split(",");
 
-  String toString() {
-    return "TextStyle: $textStyle, text: $text";
+      int textStyleIndex = int.parse(markupHints.firstWhere(
+          (element) => RegExp(r'^[0-9]+$').hasMatch(element),
+          orElse: () => "0"));
+
+      TextStyle currentStyle = textStyles[textStyleIndex].copyWith();
+
+      if (markupHints.contains("b")) {
+        currentStyle = currentStyle.copyWith(fontWeight: FontWeight.bold);
+      }
+
+      String color = markupHints.firstWhere(
+          (element) => element.length == 7 && element[0] == "#",
+          orElse: () => "#000000");
+      /*
+      if (color.isEmpty) {
+        color = markupHints.firstWhere(
+            (element) => RegExp(r'[a-z]+').hasMatch(element) && element != "b",
+            orElse: () => "black");
+        color = Colors;
+      }*/
+
+      currentStyle = currentStyle.copyWith(
+          color: Color(int.parse('ff${color.replaceAll('#', '')}', radix: 16)));
+
+      markupModel.textStyle = currentStyle;
+    }
   }
 }
 
-class TextStyle {
-  final String color;
-  final String type;
+class MarkupModel {
+  final String textStyleHint;
+  final String text;
+  TextStyle? textStyle;
 
-  TextStyle({required this.color, required this.type});
+  MarkupModel({required this.textStyleHint, required this.text});
+
+  String toString() {
+    return "{TextStyleHint: $textStyleHint, text: $text}";
+  }
 }
