@@ -7,8 +7,7 @@ class OpponentAnnouncementNotification extends StatelessWidget {
       {Key? key, required this.opponentAnnouncementNotificationModel})
       : super(key: key);
 
-  final OpponentAnnouncementNotificationModel
-      opponentAnnouncementNotificationModel;
+  final NotificationModel opponentAnnouncementNotificationModel;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class OpponentAnnouncementNotification extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
           children: [
-            SizedBox(
+            /*SizedBox(
               width: 80,
               height: 80,
               child: FittedBox(
@@ -27,7 +26,7 @@ class OpponentAnnouncementNotification extends StatelessWidget {
                   bigLogo: true,
                 ),
               ),
-            ),
+            ),*/
             const SizedBox.square(dimension: 10),
             Expanded(
               child: Column(
@@ -38,15 +37,13 @@ class OpponentAnnouncementNotification extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyText2,
                       children: <TextSpan>[
                         TextSpan(
-                            text: opponentAnnouncementNotificationModel
-                                .player.fullName,
+                            text: opponentAnnouncementNotificationModel.to,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                         const TextSpan(
                             text: ' is looking for an opponent for his team '),
                         TextSpan(
-                            text:
-                                opponentAnnouncementNotificationModel.team.name,
+                            text: opponentAnnouncementNotificationModel.to,
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold)),
                       ],

@@ -77,6 +77,7 @@ class TeamLogoTitle extends StatelessWidget {
               minFontSize: 9,
               softWrap: false,
               maxLines: 1,
+              textAlign: TextAlign.center,
               overflow: TextOverflow.fade,
             ))
       ],

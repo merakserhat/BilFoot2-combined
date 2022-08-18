@@ -91,9 +91,11 @@ class UserService {
 
     var jsonData = json.decode(response.body);
     print(jsonData);
-    if (jsonData["detailed_notifications"] != null) {
+    if (jsonData["notifications"] != null) {
       List<NotificationModel> notifications =
-          NotificationModel.splitDetailedNotifications(jsonData);
+          (jsonData["notifications"] as List<dynamic>)
+              .map((e) => NotificationModel.fromJson(e))
+              .toList();
 
       Program.program.notifications = notifications;
       return true;
