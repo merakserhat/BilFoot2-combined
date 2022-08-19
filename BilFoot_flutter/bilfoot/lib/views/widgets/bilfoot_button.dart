@@ -24,30 +24,25 @@ class BilfootButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return disabled;
-      },
-      child: Material(
-        //This material is necessary for blurry background panels
-        borderRadius: BorderRadius.circular(5),
-        child: InkWell(
-          onTap: disabled ? () {} : onPressed,
-          child: Material(
-            color: _getColor(context),
-            borderRadius: BorderRadius.circular(5),
-            child: Padding(
-              padding: customPadding ??
-                  EdgeInsets.symmetric(
-                      vertical: verticalPadding ?? 9,
-                      horizontal: horizontalPadding ?? 45),
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    fontWeight: fontWeight ?? FontWeight.w600,
-                    color: Colors.white),
-              ),
+    return Material(
+      //This material is necessary for blurry background panels
+      borderRadius: BorderRadius.circular(5),
+      child: InkWell(
+        onTap: disabled ? () {} : onPressed,
+        child: Material(
+          color: _getColor(context),
+          borderRadius: BorderRadius.circular(5),
+          child: Padding(
+            padding: customPadding ??
+                EdgeInsets.symmetric(
+                    vertical: verticalPadding ?? 9,
+                    horizontal: horizontalPadding ?? 45),
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontWeight: fontWeight ?? FontWeight.w600,
+                  color: Colors.white),
             ),
           ),
         ),

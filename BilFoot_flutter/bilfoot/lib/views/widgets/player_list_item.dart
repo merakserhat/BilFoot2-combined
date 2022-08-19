@@ -2,6 +2,7 @@
 
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/player_model.dart';
+import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:flutter/material.dart';
@@ -27,43 +28,58 @@ class PlayerListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.all(4),
-      height: 50,
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
+        boxShadow: ProgramConstants.getDefaultBoxShadow(context),
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
-        boxShadow: ProgramConstants.getDefaultBoxShadow(context),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Row(
-                children: [
-                  Text(playerModel.fullName),
-                  const SizedBox.square(dimension: 20),
-                  isAuthorized
-                      ? Text(
-                          isForTeam ? "(c)" : "(a)",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(
-                                  color:
-                                      isForTeam ? Colors.orange : Colors.green,
-                                  fontWeight: FontWeight.bold),
-                        )
-                      : Container()
-                ],
-              ),
-              const Icon(Icons.approval)
-            ],
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: playerModel != Program.program.user
+              ? () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => ProfilePage(
+                        playerModel: playerModel,
+                      ),
+                    ),
+                  );
+                }
+              : null,
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            width: double.infinity,
+            margin: const EdgeInsets.all(4),
+            height: 50,
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(playerModel.fullName),
+                    const SizedBox.square(dimension: 20),
+                    isAuthorized
+                        ? Text(
+                            isForTeam ? "(c)" : "(a)",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
+                                    color: isForTeam
+                                        ? Colors.orange
+                                        : Colors.green,
+                                    fontWeight: FontWeight.bold),
+                          )
+                        : Container()
+                  ],
+                ),
+                _buildButtons(context),
+              ],
+            ),
           ),
-          _buildButtons(context),
-        ],
+        ),
       ),
     );
   }
@@ -136,19 +152,6 @@ class PlayerListItem extends StatelessWidget {
     // );
 
     List<Widget> buttons = [];
-
-    if (!isCurrentUser) {
-      buttons.add(
-        CircularButtonInListItem(
-            buttonType: CircularButtonInListItem.profileButton,
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => ProfilePage(
-                        playerModel: playerModel,
-                      )));
-            }),
-      );
-    }
 
     if (!isStrangerView) {
       if (isCurrentAuthorized && !isCurrentUser && !isAuthorized) {

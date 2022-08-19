@@ -39,19 +39,20 @@ class PlayerListInTeamCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
-                children: [
-                  PlayerListItem(
-                    playerModel: Program.program.user!,
-                    isCurrentAuthorized: teamModel.captain !=
-                        Program.program.user, //e == teamModel.captain;
-                    isCurrentUser: teamModel.captain == Program.program.user,
-                    isAuthorized: teamModel.captain == Program.program.user,
-                    isForTeam: true,
-                    isStrangerView: !teamModel.players.contains(
-                      Program.program.user,
-                    ), //e == Program.program.user
-                  )
-                ],
+                children: teamModel.players
+                    .map(
+                      (player) => PlayerListItem(
+                        playerModel: player,
+                        isStrangerView:
+                            !teamModel.players.contains(Program.program.user),
+                        isCurrentUser: player == Program.program.user,
+                        isCurrentAuthorized:
+                            teamModel.captain == Program.program.user?.id,
+                        isAuthorized: teamModel.captain == player.id,
+                        isForTeam: true,
+                      ),
+                    )
+                    .toList(),
               ),
             ),
           ),

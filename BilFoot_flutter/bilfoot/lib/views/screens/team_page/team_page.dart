@@ -3,10 +3,14 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/player_list_in_team_card.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
+import 'package:bilfoot/views/widgets/bilfoot_button.dart';
+import 'package:bilfoot/views/widgets/modals/quit_modal.dart';
+import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,9 +19,11 @@ import 'edit_panel/bloc/team_edit_bloc.dart';
 class TeamPage extends StatefulWidget {
   static const String routeName = "profile_page";
 
-  const TeamPage({Key? key, required this.team}) : super(key: key);
+  const TeamPage({Key? key, required this.team, this.refreshTeamListCard})
+      : super(key: key);
 
   final TeamModel team;
+  final VoidCallback? refreshTeamListCard;
   @override
   State<TeamPage> createState() => _TeamPageState();
 }
@@ -71,7 +77,7 @@ class _TeamPageState extends State<TeamPage> {
                   teamModel: widget.team,
                 ),
                 const SizedBox.square(dimension: 30),
-                if (viewMode == STRANGER_VIEW) _buildLeaveButton(context),
+                if (viewMode != STRANGER_VIEW) _buildLeaveButton(context),
               ],
             ),
           ),
@@ -120,7 +126,24 @@ class _TeamPageState extends State<TeamPage> {
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () {
-            //TODO: quit player
+            ProgramConstants.showBlurryBackground(
+              context: context,
+              child: QuitModal(
+                onAccepted: () async {
+                  bool result =
+                      await BilfootClient().quitTeam(teamId: widget.team.id);
+                  Navigator.of(context).pop();
+
+                  if (result) {
+                    Program.program.user!.teams.remove(widget.team.id);
+                    if (widget.refreshTeamListCard != null) {
+                      widget.refreshTeamListCard!();
+                    }
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            );
           },
           child: Container(
               width: 120,

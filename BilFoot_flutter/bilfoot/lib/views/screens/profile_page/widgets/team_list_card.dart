@@ -6,7 +6,7 @@ import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TeamListCard extends StatelessWidget {
+class TeamListCard extends StatefulWidget {
   const TeamListCard(
       {Key? key, required this.playerModel, this.isStrangerView = false})
       : super(key: key);
@@ -14,6 +14,11 @@ class TeamListCard extends StatelessWidget {
   final PlayerModel playerModel;
   final bool isStrangerView;
 
+  @override
+  State<TeamListCard> createState() => _TeamListCardState();
+}
+
+class _TeamListCardState extends State<TeamListCard> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,7 +31,9 @@ class TeamListCard extends StatelessWidget {
               "Teams",
               style: Theme.of(context).textTheme.headline5,
             ),
-            isStrangerView ? Container() : _buildCreateTeamButton(context)
+            widget.isStrangerView
+                ? Container()
+                : _buildCreateTeamButton(context)
           ],
         ),
         const SizedBox.square(dimension: 10),
@@ -42,8 +49,9 @@ class TeamListCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
-                children: playerModel.teams
-                    .map((e) => TeamListItem(teamId: e))
+                children: widget.playerModel.teams
+                    .map((e) => TeamListItem(
+                        teamId: e, refreshTeamListCard: refreshTeamListCard))
                     .toList(),
               ),
             ),
@@ -79,5 +87,9 @@ class TeamListCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  refreshTeamListCard() {
+    setState(() {});
   }
 }

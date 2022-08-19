@@ -6,9 +6,12 @@ import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:flutter/material.dart';
 
 class TeamListItem extends StatefulWidget {
-  const TeamListItem({Key? key, required this.teamId}) : super(key: key);
+  const TeamListItem(
+      {Key? key, required this.teamId, required this.refreshTeamListCard})
+      : super(key: key);
 
   final String teamId;
+  final VoidCallback refreshTeamListCard;
   @override
   State<TeamListItem> createState() => _TeamListItemState();
 }
@@ -27,8 +30,11 @@ class _TeamListItemState extends State<TeamListItem> {
     return InkWell(
       onTap: () {
         if (teamModel != null) {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => TeamPage(team: teamModel!)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => TeamPage(
+                    team: teamModel!,
+                    refreshTeamListCard: widget.refreshTeamListCard,
+                  )));
         }
       },
       child: Container(

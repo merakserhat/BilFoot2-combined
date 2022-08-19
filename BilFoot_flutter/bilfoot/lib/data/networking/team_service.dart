@@ -139,4 +139,30 @@ class TeamService {
     print(response.body);
     return true;
   }
+
+  static Future<bool> quitTeam({required String teamId}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/quit-team",
+      body: {
+        "team_id": teamId,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response quit team");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status inviteToTeam");
+      print(response.body);
+      return false;
+    }
+
+    print(response.body);
+    return true;
+  }
 }

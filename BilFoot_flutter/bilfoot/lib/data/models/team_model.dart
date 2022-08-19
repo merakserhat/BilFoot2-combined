@@ -18,7 +18,7 @@ class TeamModel {
   late final String accentColor;
   late final String? creator;
   late final String? captain;
-  late final List<String> players;
+  late final List<PlayerModel> players;
 
   TeamModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
@@ -28,6 +28,7 @@ class TeamModel {
     accentColor = json['accent_color'];
     creator = json['creator'];
     captain = json['captain'];
-    players = List.castFrom<dynamic, String>(json["players"]);
+    players =
+        List.from(json["players"]).map((e) => PlayerModel.fromJson(e)).toList();
   }
 }

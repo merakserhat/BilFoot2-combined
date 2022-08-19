@@ -20,7 +20,7 @@ class NotificationCard extends StatefulWidget {
 class _NotificationCardState extends State<NotificationCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Material(
       color: _getColor(),
       child: InkWell(
         onTap: _handleClick,
