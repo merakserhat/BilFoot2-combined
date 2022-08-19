@@ -6,6 +6,7 @@ import {
   inviteToTeam,
   kickPlayer,
   makeCaptain,
+  quitTeam,
 } from "../controllers/team_c";
 import { isAuth } from "../utils/auth_service";
 
@@ -17,5 +18,6 @@ router.get("/get-team-invitation", isAuth, getTeamInvitation);
 router.get("/make-captain", isAuth, makeCaptain);
 router.get("/kick-player", isAuth, kickPlayer);
 router.get("/get-team-model", getTeamModel);
+router.post("/quit-team", isAuth, quitTeam);
 
 export default router;

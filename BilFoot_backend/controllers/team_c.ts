@@ -286,11 +286,59 @@ export const getTeamModel = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const team_model = await Team.findById(new mongoose.Types.ObjectId(id));
+  const team_model = await Team.findById(
+    new mongoose.Types.ObjectId(id)
+  ).populate("players");
 
   if (team_model == null) {
     return res.status(400).json({ error: "Team Model not found" });
   }
 
   return res.status(200).json({ team_model });
+};
+
+export const quitTeam = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { team_id } = req.body;
+  const { user_email } = req as any;
+
+  if (typeof team_id !== "string") {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const team_model = await Team.findById(new mongoose.Types.ObjectId(team_id));
+
+  if (team_model == null) {
+    return res.status(400).json({ error: "Team Model not found" });
+  }
+
+  const user_model = await Player.findOne({ email: user_email });
+
+  if (user_model == null) {
+    return res.status(400).json({ error: "User Model not found" });
+  }
+
+  user_model.teams = user_model.teams.filter(
+    (team_id) => !team_id.equals(team_model._id)
+  );
+
+  team_model.players = team_model.players.filter(
+    (player_id) => !player_id.equals(user_model._id)
+  );
+
+  if (team_model.players.length === 0) {
+    team_model.remove();
+  } else if (team_model.captain.equals(user_model._id)) {
+    team_model.captain = team_model.players[0];
+    team_model.save();
+  }
+
+  user_model.save();
+
+  console.log(user_model);
+
+  return res.status(200).json({ message: "success" });
 };
