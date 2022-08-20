@@ -40,10 +40,7 @@ class MatchInfoCard extends StatelessWidget {
             Expanded(
               child: Text(
                 matchModel.creator.fullName,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3!
-                    .copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headline3,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -55,18 +52,18 @@ class MatchInfoCard extends StatelessWidget {
                   Text(
                     matchModel.hour,
                     textAlign: TextAlign.end,
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black45),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4!
+                        .copyWith(color: Colors.black87),
                   ),
                   Text(
                     matchModel.date,
                     textAlign: TextAlign.start,
                     style: Theme.of(context)
                         .textTheme
-                        .headline3!
-                        .copyWith(color: Colors.black54, fontSize: 14),
+                        .headline4!
+                        .copyWith(color: Colors.black87),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,10 +86,7 @@ class MatchInfoCard extends StatelessWidget {
                             child: Text(
                               matchModel.pitch,
                               textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline3!
-                                  .copyWith(fontSize: 14),
+                              style: Theme.of(context).textTheme.headline4,
                             ),
                           ),
                         ],
