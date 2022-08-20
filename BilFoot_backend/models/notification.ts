@@ -9,7 +9,7 @@ export interface INotification {
   team_model?: Types.ObjectId;
   interaction: "static" | "chat" | "approval";
   type: String;
-  status: "vending" | "accepted" | "refused";
+  status: "vending" | "accepted" | "refused"; // also add to answerNotification
 }
 
 const notificationSchema = new Schema<INotification>({

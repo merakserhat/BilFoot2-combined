@@ -90,7 +90,7 @@ export const inviteToTeam = async (
     from: user._id,
     to: new mongoose.Types.ObjectId(to_id),
     team_model: team._id,
-    type: NotificationTypes.matchInvitation,
+    type: NotificationTypes.teamInvitation,
     status: "vending",
     interaction: "approval",
   });
@@ -123,7 +123,7 @@ export const getTeamInvitation = async (
 
   res.status(200).json({ invitation });
 };
-
+/*
 export const answerToTeamInvitation = async (
   req: Request,
   res: Response,
@@ -187,7 +187,7 @@ export const answerToTeamInvitation = async (
 
   res.status(200).json({ status: "success" });
 };
-
+*/
 export const makeCaptain = async (
   req: Request,
   res: Response,
@@ -226,7 +226,7 @@ export const makeCaptain = async (
 
   team.captain = new mongoose.Types.ObjectId(new_captain_id);
 
-  await team.save();
+  team.save();
 
   res.status(201).json({ status: "success" });
 };
