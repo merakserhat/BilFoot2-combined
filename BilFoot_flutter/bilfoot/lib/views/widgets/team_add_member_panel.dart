@@ -3,6 +3,7 @@ import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _AddMemberPanelState extends State<AddMemberPanel> {
           const SizedBox.square(dimension: 15),
           Container(
             height: 200,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               boxShadow: ProgramConstants.getDefaultBoxShadow(context),
@@ -100,36 +102,41 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
-      width: double.infinity,
-      margin: const EdgeInsets.all(4),
-      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         boxShadow:
             ProgramConstants.getDefaultBoxShadow(context, smallShadow: true),
-        borderRadius: BorderRadius.circular(3),
         color: Colors.white,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(widget.playerModel.fullName),
-          FittedBox(
-              child: Row(
-            children: [
-              CircularButtonInListItem(
-                buttonType: CircularButtonInListItem.profileButton,
-                onTap: () {
-                  //TODO: profile
-                },
+      child: Material(
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ProfilePage(
+                  playerModel: widget.playerModel,
+                ),
               ),
-              invitationStatusLoading
-                  ? const SizedBox(
-                      width: 34, height: 34, child: CircularProgressIndicator())
-                  : _buildInvitationAction()
-            ],
-          )),
-        ],
+            );
+          },
+          child: Container(
+            height: 40,
+            width: double.infinity,
+            margin: const EdgeInsets.all(4),
+            padding: const EdgeInsets.all(4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(widget.playerModel.fullName),
+                invitationStatusLoading
+                    ? const SizedBox(
+                        width: 34,
+                        height: 34,
+                        child: CircularProgressIndicator())
+                    : _buildInvitationAction(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -1,4 +1,7 @@
 import 'package:bilfoot/data/models/notification_model.dart';
+import 'package:bilfoot/data/models/player_model.dart';
+import 'package:bilfoot/data/models/program.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/screens/match_page/match_detailed_page.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/profile_page_photo.dart';
@@ -6,6 +9,7 @@ import 'package:bilfoot/views/screens/team_page/team_page.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:bilfoot/views/widgets/markup_text.dart';
 import 'package:bilfoot/views/widgets/match_logo.dart';
+import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import 'package:flutter/material.dart';
 
 class NotificationCard extends StatefulWidget {
@@ -18,6 +22,8 @@ class NotificationCard extends StatefulWidget {
 }
 
 class _NotificationCardState extends State<NotificationCard> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -59,22 +65,28 @@ class _NotificationCardState extends State<NotificationCard> {
   }
 
   Widget _getLeadingIcon() {
-    if (widget.notificationModel.teamModel != null) {
+    if (widget.notificationModel.playerModel != null) {
+      return ProfilePagePhoto(
+          playerModel: widget.notificationModel.playerModel!);
+    } else if (widget.notificationModel.matchModel != null) {
+      return MatchLogo(matchModel: widget.notificationModel.matchModel!);
+    } else if (widget.notificationModel.teamModel != null) {
       return TeamLogoTitle(
         teamModel: widget.notificationModel.teamModel!,
         bigLogo: true,
       );
-    } else if (widget.notificationModel.matchModel != null) {
-      return MatchLogo(matchModel: widget.notificationModel.matchModel!);
-    } else if (widget.notificationModel.playerModel != null) {
-      return ProfilePagePhoto(
-          playerModel: widget.notificationModel.playerModel!);
     }
 
     return Container();
   }
 
   String _getText() {
+    switch (widget.notificationModel.type) {
+      case Notifications.teamInvitation:
+        return "[b]${widget.notificationModel.from.fullName}[] has invited you to the team [b]${widget.notificationModel.teamModel!.name}[] ";
+      case Notifications.teamInvitationAnswer:
+        return "[b]${widget.notificationModel.from.fullName}[] has [${widget.notificationModel.status == "accepted" ? "#00ff00" : "#ff0000"}] ${widget.notificationModel.status} [] your invitation to the team [b]${widget.notificationModel.teamModel?.name}[] ";
+    }
     return "Şimdilik burası [b]admin[] için bir deneme [#ff0000]notification[] testi.";
   }
 
@@ -89,20 +101,47 @@ class _NotificationCardState extends State<NotificationCard> {
         ),
       ];
     } else if (widget.notificationModel.interaction == "approval") {
+      if (isLoading) return [const SpinnerSmall()];
       if (widget.notificationModel.status == "vending") {
         return [
           OutlinedButton(
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
-                  widget.notificationModel.status = "refused";
+                  isLoading = true;
+                });
+                bool isSuccess = await BilfootClient().answerToNotification(
+                    notificationId: widget.notificationModel.id,
+                    answer: "refused");
+                if (isSuccess) {
+                  setState(() {
+                    widget.notificationModel.status = "refused";
+                  });
+                }
+
+                setState(() {
+                  isLoading = false;
                 });
               },
               child: const Text("Refuse")),
           const SizedBox.square(dimension: 32),
           ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
-                  widget.notificationModel.status = "accepted";
+                  isLoading = true;
+                });
+                bool isSuccess = await BilfootClient().answerToNotification(
+                    notificationId: widget.notificationModel.id,
+                    answer: "accepted");
+                if (isSuccess) {
+                  setState(() {
+                    widget.notificationModel.status = "accepted";
+                  });
+
+                  _handleSuccessClick();
+                }
+
+                setState(() {
+                  isLoading = false;
                 });
               },
               child: const Text("Accept")),
@@ -125,15 +164,15 @@ class _NotificationCardState extends State<NotificationCard> {
   }
 
   void _handleClick() {
-    if (widget.notificationModel.teamModel != null) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-              TeamPage(team: widget.notificationModel.teamModel!)));
-    } else if (widget.notificationModel.playerModel != null) {
+    if (widget.notificationModel.playerModel != null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => ProfilePage(
                 playerModel: widget.notificationModel.playerModel,
               )));
+    } else if (widget.notificationModel.teamModel != null) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              TeamPage(team: widget.notificationModel.teamModel!)));
     } else if (widget.notificationModel.matchModel != null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
@@ -151,5 +190,24 @@ class _NotificationCardState extends State<NotificationCard> {
     }
 
     return Colors.white;
+  }
+
+  void _handleSuccessClick() {
+    switch (widget.notificationModel.type) {
+      case Notifications.teamInvitation:
+        {
+          Program.program.user!.teams
+              .add(widget.notificationModel.teamModel!.id);
+          widget.notificationModel.teamModel!.players
+              .add(Program.program.user!);
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) =>
+                  TeamPage(team: widget.notificationModel.teamModel!),
+            ),
+          );
+        }
+    }
   }
 }

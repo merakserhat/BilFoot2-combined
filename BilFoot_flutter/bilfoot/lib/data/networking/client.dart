@@ -18,7 +18,7 @@ class BilfootClient {
   }
 
   //get ip by writing ipconfig to terminal
-  final String baseUrl = "http://192.168.1.101:8080/";
+  final String baseUrl = "http://192.168.1.100:8080/";
 
   //User endpoints
   final userTest = UserService.test;
@@ -26,6 +26,7 @@ class BilfootClient {
   final getNotifications = UserService.getUserNotifications;
   final searchPlayers = UserService.searchPlayers;
   final registerUser = UserService.registerUser;
+  final answerToNotification = UserService.answerToNotification;
 
   //Chat endpoints
   final chatTest = ChatService.test;

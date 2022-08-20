@@ -27,12 +27,14 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox.square(dimension: 20),
-              ProfilePagePhoto(playerModel: Program.program.user!),
+              ProfilePagePhoto(
+                  playerModel: playerModel ?? Program.program.user!),
               const SizedBox.square(dimension: 30),
-              ProfileSkillsTable(playerModel: Program.program.user!),
+              ProfileSkillsTable(
+                  playerModel: playerModel ?? Program.program.user!),
               const SizedBox.square(dimension: 30),
               TeamListCard(
-                  playerModel: Program.program.user!,
+                  playerModel: playerModel ?? Program.program.user!,
                   isStrangerView: playerModel != null),
               playerModel == null
                   ? ElevatedButton(

@@ -134,4 +134,33 @@ class UserService {
 
     return [];
   }
+
+  static Future<bool> answerToNotification({
+    required String notificationId,
+    required String answer,
+  }) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "player/answer-to-notification",
+      body: {
+        "notification_id": notificationId,
+        "answer": answer,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response createTeam");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status answer notification");
+      print(response.body);
+      return false;
+    }
+
+    return true;
+  }
 }

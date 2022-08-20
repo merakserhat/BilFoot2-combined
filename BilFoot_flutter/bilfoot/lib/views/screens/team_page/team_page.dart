@@ -40,7 +40,7 @@ class _TeamPageState extends State<TeamPage> {
     super.initState();
 
     if (widget.team.players.contains(Program.program.user)) {
-      if (widget.team.captain == Program.program.user) {
+      if (widget.team.captain == Program.program.user?.id) {
         viewMode = CAPTAIN_VIEW;
       } else {
         viewMode = MEMBER_VIEW;
@@ -68,8 +68,7 @@ class _TeamPageState extends State<TeamPage> {
                       teamModel: widget.team,
                       bigLogo: true,
                     ),
-                    // if (viewMode == CAPTAIN_VIEW) _buildEditTeamButton(),
-                    _buildEditTeamButton(),
+                    if (viewMode == CAPTAIN_VIEW) _buildEditTeamButton(),
                   ],
                 ),
                 const SizedBox.square(dimension: 30),

@@ -24,7 +24,7 @@ class NotificationModel {
   });
 
   late final String id;
-  late final String from;
+  late final PlayerModel from;
   late final String? to;
   late final String type;
   late String status;
@@ -35,7 +35,7 @@ class NotificationModel {
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
-    from = json['from'];
+    from = PlayerModel.fromJson(json['from']);
     to = json['to'];
     type = json['type'];
     status = json['status'];

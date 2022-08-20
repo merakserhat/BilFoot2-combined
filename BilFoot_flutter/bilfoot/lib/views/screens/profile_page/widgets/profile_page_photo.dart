@@ -38,6 +38,10 @@ class ProfilePagePhoto extends StatelessWidget {
             playerModel.fullName,
             style: Theme.of(context).textTheme.headline5,
           ),
+          Text(
+            playerModel.email,
+            style: Theme.of(context).textTheme.overline,
+          ),
           // playerModel.pointerNum == 0 ? Container() : _buildPointLabel(),
         ],
       ),

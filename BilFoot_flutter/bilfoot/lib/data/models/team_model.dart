@@ -31,4 +31,18 @@ class TeamModel {
     players =
         List.from(json["players"]).map((e) => PlayerModel.fromJson(e)).toList();
   }
+
+  TeamModel copyWith(
+          {String? name,
+          String? shortName,
+          String? mainColor,
+          String? accentColor,
+          List<PlayerModel>? players}) =>
+      TeamModel(
+          id: id,
+          name: name ?? this.name,
+          shortName: shortName ?? this.shortName,
+          mainColor: mainColor ?? this.mainColor,
+          accentColor: accentColor ?? this.accentColor,
+          players: players ?? this.players);
 }
