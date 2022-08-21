@@ -34,15 +34,20 @@ class TeamModel {
 
   TeamModel copyWith(
           {String? name,
+          String? creator,
+          String? captain,
           String? shortName,
           String? mainColor,
           String? accentColor,
           List<PlayerModel>? players}) =>
       TeamModel(
-          id: id,
-          name: name ?? this.name,
-          shortName: shortName ?? this.shortName,
-          mainColor: mainColor ?? this.mainColor,
-          accentColor: accentColor ?? this.accentColor,
-          players: players ?? this.players);
+        id: id,
+        name: name ?? this.name,
+        shortName: shortName ?? this.shortName,
+        mainColor: mainColor ?? this.mainColor,
+        accentColor: accentColor ?? this.accentColor,
+        players: players ?? this.players,
+        captain: captain ?? this.captain,
+        creator: creator ?? this.creator,
+      );
 }

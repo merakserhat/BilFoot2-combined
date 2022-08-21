@@ -133,12 +133,6 @@ class _HomePageState extends State<HomePage> {
                                 )));
                       },
                     )));*/
-
-            ProgramConstants.showBlurryBackground(
-                context: context,
-                child: KickModal(
-                  onAccepted: () {},
-                ));
           },
           child: SizedBox(
               height: 50,

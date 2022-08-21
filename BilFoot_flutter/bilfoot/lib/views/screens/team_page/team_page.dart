@@ -35,12 +35,16 @@ class _TeamPageState extends State<TeamPage> {
 
   late int viewMode;
 
+  late TeamModel team;
+
   @override
   void initState() {
     super.initState();
 
-    if (widget.team.players.contains(Program.program.user)) {
-      if (widget.team.captain == Program.program.user?.id) {
+    team = widget.team;
+
+    if (team.players.contains(Program.program.user)) {
+      if (team.captain == Program.program.user?.id) {
         viewMode = CAPTAIN_VIEW;
       } else {
         viewMode = MEMBER_VIEW;
@@ -65,7 +69,7 @@ class _TeamPageState extends State<TeamPage> {
                 Stack(
                   children: [
                     TeamLogoTitle(
-                      teamModel: widget.team,
+                      teamModel: team,
                       bigLogo: true,
                     ),
                     if (viewMode == CAPTAIN_VIEW) _buildEditTeamButton(),
@@ -73,7 +77,8 @@ class _TeamPageState extends State<TeamPage> {
                 ),
                 const SizedBox.square(dimension: 30),
                 PlayerListInTeamCard(
-                  teamModel: widget.team,
+                  teamModel: team,
+                  updateTeam: updateTeam,
                 ),
                 const SizedBox.square(dimension: 30),
                 if (viewMode != STRANGER_VIEW) _buildLeaveButton(context),
@@ -96,7 +101,7 @@ class _TeamPageState extends State<TeamPage> {
               child: BlocProvider(
                 create: (context) => TeamEditBloc(),
                 child: TeamEditPanel(
-                  teamModel: widget.team,
+                  teamModel: team,
                 ),
               ));
         },
@@ -129,12 +134,11 @@ class _TeamPageState extends State<TeamPage> {
               context: context,
               child: QuitModal(
                 onAccepted: () async {
-                  bool result =
-                      await BilfootClient().quitTeam(teamId: widget.team.id);
+                  bool result = await BilfootClient().quitTeam(teamId: team.id);
                   Navigator.of(context).pop();
 
                   if (result) {
-                    Program.program.user!.teams.remove(widget.team.id);
+                    Program.program.user!.teams.remove(team.id);
                     if (widget.refreshTeamListCard != null) {
                       widget.refreshTeamListCard!();
                     }
@@ -161,5 +165,11 @@ class _TeamPageState extends State<TeamPage> {
         ),
       ),
     );
+  }
+
+  updateTeam(TeamModel teamModel) {
+    setState(() {
+      team = teamModel;
+    });
   }
 }

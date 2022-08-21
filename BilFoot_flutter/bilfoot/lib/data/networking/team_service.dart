@@ -165,4 +165,60 @@ class TeamService {
     print(response.body);
     return true;
   }
+
+  static Future<bool> makeCaptain(
+      {required String teamId, required String newCaptainId}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/make-captain",
+      body: {
+        "team_id": teamId,
+        "new_captain_id": newCaptainId,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response make captain");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status inviteToTeam");
+      print(response.body);
+      return false;
+    }
+
+    print(response.body);
+    return true;
+  }
+
+  static Future<bool> kickPlayer(
+      {required String teamId, required String kickedPlayerId}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/kick-player",
+      body: {
+        "team_id": teamId,
+        "kicked_player_id": kickedPlayerId,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response kick player");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status kick player");
+      print(response.body);
+      return false;
+    }
+
+    print(response.body);
+    return true;
+  }
 }

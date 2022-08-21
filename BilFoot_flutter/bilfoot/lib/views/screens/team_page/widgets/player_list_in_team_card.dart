@@ -6,13 +6,22 @@ import 'package:bilfoot/views/widgets/team_add_member_panel.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListInTeamCard extends StatelessWidget {
-  const PlayerListInTeamCard({Key? key, required this.teamModel})
+  const PlayerListInTeamCard(
+      {Key? key, required this.teamModel, required this.updateTeam})
       : super(key: key);
 
   final TeamModel teamModel;
+  final Function(TeamModel teamModel) updateTeam;
 
   @override
   Widget build(BuildContext context) {
+    /*  teamModel.players.add(Program.program.ali);
+    teamModel.players.add(Program.program.boran);
+    teamModel.players.add(Program.program.mete);
+    teamModel.players.add(Program.program.ayberk);
+    teamModel.players.add(Program.program.memduh);
+    teamModel.players.add(Program.program.kerem);
+    teamModel.players.add(Program.program.defans);*/
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,6 +59,8 @@ class PlayerListInTeamCard extends StatelessWidget {
                             teamModel.captain == Program.program.user?.id,
                         isAuthorized: teamModel.captain == player.id,
                         isForTeam: true,
+                        teamModel: teamModel,
+                        updateTeam: updateTeam,
                       ),
                     )
                     .toList(),

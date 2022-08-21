@@ -1,11 +1,17 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
+import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
+import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
+import 'package:bilfoot/views/widgets/modals/kick_modal.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/networking/client.dart';
 
 class PlayerListItem extends StatelessWidget {
   const PlayerListItem({
@@ -16,6 +22,9 @@ class PlayerListItem extends StatelessWidget {
     required this.isCurrentUser,
     required this.isCurrentAuthorized,
     required this.isAuthorized,
+    this.teamModel,
+    this.matchModel,
+    this.updateTeam,
   }) : super(key: key);
 
   final PlayerModel playerModel;
@@ -24,6 +33,9 @@ class PlayerListItem extends StatelessWidget {
   final bool isCurrentUser;
   final bool isCurrentAuthorized;
   final bool isAuthorized;
+  final TeamModel? teamModel;
+  final MatchModel? matchModel;
+  final Function(TeamModel teamModel)? updateTeam;
 
   @override
   Widget build(BuildContext context) {
@@ -85,72 +97,6 @@ class PlayerListItem extends StatelessWidget {
   }
 
   Widget _buildButtons(BuildContext context) {
-    // const double buttonSize = 24;
-    // const double iconSize = 16;
-    //
-    // Widget kickButton = GestureDetector(
-    //   onTap: () {
-    //     //TODO: kick
-    //   },
-    //   child: Container(
-    //     width: buttonSize,
-    //     height: buttonSize,
-    //     margin: const EdgeInsets.all(4),
-    //     decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(100), color: Colors.red),
-    //     child: const Center(
-    //       child: Icon(
-    //         Icons.close,
-    //         color: Colors.white,
-    //         size: iconSize,
-    //       ),
-    //     ),
-    //   ),
-    // );
-    //
-    // Widget captainButton = GestureDetector(
-    //   onTap: () {
-    //     //TODO: captain
-    //   },
-    //   child: Container(
-    //     width: buttonSize,
-    //     height: buttonSize,
-    //     margin: const EdgeInsets.all(4),
-    //     decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(100), color: Colors.orange),
-    //     child: Center(
-    //       child: Text(
-    //         "C",
-    //         style: Theme.of(context).textTheme.bodyText1!.copyWith(
-    //             fontWeight: FontWeight.bold,
-    //             color: Colors.white,
-    //             fontSize: iconSize),
-    //       ),
-    //     ),
-    //   ),
-    // );
-    //
-    // Widget profileButton = GestureDetector(
-    //   onTap: () {
-    //     //TODO: profile
-    //   },
-    //   child: Container(
-    //     width: buttonSize,
-    //     height: buttonSize,
-    //     margin: const EdgeInsets.all(4),
-    //     decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(100),
-    //         color: Theme.of(context).primaryColor),
-    //     child: const Center(
-    //       child: Icon(
-    //         Icons.person,
-    //         color: Colors.white,
-    //         size: iconSize,
-    //       ),
-    //     ),
-    //   ),
-    // );
-
     List<Widget> buttons = [];
 
     if (!isStrangerView) {
@@ -160,17 +106,53 @@ class PlayerListItem extends StatelessWidget {
               ? CircularButtonInListItem(
                   buttonType: CircularButtonInListItem.captainButton,
                   onTap: () {
-                    //TODO: captain
+                    ProgramConstants.showBlurryBackground(
+                      context: context,
+                      child: CaptainModal(
+                        onAccepted: () async {
+                          bool result = await BilfootClient().makeCaptain(
+                              teamId: teamModel!.id,
+                              newCaptainId: playerModel.id);
+                          Navigator.of(context).pop();
+
+                          if (result) {
+                            if (updateTeam != null) {
+                              updateTeam!(
+                                  teamModel!.copyWith(captain: playerModel.id));
+                            }
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        playerModel: playerModel,
+                      ),
+                    );
                   })
               : CircularButtonInListItem(
                   buttonType: CircularButtonInListItem.authButton,
-                  onTap: () {
-                    //TODO: auth
-                  }),
+                  onTap: () {}),
           CircularButtonInListItem(
               buttonType: CircularButtonInListItem.kickButton,
               onTap: () {
-                //TODO: kick
+                ProgramConstants.showBlurryBackground(
+                  context: context,
+                  child: KickModal(
+                    onAccepted: () async {
+                      bool result = await BilfootClient().kickPlayer(
+                          teamId: teamModel!.id,
+                          kickedPlayerId: playerModel.id);
+                      Navigator.of(context).pop();
+
+                      if (result) {
+                        if (updateTeam != null) {
+                          teamModel!.players.remove(playerModel);
+                          updateTeam!(teamModel!);
+                        }
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    playerModel: playerModel,
+                  ),
+                );
               }),
           ...buttons
         ];
