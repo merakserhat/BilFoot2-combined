@@ -4,6 +4,7 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/player_list_in_team_card.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
@@ -16,43 +17,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'edit_panel/bloc/team_edit_bloc.dart';
 
-class TeamPage extends StatefulWidget {
-  static const String routeName = "profile_page";
+class TeamPage extends StatelessWidget {
+  static const String routeName = "team_page";
 
-  const TeamPage({Key? key, required this.team, this.refreshTeamListCard})
+  const TeamPage(
+      {Key? key, this.teamModel, this.refreshTeamListCard, this.teamId})
       : super(key: key);
 
-  final TeamModel team;
+  final TeamModel? teamModel;
+  final String? teamId; //for out teams to be updated
   final VoidCallback? refreshTeamListCard;
-  @override
-  State<TeamPage> createState() => _TeamPageState();
-}
 
-class _TeamPageState extends State<TeamPage> {
   final int STRANGER_VIEW = 0;
   final int MEMBER_VIEW = 1;
   final int CAPTAIN_VIEW = 2;
-
-  late int viewMode;
-
-  late TeamModel team;
-
-  @override
-  void initState() {
-    super.initState();
-
-    team = widget.team;
-
-    if (team.players.contains(Program.program.user)) {
-      if (team.captain == Program.program.user?.id) {
-        viewMode = CAPTAIN_VIEW;
-      } else {
-        viewMode = MEMBER_VIEW;
-      }
-    } else {
-      viewMode = STRANGER_VIEW;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,26 +41,57 @@ class _TeamPageState extends State<TeamPage> {
           padding: ProgramConstants.pagePadding,
           child: SizedBox(
             width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Stack(
+            child: BlocBuilder<TeamBloc, TeamState>(
+              builder: (context, state) {
+                print("ala");
+                late int viewMode;
+
+                late TeamModel team;
+
+                if (teamModel != null) {
+                  team = teamModel!;
+                } else {
+                  print("olay");
+                  print(teamId);
+                  print(state.teams!.length);
+                  team = state.teams!
+                      .firstWhere((element) => element.id == teamId);
+                  print(team.id);
+                }
+
+                if (team.players.contains(Program.program.user)) {
+                  if (team.captain == Program.program.user?.id) {
+                    viewMode = CAPTAIN_VIEW;
+                  } else {
+                    viewMode = MEMBER_VIEW;
+                  }
+                } else {
+                  viewMode = STRANGER_VIEW;
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TeamLogoTitle(
-                      teamModel: team,
-                      bigLogo: true,
+                    Stack(
+                      children: [
+                        TeamLogoTitle(
+                          teamModel: team,
+                          bigLogo: true,
+                        ),
+                        if (viewMode == CAPTAIN_VIEW)
+                          _buildEditTeamButton(context, team),
+                      ],
                     ),
-                    if (viewMode == CAPTAIN_VIEW) _buildEditTeamButton(),
+                    const SizedBox.square(dimension: 30),
+                    PlayerListInTeamCard(
+                      teamModel: team,
+                      updateTeam: updateTeam,
+                    ),
+                    const SizedBox.square(dimension: 30),
+                    if (viewMode != STRANGER_VIEW)
+                      _buildLeaveButton(context, team),
                   ],
-                ),
-                const SizedBox.square(dimension: 30),
-                PlayerListInTeamCard(
-                  teamModel: team,
-                  updateTeam: updateTeam,
-                ),
-                const SizedBox.square(dimension: 30),
-                if (viewMode != STRANGER_VIEW) _buildLeaveButton(context),
-              ],
+                );
+              },
             ),
           ),
         ),
@@ -90,7 +99,7 @@ class _TeamPageState extends State<TeamPage> {
     );
   }
 
-  Widget _buildEditTeamButton() {
+  Widget _buildEditTeamButton(BuildContext context, TeamModel team) {
     return Positioned(
       right: 0,
       bottom: 20,
@@ -120,7 +129,7 @@ class _TeamPageState extends State<TeamPage> {
     );
   }
 
-  Widget _buildLeaveButton(BuildContext context) {
+  Widget _buildLeaveButton(BuildContext context, TeamModel team) {
     return Align(
       alignment: Alignment.center,
       child: Material(
@@ -130,6 +139,7 @@ class _TeamPageState extends State<TeamPage> {
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () {
+            /*
             ProgramConstants.showBlurryBackground(
               context: context,
               child: QuitModal(
@@ -139,14 +149,15 @@ class _TeamPageState extends State<TeamPage> {
 
                   if (result) {
                     Program.program.user!.teams.remove(team.id);
-                    if (widget.refreshTeamListCard != null) {
-                      widget.refreshTeamListCard!();
+                    if (refreshTeamListCard != null) {
+                      refreshTeamListCard!();
                     }
                     Navigator.of(context).pop();
                   }
                 },
               ),
-            );
+            );*/
+            context.read<TeamBloc>().add(TeamChangeCaptain());
           },
           child: Container(
               width: 120,
@@ -167,9 +178,5 @@ class _TeamPageState extends State<TeamPage> {
     );
   }
 
-  updateTeam(TeamModel teamModel) {
-    setState(() {
-      team = teamModel;
-    });
-  }
+  updateTeam(TeamModel teamModel) {}
 }

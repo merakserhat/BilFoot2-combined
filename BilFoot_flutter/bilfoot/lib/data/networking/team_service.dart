@@ -38,6 +38,40 @@ class TeamService {
     return null;
   }
 
+  static Future<List<TeamModel>> getTeamsWithIds(
+      {required List<String> ids}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/get-teams-with-ids",
+      body: {"ids": ids},
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response get teams with ids");
+      return [];
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status get teams with ids");
+      print(response.body);
+      return [];
+    }
+
+    var jsonData = json.decode(response.body);
+    print(jsonData);
+    if (jsonData["teams"] != null) {
+      List<TeamModel> teams = (jsonData["teams"] as List<dynamic>)
+          .map((e) => TeamModel.fromJson(e))
+          .toList();
+
+      return teams;
+    }
+
+    return [];
+  }
+
   static Future<bool> createTeam({
     required String teamName,
     required String shortName,

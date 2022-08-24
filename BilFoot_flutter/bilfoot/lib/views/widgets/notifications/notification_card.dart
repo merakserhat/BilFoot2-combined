@@ -172,7 +172,7 @@ class _NotificationCardState extends State<NotificationCard> {
     } else if (widget.notificationModel.teamModel != null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              TeamPage(team: widget.notificationModel.teamModel!)));
+              TeamPage(teamModel: widget.notificationModel.teamModel!)));
     } else if (widget.notificationModel.matchModel != null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
@@ -204,7 +204,7 @@ class _NotificationCardState extends State<NotificationCard> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) =>
-                  TeamPage(team: widget.notificationModel.teamModel!),
+                  TeamPage(teamModel: widget.notificationModel.teamModel!),
             ),
           );
         }

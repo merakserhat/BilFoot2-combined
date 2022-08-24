@@ -1,6 +1,7 @@
 import 'package:bilfoot/data/models/player_model.dart';
+import 'package:equatable/equatable.dart';
 
-class TeamModel {
+class TeamModel extends Equatable {
   TeamModel({
     required this.id,
     required this.name,
@@ -41,7 +42,7 @@ class TeamModel {
           String? accentColor,
           List<PlayerModel>? players}) =>
       TeamModel(
-        id: id,
+        id: this.id,
         name: name ?? this.name,
         shortName: shortName ?? this.shortName,
         mainColor: mainColor ?? this.mainColor,
@@ -50,4 +51,8 @@ class TeamModel {
         captain: captain ?? this.captain,
         creator: creator ?? this.creator,
       );
+
+  @override
+  List<Object?> get props =>
+      [id, name, shortName, mainColor, accentColor, players, captain, creator];
 }
