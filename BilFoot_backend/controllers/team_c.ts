@@ -5,6 +5,7 @@ import Player, { IPlayer } from "../models/player";
 import Team, { ITeam } from "../models/team";
 import { Types, Schema, model, Document } from "mongoose";
 import { NotificationTypes } from "../utils/notification_types";
+import { ObjectId, ObjectIdLike } from "bson";
 
 export const createTeam = async (
   req: Request,
@@ -295,6 +296,24 @@ export const getTeamModel = async (
   }
 
   return res.status(200).json({ team_model });
+};
+
+export const getTeamsWithIds = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { ids } = req.body;
+
+  if (!Array.isArray(ids)) {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const idObjectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
+
+  const teams = await Team.find({ _id: idObjectIds }).populate("players");
+
+  return res.status(200).json({ teams });
 };
 
 export const quitTeam = async (

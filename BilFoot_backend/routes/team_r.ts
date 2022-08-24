@@ -3,6 +3,7 @@ import {
   createTeam,
   getTeamInvitation,
   getTeamModel,
+  getTeamsWithIds,
   inviteToTeam,
   kickPlayer,
   makeCaptain,
@@ -18,6 +19,7 @@ router.get("/get-team-invitation", isAuth, getTeamInvitation);
 router.post("/make-captain", isAuth, makeCaptain);
 router.post("/kick-player", isAuth, kickPlayer);
 router.get("/get-team-model", getTeamModel);
+router.post("/get-teams-with-ids", getTeamsWithIds);
 router.post("/quit-team", isAuth, quitTeam);
 
 export default router;
