@@ -11,6 +11,7 @@ import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:bilfoot/views/widgets/bilfoot_button.dart';
 import 'package:bilfoot/views/widgets/modals/quit_modal.dart';
+import 'package:bilfoot/views/widgets/spinners/spinner.dart';
 import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,20 +44,21 @@ class TeamPage extends StatelessWidget {
             width: double.infinity,
             child: BlocBuilder<TeamBloc, TeamState>(
               builder: (context, state) {
-                print("ala");
                 late int viewMode;
 
-                late TeamModel team;
+                TeamModel? team;
 
                 if (teamModel != null) {
                   team = teamModel!;
                 } else {
-                  print("olay");
-                  print(teamId);
-                  print(state.teams!.length);
-                  team = state.teams!
-                      .firstWhere((element) => element.id == teamId);
-                  print(team.id);
+                  try {
+                    team = state.teams!
+                        .firstWhere((element) => element.id == teamId);
+                  } catch (e) {}
+                }
+
+                if (team == null) {
+                  return const Center(child: Spinner());
                 }
 
                 if (team.players.contains(Program.program.user)) {
@@ -68,6 +70,7 @@ class TeamPage extends StatelessWidget {
                 } else {
                   viewMode = STRANGER_VIEW;
                 }
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -146,11 +149,8 @@ class TeamPage extends StatelessWidget {
                   Navigator.of(context).pop();
 
                   if (result) {
-                    Program.program.user!.teams.remove(team.id);
-                    if (refreshTeamListCard != null) {
-                      refreshTeamListCard!();
-                    }
                     Navigator.of(context).pop();
+                    context.read<TeamBloc>().add(TeamQuitTeam(teamId: team.id));
                   }
                 },
               ),

@@ -63,7 +63,17 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
     emit(state.copWith(teams: [changedTeam, ...teams]));
   }
 
-  _teamQuitTeam(TeamQuitTeam event, Emitter<TeamState> emit) {}
+  _teamQuitTeam(TeamQuitTeam event, Emitter<TeamState> emit) {
+    Program.program.user!.teams.remove(event.teamId);
+
+    List<TeamModel> teams = state.teams ?? [];
+
+    teams.removeWhere((element) => element.id == event.teamId);
+
+    print("annen");
+    emit(state.copWith(
+        teams: teams, teamCount: Program.program.user!.teams.length));
+  }
 
   _teamGetTeams(TeamGetTeams event, Emitter<TeamState> emit) async {
     if (Program.program.user != null) {
