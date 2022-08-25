@@ -6,12 +6,10 @@ import 'package:bilfoot/views/widgets/team_add_member_panel.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListInTeamCard extends StatelessWidget {
-  const PlayerListInTeamCard(
-      {Key? key, required this.teamModel, required this.updateTeam})
+  const PlayerListInTeamCard({Key? key, required this.teamModel})
       : super(key: key);
 
   final TeamModel teamModel;
-  final Function(TeamModel teamModel) updateTeam;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,6 @@ class PlayerListInTeamCard extends StatelessWidget {
                         isAuthorized: teamModel.captain == player.id,
                         isForTeam: true,
                         teamModel: teamModel,
-                        updateTeam: updateTeam,
                       ),
                     )
                     .toList(),

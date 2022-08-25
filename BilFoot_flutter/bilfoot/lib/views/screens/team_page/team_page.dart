@@ -84,7 +84,6 @@ class TeamPage extends StatelessWidget {
                     const SizedBox.square(dimension: 30),
                     PlayerListInTeamCard(
                       teamModel: team,
-                      updateTeam: updateTeam,
                     ),
                     const SizedBox.square(dimension: 30),
                     if (viewMode != STRANGER_VIEW)
@@ -139,7 +138,6 @@ class TeamPage extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () {
-            /*
             ProgramConstants.showBlurryBackground(
               context: context,
               child: QuitModal(
@@ -156,8 +154,7 @@ class TeamPage extends StatelessWidget {
                   }
                 },
               ),
-            );*/
-            context.read<TeamBloc>().add(TeamChangeCaptain());
+            );
           },
           child: Container(
               width: 120,
@@ -177,6 +174,4 @@ class TeamPage extends StatelessWidget {
       ),
     );
   }
-
-  updateTeam(TeamModel teamModel) {}
 }

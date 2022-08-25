@@ -7,7 +7,15 @@ abstract class TeamEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class TeamChangeCaptain extends TeamEvent {}
+class TeamChangeCaptain extends TeamEvent {
+  final String teamId;
+  final String newCaptainId;
+
+  const TeamChangeCaptain({required this.teamId, required this.newCaptainId});
+
+  @override
+  List<Object?> get props => [teamId, newCaptainId];
+}
 
 class TeamKickPlayer extends TeamEvent {}
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
@@ -25,6 +26,24 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
     emit(state.copWith(teams: [
       patates.copyWith(players: [...patates.players, Program.program.ali])
     ]));*/
+
+    TeamModel? changedTeam;
+
+    for (TeamModel team in state.teams!) {
+      if (team.id == event.teamId) {
+        changedTeam = team;
+      }
+    }
+
+    if (changedTeam == null) return;
+
+    List<TeamModel> teams = state.teams ?? [];
+
+    teams.removeWhere((element) => element.id == event.teamId);
+
+    changedTeam = changedTeam.copyWith(captain: event.newCaptainId);
+
+    emit(state.copWith(teams: [changedTeam, ...teams]));
   }
 
   _teamKickPlayer(TeamKickPlayer event, Emitter<TeamState> emit) {}
