@@ -116,10 +116,6 @@ class PlayerListItem extends StatelessWidget {
                           Navigator.of(context).pop();
 
                           if (result) {
-                            /*if (updateTeam != null) {
-                              updateTeam!(
-                                  teamModel!.copyWith(captain: playerModel.id));
-                            }*/
                             context.read<TeamBloc>().add(
                                   TeamChangeCaptain(
                                     teamId: teamModel!.id,
@@ -148,11 +144,12 @@ class PlayerListItem extends StatelessWidget {
                       Navigator.of(context).pop();
 
                       if (result) {
-                        /* if (updateTeam != null) {
-                          teamModel!.players.remove(playerModel);
-                          updateTeam!(teamModel!);
-                        }*/
-                        Navigator.of(context).pop();
+                        context.read<TeamBloc>().add(
+                              TeamKickPlayer(
+                                teamId: teamModel!.id,
+                                kickedPlayerId: playerModel.id,
+                              ),
+                            );
                       }
                     },
                     playerModel: playerModel,

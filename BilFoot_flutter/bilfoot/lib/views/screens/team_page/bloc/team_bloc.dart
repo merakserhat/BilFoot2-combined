@@ -20,13 +20,6 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
   }
 
   _teamChangeCaptain(TeamChangeCaptain event, Emitter<TeamState> emit) {
-    /*List<TeamModel> teams = state.teams!;
-    TeamModel patates = teams[0];
-    patates.players.add(Program.program.memduh);
-    emit(state.copWith(teams: [
-      patates.copyWith(players: [...patates.players, Program.program.ali])
-    ]));*/
-
     TeamModel? changedTeam;
 
     for (TeamModel team in state.teams!) {
@@ -46,7 +39,29 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
     emit(state.copWith(teams: [changedTeam, ...teams]));
   }
 
-  _teamKickPlayer(TeamKickPlayer event, Emitter<TeamState> emit) {}
+  _teamKickPlayer(TeamKickPlayer event, Emitter<TeamState> emit) {
+    TeamModel? changedTeam;
+
+    for (TeamModel team in state.teams!) {
+      if (team.id == event.teamId) {
+        changedTeam = team;
+      }
+    }
+
+    if (changedTeam == null) return;
+
+    List<TeamModel> teams = state.teams ?? [];
+
+    teams.removeWhere((element) => element.id == event.teamId);
+
+    List<PlayerModel> players = changedTeam.players;
+
+    players.removeWhere((element) => element.id == event.kickedPlayerId);
+
+    changedTeam = changedTeam.copyWith(players: [...players]);
+
+    emit(state.copWith(teams: [changedTeam, ...teams]));
+  }
 
   _teamQuitTeam(TeamQuitTeam event, Emitter<TeamState> emit) {}
 

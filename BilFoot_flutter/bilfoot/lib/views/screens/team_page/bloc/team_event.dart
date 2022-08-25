@@ -17,7 +17,15 @@ class TeamChangeCaptain extends TeamEvent {
   List<Object?> get props => [teamId, newCaptainId];
 }
 
-class TeamKickPlayer extends TeamEvent {}
+class TeamKickPlayer extends TeamEvent {
+  final String teamId;
+  final String kickedPlayerId;
+
+  const TeamKickPlayer({required this.teamId, required this.kickedPlayerId});
+
+  @override
+  List<Object?> get props => [teamId, kickedPlayerId];
+}
 
 class TeamQuitTeam extends TeamEvent {}
 
