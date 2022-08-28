@@ -116,9 +116,11 @@ class TeamService {
   static Future<bool> getTeamInvitation({
     required String fromId,
     required String toId,
+    required String teamId,
   }) async {
     Response? response = await BilfootClient().sendRequest(
-      path: "team/get-team-invitation?from_id=$fromId&to_id=$toId",
+      path:
+          "team/get-team-invitation?from_id=$fromId&to_id=$toId&team_id=$teamId",
     );
 
     if (response == null) {

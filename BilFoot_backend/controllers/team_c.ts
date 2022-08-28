@@ -108,9 +108,13 @@ export const getTeamInvitation = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { from_id, to_id } = req.query;
+  const { from_id, to_id, team_id } = req.query;
 
-  if (typeof from_id != "string" || typeof to_id != "string") {
+  if (
+    typeof from_id != "string" ||
+    typeof to_id != "string" ||
+    typeof team_id != "string"
+  ) {
     return res.status(400).json({ error: "missing parameters" });
   }
 
@@ -118,6 +122,8 @@ export const getTeamInvitation = async (
     from: new mongoose.Types.ObjectId(from_id),
     to: new mongoose.Types.ObjectId(to_id),
     type: NotificationTypes.teamInvitation,
+    status: "vending",
+    team_model: new mongoose.Types.ObjectId(team_id),
   });
 
   console.log(invitation);
