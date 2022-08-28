@@ -70,7 +70,6 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
 
     teams.removeWhere((element) => element.id == event.teamId);
 
-    print("annen");
     emit(state.copWith(
         teams: teams, teamCount: Program.program.user!.teams.length));
   }
@@ -84,5 +83,12 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
     }
   }
 
-  _teamCreateTeam(TeamCreateTeam event, Emitter<TeamState> emit) {}
+  _teamCreateTeam(TeamCreateTeam event, Emitter<TeamState> emit) async {
+    if (Program.program.user != null) {
+      List<TeamModel> teams = await BilfootClient()
+          .getTeamsWithIds(ids: Program.program.user!.teams);
+
+      emit(state.copWith(teams: teams, teamCount: teams.length));
+    }
+  }
 }

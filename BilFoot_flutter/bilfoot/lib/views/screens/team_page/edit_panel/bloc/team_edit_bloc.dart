@@ -1,7 +1,9 @@
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'team_edit_event.dart';
 part 'team_edit_state.dart';
@@ -56,11 +58,16 @@ class TeamEditBloc extends Bloc<TeamEditEvent, TeamEditState> {
 
     if (state.isEditing) {
     } else {
-      await BilfootClient().createTeam(
+      bool isSuccess = await BilfootClient().createTeam(
           shortName: state.shortName,
           teamName: state.name,
           mainColor: state.mainColor,
           accentColor: state.accentColor);
+
+      if (isSuccess) {
+        event.teamBloc.add(TeamCreateTeam());
+        event.onFinished();
+      }
     }
 
     emit(state.copyWith(isLoading: false));
