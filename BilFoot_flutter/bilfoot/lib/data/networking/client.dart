@@ -41,6 +41,7 @@ class BilfootClient {
   final quitTeam = TeamService.quitTeam;
   final makeCaptain = TeamService.makeCaptain;
   final kickPlayer = TeamService.kickPlayer;
+  final editTeam = TeamService.editTeam;
 
   //Announcement endpoints
   final announcementTest = AnnouncementService.test;

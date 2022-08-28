@@ -255,4 +255,38 @@ class TeamService {
     print(response.body);
     return true;
   }
+
+  static Future<bool> editTeam({
+    String? teamName,
+    String? shortName,
+    String? mainColor,
+    String? accentColor,
+    required String teamId,
+  }) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/edit-team",
+      body: {
+        "name": teamName,
+        "short_name": shortName,
+        "main_color": mainColor,
+        "accent_color": accentColor,
+        "team_id": teamId
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response editTeam");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status editTeam");
+      print(response.body);
+      return false;
+    }
+    return true;
+  }
 }
