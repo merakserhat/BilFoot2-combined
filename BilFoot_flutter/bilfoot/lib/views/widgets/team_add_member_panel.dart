@@ -176,8 +176,13 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
   }
 
   void _getInvitationStatus() async {
-    invitationSent = await BilfootClient().getTeamInvitation(
-        fromId: Program.program.user!.id, toId: widget.playerModel.id);
+    if (widget.teamModel != null) {
+      invitationSent = await BilfootClient().getTeamInvitation(
+          fromId: Program.program.user!.id,
+          toId: widget.playerModel.id,
+          teamId: widget.teamModel!.id);
+    }
+
     setState(() {
       invitationStatusLoading = false;
     });

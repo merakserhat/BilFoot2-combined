@@ -8,6 +8,7 @@ class TeamEditState extends Equatable {
     this.accentColor = "ffffff",
     this.isEditing = false,
     this.isLoading = false,
+    this.teamId,
   });
 
   final bool isLoading;
@@ -16,6 +17,7 @@ class TeamEditState extends Equatable {
   final String shortName;
   final String mainColor;
   final String accentColor;
+  final String? teamId;
 
   TeamEditState copyWith({
     String? name,
@@ -24,6 +26,7 @@ class TeamEditState extends Equatable {
     String? accentColor,
     bool? isEditing,
     bool? isLoading,
+    String? teamId,
   }) =>
       TeamEditState(
         name: name ?? this.name,
@@ -32,9 +35,10 @@ class TeamEditState extends Equatable {
         accentColor: accentColor ?? this.accentColor,
         isEditing: isEditing ?? this.isEditing,
         isLoading: isLoading ?? this.isLoading,
+        teamId: teamId ?? this.teamId,
       );
 
   @override
-  List<Object> get props =>
-      [name, shortName, mainColor, accentColor, isEditing, isLoading];
+  List<Object?> get props =>
+      [name, shortName, mainColor, accentColor, isEditing, isLoading, teamId];
 }

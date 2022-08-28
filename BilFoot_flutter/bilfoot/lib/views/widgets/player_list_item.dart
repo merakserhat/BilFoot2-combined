@@ -6,10 +6,12 @@ import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
+import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
 import 'package:bilfoot/views/widgets/modals/kick_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/networking/client.dart';
 
@@ -24,7 +26,6 @@ class PlayerListItem extends StatelessWidget {
     required this.isAuthorized,
     this.teamModel,
     this.matchModel,
-    this.updateTeam,
   }) : super(key: key);
 
   final PlayerModel playerModel;
@@ -35,7 +36,6 @@ class PlayerListItem extends StatelessWidget {
   final bool isAuthorized;
   final TeamModel? teamModel;
   final MatchModel? matchModel;
-  final Function(TeamModel teamModel)? updateTeam;
 
   @override
   Widget build(BuildContext context) {
@@ -116,11 +116,12 @@ class PlayerListItem extends StatelessWidget {
                           Navigator.of(context).pop();
 
                           if (result) {
-                            if (updateTeam != null) {
-                              updateTeam!(
-                                  teamModel!.copyWith(captain: playerModel.id));
-                            }
-                            Navigator.of(context).pop();
+                            context.read<TeamBloc>().add(
+                                  TeamChangeCaptain(
+                                    teamId: teamModel!.id,
+                                    newCaptainId: playerModel.id,
+                                  ),
+                                );
                           }
                         },
                         playerModel: playerModel,
@@ -143,11 +144,12 @@ class PlayerListItem extends StatelessWidget {
                       Navigator.of(context).pop();
 
                       if (result) {
-                        if (updateTeam != null) {
-                          teamModel!.players.remove(playerModel);
-                          updateTeam!(teamModel!);
-                        }
-                        Navigator.of(context).pop();
+                        context.read<TeamBloc>().add(
+                              TeamKickPlayer(
+                                teamId: teamModel!.id,
+                                kickedPlayerId: playerModel.id,
+                              ),
+                            );
                       }
                     },
                     playerModel: playerModel,

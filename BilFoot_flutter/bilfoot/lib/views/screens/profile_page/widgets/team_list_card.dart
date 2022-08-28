@@ -1,6 +1,7 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/views/screens/profile_page/widgets/team_list_item.dart';
+import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/edit_panel/bloc/team_edit_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/edit_panel/team_edit_panel.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,13 @@ class TeamListCard extends StatefulWidget {
 }
 
 class _TeamListCardState extends State<TeamListCard> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<TeamBloc>().add(TeamGetTeams());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,8 +58,7 @@ class _TeamListCardState extends State<TeamListCard> {
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 children: widget.playerModel.teams
-                    .map((e) => TeamListItem(
-                        teamId: e, refreshTeamListCard: refreshTeamListCard))
+                    .map((e) => TeamListItem(teamId: e))
                     .toList(),
               ),
             ),
@@ -87,9 +94,5 @@ class _TeamListCardState extends State<TeamListCard> {
         ),
       ),
     );
-  }
-
-  refreshTeamListCard() {
-    setState(() {});
   }
 }

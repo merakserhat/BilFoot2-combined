@@ -83,9 +83,9 @@ class _NotificationCardState extends State<NotificationCard> {
   String _getText() {
     switch (widget.notificationModel.type) {
       case Notifications.teamInvitation:
-        return "[b]${widget.notificationModel.from.fullName}[] has invited you to the team [b]${widget.notificationModel.teamModel!.name}[] ";
+        return "[b]${widget.notificationModel.from.fullName}[] has invited you to the team [b]${widget.notificationModel.teamModel?.name}[] ";
       case Notifications.teamInvitationAnswer:
-        return "[b]${widget.notificationModel.from.fullName}[] has [${widget.notificationModel.status == "accepted" ? "#00ff00" : "#ff0000"}] ${widget.notificationModel.status} [] your invitation to the team [b]${widget.notificationModel.teamModel?.name}[] ";
+        return "[b]${widget.notificationModel.from.fullName}[] has [${widget.notificationModel.status == "accepted" ? "#4CAF50" : "#F44336"}] ${widget.notificationModel.status} [] your invitation to the team [b]${widget.notificationModel.teamModel?.name}[] ";
     }
     return "Şimdilik burası [b]admin[] için bir deneme [#ff0000]notification[] testi.";
   }
@@ -172,7 +172,7 @@ class _NotificationCardState extends State<NotificationCard> {
     } else if (widget.notificationModel.teamModel != null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              TeamPage(team: widget.notificationModel.teamModel!)));
+              TeamPage(teamModel: widget.notificationModel.teamModel!)));
     } else if (widget.notificationModel.matchModel != null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
@@ -204,7 +204,7 @@ class _NotificationCardState extends State<NotificationCard> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) =>
-                  TeamPage(team: widget.notificationModel.teamModel!),
+                  TeamPage(teamModel: widget.notificationModel.teamModel!),
             ),
           );
         }

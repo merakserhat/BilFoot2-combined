@@ -5,6 +5,7 @@ import Player, { IPlayer } from "../models/player";
 import Team, { ITeam } from "../models/team";
 import { Types, Schema, model, Document } from "mongoose";
 import { NotificationTypes } from "../utils/notification_types";
+import { ObjectId, ObjectIdLike } from "bson";
 
 export const createTeam = async (
   req: Request,
@@ -107,9 +108,13 @@ export const getTeamInvitation = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { from_id, to_id } = req.query;
+  const { from_id, to_id, team_id } = req.query;
 
-  if (typeof from_id != "string" || typeof to_id != "string") {
+  if (
+    typeof from_id != "string" ||
+    typeof to_id != "string" ||
+    typeof team_id != "string"
+  ) {
     return res.status(400).json({ error: "missing parameters" });
   }
 
@@ -117,6 +122,8 @@ export const getTeamInvitation = async (
     from: new mongoose.Types.ObjectId(from_id),
     to: new mongoose.Types.ObjectId(to_id),
     type: NotificationTypes.teamInvitation,
+    status: "vending",
+    team_model: new mongoose.Types.ObjectId(team_id),
   });
 
   console.log(invitation);
@@ -297,6 +304,24 @@ export const getTeamModel = async (
   return res.status(200).json({ team_model });
 };
 
+export const getTeamsWithIds = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { ids } = req.body;
+
+  if (!Array.isArray(ids)) {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const idObjectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
+
+  const teams = await Team.find({ _id: idObjectIds }).populate("players");
+
+  return res.status(200).json({ teams });
+};
+
 export const quitTeam = async (
   req: Request,
   res: Response,
@@ -330,6 +355,15 @@ export const quitTeam = async (
   );
 
   if (team_model.players.length === 0) {
+    //if we remove the team, we should also remove the notifications those are related to this team
+    const notifications = await Notification.find({
+      team_model: team_model._id,
+    });
+
+    for (let i = 0; i < notifications.length; i++) {
+      notifications[i].remove();
+    }
+
     team_model.remove();
   } else if (team_model.captain.equals(user_model._id)) {
     team_model.captain = team_model.players[0];
@@ -341,4 +375,43 @@ export const quitTeam = async (
   console.log(user_model);
 
   return res.status(200).json({ message: "success" });
+};
+
+export const editTeam = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, short_name, main_color, accent_color, team_id } = req.body;
+
+  if (typeof team_id != "string") {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const user_email = (req as any).user_email;
+
+  if (user_email == undefined) {
+    return res.status(500).json({ error: "user_mail is not defined" });
+  }
+
+  const user = await Player.findOne({ email: user_email });
+
+  if (user == null) {
+    return res.status(400).json({ error: "User not found" });
+  }
+
+  const team_model = await Team.findById(new mongoose.Types.ObjectId(team_id));
+
+  if (team_model == null) {
+    return res.status(400).json({ error: "Team Model not found" });
+  }
+
+  team_model.name = name ?? team_model.name;
+  team_model.short_name = short_name ?? team_model.short_name;
+  team_model.main_color = main_color ?? team_model.main_color;
+  team_model.accent_color = accent_color ?? team_model.accent_color;
+
+  await team_model.save();
+
+  res.status(201).json({ message: "successful" });
 };

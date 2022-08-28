@@ -35,11 +35,13 @@ class BilfootClient {
   final teamTest = TeamService.test;
   final createTeam = TeamService.createTeam;
   final getTeamModel = TeamService.getTeamModel;
+  final getTeamsWithIds = TeamService.getTeamsWithIds;
   final getTeamInvitation = TeamService.getTeamInvitation;
   final inviteToTeam = TeamService.inviteToTeam;
   final quitTeam = TeamService.quitTeam;
   final makeCaptain = TeamService.makeCaptain;
   final kickPlayer = TeamService.kickPlayer;
+  final editTeam = TeamService.editTeam;
 
   //Announcement endpoints
   final announcementTest = AnnouncementService.test;
