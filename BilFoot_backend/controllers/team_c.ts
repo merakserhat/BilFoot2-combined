@@ -355,6 +355,15 @@ export const quitTeam = async (
   );
 
   if (team_model.players.length === 0) {
+    //if we remove the team, we should also remove the notifications those are related to this team
+    const notifications = await Notification.find({
+      team_model: team_model._id,
+    });
+
+    for (let i = 0; i < notifications.length; i++) {
+      notifications[i].remove();
+    }
+
     team_model.remove();
   } else if (team_model.captain.equals(user_model._id)) {
     team_model.captain = team_model.players[0];
