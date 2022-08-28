@@ -361,3 +361,42 @@ export const quitTeam = async (
 
   return res.status(200).json({ message: "success" });
 };
+
+export const editTeam = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, short_name, main_color, accent_color, team_id } = req.body;
+
+  if (typeof team_id != "string") {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const user_email = (req as any).user_email;
+
+  if (user_email == undefined) {
+    return res.status(500).json({ error: "user_mail is not defined" });
+  }
+
+  const user = await Player.findOne({ email: user_email });
+
+  if (user == null) {
+    return res.status(400).json({ error: "User not found" });
+  }
+
+  const team_model = await Team.findById(new mongoose.Types.ObjectId(team_id));
+
+  if (team_model == null) {
+    return res.status(400).json({ error: "Team Model not found" });
+  }
+
+  team_model.name = name ?? team_model.name;
+  team_model.short_name = short_name ?? team_model.short_name;
+  team_model.main_color = main_color ?? team_model.main_color;
+  team_model.accent_color = accent_color ?? team_model.accent_color;
+
+  await team_model.save();
+
+  res.status(201).json({ message: "successful" });
+};
