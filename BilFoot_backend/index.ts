@@ -11,6 +11,7 @@ import chatRoute from "./routes/chat_r";
 import playerRoute from "./routes/player_r";
 import teamRoute from "./routes/team_r";
 import adminRoute from "./routes/admin_r";
+import matchRoute from "./routes/match_r";
 import { getApp, initializeApp } from "firebase-admin/app";
 import admin from "firebase-admin";
 
@@ -35,6 +36,7 @@ app.use("/chat", chatRoute);
 app.use("/player", playerRoute);
 app.use("/team", teamRoute);
 app.use("/admin", adminRoute);
+app.use("/match", adminRoute);
 // #endregion<
 
 console.log(process.env.MONGODB_URI);
