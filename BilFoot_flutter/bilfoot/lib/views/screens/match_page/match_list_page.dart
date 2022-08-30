@@ -3,7 +3,6 @@ import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/views/screens/match_page/create_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
-import 'package:bilfoot/views/screens/match_page/widgets/match_table.dart';
 import "package:flutter/material.dart";
 
 class MatchListPage extends StatefulWidget {
@@ -13,12 +12,15 @@ class MatchListPage extends StatefulWidget {
   State<MatchListPage> createState() => _MatchListPageState();
 }
 
-class _MatchListPageState extends State<MatchListPage> {
+class _MatchListPageState extends State<MatchListPage>
+    with TickerProviderStateMixin {
   late MatchModel matchModel;
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     matchModel = MatchModel(
         date: "17 Tem. Salı",
         hour: "9-10",
@@ -33,28 +35,78 @@ class _MatchListPageState extends State<MatchListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: ProgramConstants.pagePadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: Column(
           children: [
-            Text(
-              "Current Matches:",
-              style:
-                  Theme.of(context).textTheme.headline5!.copyWith(fontSize: 20),
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1.5,
+                    color: Color(0xFFDDDDFF),
+                  ),
+                ),
+              ),
+              child: TabBar(
+                indicatorWeight: 4,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                labelColor: Theme.of(context).primaryColor,
+                indicatorColor: Theme.of(context).primaryColor,
+                unselectedLabelColor: Colors.black87,
+                labelStyle: Theme.of(context).textTheme.headline4,
+                controller: _tabController,
+                tabs: const [
+                  Tab(
+                    text: "Upcoming",
+                  ),
+                  Tab(
+                    text: "Past",
+                  ),
+                ],
+              ),
             ),
-            const SizedBox.square(dimension: 10),
-            const MatchTable(),
-            const SizedBox.square(dimension: 20),
-            Row(
-              children: [
-                const SizedBox.square(dimension: 5),
-                _buildMyMatchesButton(context),
-                const SizedBox.square(dimension: 10),
-                _buildNewMatchButton(context),
-                const SizedBox.square(dimension: 5),
-              ],
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: <Widget>[
+                  SingleChildScrollView(
+                    child: Column(
+                      children: List.generate(10,
+                              (index) => MatchListItem(matchModel: matchModel))
+                          .toList(),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: List.generate(10,
+                              (index) => MatchListItem(matchModel: matchModel))
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    width: 1.5,
+                    color: Color(0xFFDDDDFF),
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const SizedBox.square(dimension: 5),
+                  _buildMyMatchesButton(context),
+                  const SizedBox.square(dimension: 10),
+                  _buildNewMatchButton(context),
+                  const SizedBox.square(dimension: 5),
+                ],
+              ),
             )
           ],
         ),
