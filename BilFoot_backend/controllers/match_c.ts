@@ -13,15 +13,17 @@ export const getMatches = async (
   const past_matches = await Match.find({
     date: { $lt: new Date(Date.now()) },
   })
+    .populate("players creator")
     .limit(10)
     .sort({ date: -1 });
-  const next_matches = await Match.find({
+  const upcoming_matches = await Match.find({
     date: { $gt: new Date(Date.now()) },
   })
+    .populate("players creator")
     .limit(10)
     .sort({ date: -1 });
 
-  res.status(200).json({ past_matches, next_matches });
+  res.status(200).json({ past_matches, upcoming_matches });
 };
 
 export const createMatch = async (
@@ -62,17 +64,20 @@ export const createMatch = async (
     is_pitch_approved,
     creator: user._id,
     players: [user._id],
-    authPlayers: [user._id],
+    auth_players: [user._id],
     show_on_table,
     people_limit,
   });
 
   const newMatch = await match.save();
+  const matchPopulated = await Match.findById(newMatch._id).populate(
+    "players creator"
+  );
 
   //   user.matches.push(newTeam._id);
   //   await user.save();
 
-  return res.status(201).json({ match: newMatch });
+  return res.status(201).json({ match: matchPopulated });
 };
 
 export const kickPlayer = async (

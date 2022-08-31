@@ -36,7 +36,7 @@ app.use("/chat", chatRoute);
 app.use("/player", playerRoute);
 app.use("/team", teamRoute);
 app.use("/admin", adminRoute);
-app.use("/match", adminRoute);
+app.use("/match", matchRoute);
 // #endregion<
 
 console.log(process.env.MONGODB_URI);
