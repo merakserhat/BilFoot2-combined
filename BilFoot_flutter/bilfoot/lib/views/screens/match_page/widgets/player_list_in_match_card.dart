@@ -1,10 +1,8 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
-import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
-import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/views/widgets/add_member_panel.dart';
 import 'package:bilfoot/views/widgets/player_list_item.dart';
-import 'package:bilfoot/views/widgets/team_add_member_panel.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListInMatchCard extends StatelessWidget {
@@ -43,14 +41,17 @@ class PlayerListInMatchCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
-                children: matchModel.people
+                children: matchModel.players
                     .map((player) => PlayerListItem(
                           playerModel: player,
-                          isCurrentAuthorized: matchModel.authPeople.contains(
-                              Program.program.user), //e == teamModel.captain;
+                          matchModel: matchModel,
+                          isCurrentAuthorized: matchModel.authPlayers.contains(
+                              Program
+                                  .program.user!.id), //e == teamModel.captain;
                           isCurrentUser: player == Program.program.user,
-                          isAuthorized: matchModel.authPeople.contains(player),
-                          isStrangerView: !matchModel.people.contains(
+                          isAuthorized:
+                              matchModel.authPlayers.contains(player.id),
+                          isStrangerView: !matchModel.players.contains(
                             Program.program.user,
                           ), //e == Program.program.user
                         ))

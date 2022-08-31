@@ -5,14 +5,18 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class QuitModal extends StatelessWidget {
   final VoidCallback onAccepted;
+  final bool quitMatch;
 
-  const QuitModal({Key? key, required this.onAccepted}) : super(key: key);
+  const QuitModal({Key? key, required this.onAccepted, this.quitMatch = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseModal(
         type: Type.ANSWERABLE,
-        text: "Takımdan ayrılmak istiyor musun?",
+        text: quitMatch
+            ? "Maçtan ayrılmak istiyor musun?"
+            : "Takımdan ayrılmak istiyor musun?",
         //icon: //findicon,
         accepButtonText: "Evet",
         onAccepted: onAccepted,

@@ -1,6 +1,4 @@
-import 'package:bilfoot/config/utils/hex_color.dart';
 import 'package:bilfoot/data/models/match_model.dart';
-import 'package:bilfoot/data/models/team_model.dart';
 import 'package:flutter/material.dart';
 
 class MatchInfo extends StatelessWidget {
@@ -15,7 +13,7 @@ class MatchInfo extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            '${matchModel.date} ${matchModel.hour}',
+            '${MatchModel.formatDate(matchModel.date)} ${matchModel.hour}',
             style: Theme.of(context).textTheme.headline1,
           ),
           Text(

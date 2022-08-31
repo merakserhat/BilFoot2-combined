@@ -7,9 +7,13 @@ import 'package:flutter/src/widgets/framework.dart';
 class KickModal extends StatelessWidget {
   final VoidCallback onAccepted;
   final PlayerModel playerModel;
+  final bool kickFromMatch;
 
   const KickModal(
-      {Key? key, required this.onAccepted, required this.playerModel})
+      {Key? key,
+      required this.onAccepted,
+      required this.playerModel,
+      this.kickFromMatch = false})
       : super(key: key);
 
   @override
@@ -17,7 +21,7 @@ class KickModal extends StatelessWidget {
     return BaseModal(
         type: Type.ANSWERABLE,
         text:
-            "${playerModel.fullName} adlı oyuncuyu takımdan atmak istiyor musun?",
+            "${playerModel.fullName} adlı oyuncuyu ${kickFromMatch ? "maçtan" : "takımdan"} atmak istiyor musun?",
         //icon: //findicon,
         accepButtonText: "Evet",
         onAccepted: onAccepted,

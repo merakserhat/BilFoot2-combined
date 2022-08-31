@@ -1,9 +1,12 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
+import 'package:bilfoot/views/screens/match_page/bloc/match_bloc.dart';
 import 'package:bilfoot/views/screens/match_page/create_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
+import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MatchListPage extends StatefulWidget {
   const MatchListPage({Key? key}) : super(key: key);
@@ -21,14 +24,16 @@ class _MatchListPageState extends State<MatchListPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    context.read<MatchBloc>().add(MatchGetMatches());
     matchModel = MatchModel(
-        date: "17 Tem. Salı",
+        id: "12s",
+        date: DateTime.now(),
         hour: "9-10",
         pitch: "Merkez 1",
         isPitchApproved: false,
         creator: Program.program.dummyPlayer2,
-        people: [Program.program.dummyPlayer2, Program.program.dummyPlayer1],
-        authPeople: [Program.program.dummyPlayer2],
+        players: [Program.program.dummyPlayer2, Program.program.dummyPlayer1],
+        authPlayers: [Program.program.dummyPlayer2.id],
         showOnTable: true,
         peopleLimit: 14);
   }
@@ -68,24 +73,36 @@ class _MatchListPageState extends State<MatchListPage>
               ),
             ),
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: List.generate(10,
-                              (index) => MatchListItem(matchModel: matchModel))
-                          .toList(),
-                    ),
-                  ),
-                  SingleChildScrollView(
-                    child: Column(
-                      children: List.generate(10,
-                              (index) => MatchListItem(matchModel: matchModel))
-                          .toList(),
-                    ),
-                  ),
-                ],
+              child: BlocBuilder<MatchBloc, MatchState>(
+                builder: (context, state) {
+                  return TabBarView(
+                    controller: _tabController,
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        child: state.upcomingMatches == null
+                            ? const Center(
+                                child: SpinnerSmall(),
+                              )
+                            : Column(
+                                children: state.upcomingMatches!
+                                    .map((e) => MatchListItem(matchModel: e))
+                                    .toList(),
+                              ),
+                      ),
+                      SingleChildScrollView(
+                        child: state.pastMatches == null
+                            ? const Center(
+                                child: SpinnerSmall(),
+                              )
+                            : Column(
+                                children: state.pastMatches!
+                                    .map((e) => MatchListItem(matchModel: e))
+                                    .toList(),
+                              ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
             Container(

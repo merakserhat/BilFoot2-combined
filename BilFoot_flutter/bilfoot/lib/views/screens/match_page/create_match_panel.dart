@@ -1,9 +1,13 @@
+import 'package:bilfoot/data/models/match_model.dart';
+import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/match_page/match_detailed_page.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/date_picker.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_hour_selector.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/pitch_selector.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/publish_checkbox.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/reserved_checkbox.dart';
 import 'package:bilfoot/views/widgets/panel_base.dart';
+import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import "package:flutter/material.dart";
 import 'package:numberpicker/numberpicker.dart';
 
@@ -21,6 +25,7 @@ class _CreateMatchPanelState extends State<CreateMatchPanel> {
   String selectedPitch = "Merkez 1";
   String selectedHour = "??-??";
   DateTime selectedDate = DateTime.now();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -70,25 +75,27 @@ class _CreateMatchPanelState extends State<CreateMatchPanel> {
           selectedPitch: selectedPitch,
         ),
         const SizedBox.square(dimension: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("People Limit: "),
-            SizedBox(
-              width: 150,
-              child: NumberPicker(
-                  minValue: 1,
-                  maxValue: 20,
-                  axis: Axis.horizontal,
-                  itemWidth: 50,
-                  value: peopleLimit,
-                  onChanged: (value) {
-                    setState(() {
-                      peopleLimit = value;
-                    });
-                  }),
-            ),
-          ],
+        FittedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("People Limit: "),
+              SizedBox(
+                width: 150,
+                child: NumberPicker(
+                    minValue: 1,
+                    maxValue: 20,
+                    axis: Axis.horizontal,
+                    itemWidth: 50,
+                    value: peopleLimit,
+                    onChanged: (value) {
+                      setState(() {
+                        peopleLimit = value;
+                      });
+                    }),
+              ),
+            ],
+          ),
         ),
         const SizedBox.square(dimension: 20),
         ReservedCheckbox(
@@ -110,10 +117,34 @@ class _CreateMatchPanelState extends State<CreateMatchPanel> {
           defaultValue: isPublish,
         ),
         const SizedBox.square(dimension: 20),
-        ElevatedButton(
-          onPressed: () {},
-          child: const Text("Create"),
-        ),
+        isLoading
+            ? SpinnerSmall()
+            : ElevatedButton(
+                onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  MatchModel? matchModel = await BilfootClient().createMatch(
+                      date: selectedDate,
+                      hour: selectedHour,
+                      isPitchApproved: isReserved,
+                      peopleLimit: peopleLimit,
+                      pitch: selectedPitch,
+                      showOnTable: isPublish);
+
+                  if (matchModel != null) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => MatchDetailedPage(match: matchModel)));
+                  } else {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                },
+                child: const Text("Create"),
+              ),
         const SizedBox.square(dimension: 10),
       ],
     ));

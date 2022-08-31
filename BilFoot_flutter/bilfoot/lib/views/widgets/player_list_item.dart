@@ -39,6 +39,9 @@ class PlayerListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(isAuthorized);
+    print(matchModel);
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: ProgramConstants.getDefaultBoxShadow(context),
@@ -96,6 +99,54 @@ class PlayerListItem extends StatelessWidget {
     );
   }
 
+  void handleKickClicked(BuildContext context) {
+    if (isForTeam) {
+      ProgramConstants.showBlurryBackground(
+        context: context,
+        child: KickModal(
+          onAccepted: () async {
+            bool result = await BilfootClient().kickFromTeam(
+                teamId: teamModel!.id, kickedPlayerId: playerModel.id);
+            Navigator.of(context).pop();
+
+            if (result) {
+              context.read<TeamBloc>().add(
+                    TeamKickPlayer(
+                      teamId: teamModel!.id,
+                      kickedPlayerId: playerModel.id,
+                    ),
+                  );
+            }
+          },
+          playerModel: playerModel,
+        ),
+      );
+    } else {
+      ProgramConstants.showBlurryBackground(
+        context: context,
+        child: KickModal(
+          onAccepted: () async {
+            bool result = await BilfootClient().kickFromMatch(
+                matchId: matchModel!.id, kickedPlayerId: playerModel.id);
+            Navigator.of(context).pop();
+
+            //TODO
+            // if (result) {
+            //   context.read<TeamBloc>().add(
+            //         TeamKickPlayer(
+            //           teamId: teamModel!.id,
+            //           kickedPlayerId: playerModel.id,
+            //         ),
+            //       );
+            // }
+          },
+          playerModel: playerModel,
+          kickFromMatch: true,
+        ),
+      );
+    }
+  }
+
   Widget _buildButtons(BuildContext context) {
     List<Widget> buttons = [];
 
@@ -130,32 +181,34 @@ class PlayerListItem extends StatelessWidget {
                   })
               : CircularButtonInListItem(
                   buttonType: CircularButtonInListItem.authButton,
-                  onTap: () {}),
-          CircularButtonInListItem(
-              buttonType: CircularButtonInListItem.kickButton,
-              onTap: () {
-                ProgramConstants.showBlurryBackground(
-                  context: context,
-                  child: KickModal(
-                    onAccepted: () async {
-                      bool result = await BilfootClient().kickPlayer(
-                          teamId: teamModel!.id,
-                          kickedPlayerId: playerModel.id);
-                      Navigator.of(context).pop();
+                  onTap: () {
+                    ProgramConstants.showBlurryBackground(
+                      context: context,
+                      child: CaptainModal(
+                        onAccepted: () async {
+                          bool result = await BilfootClient().giveAuth(
+                              matchId: matchModel!.id,
+                              newAuthId: playerModel.id);
+                          Navigator.of(context).pop();
 
-                      if (result) {
-                        context.read<TeamBloc>().add(
-                              TeamKickPlayer(
-                                teamId: teamModel!.id,
-                                kickedPlayerId: playerModel.id,
-                              ),
-                            );
-                      }
-                    },
-                    playerModel: playerModel,
-                  ),
-                );
-              }),
+                          //TODO
+                          // if (result) {
+                          //   context.read<TeamBloc>().add(
+                          //         TeamChangeCaptain(
+                          //           teamId: teamModel!.id,
+                          //           newCaptainId: playerModel.id,
+                          //         ),
+                          //       );
+                          // }
+                        },
+                        playerModel: playerModel,
+                      ),
+                    );
+                  }),
+          CircularButtonInListItem(
+            buttonType: CircularButtonInListItem.kickButton,
+            onTap: () => handleKickClicked(context),
+          ),
           ...buttons
         ];
       }

@@ -1,8 +1,8 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/views/widgets/add_member_panel.dart';
 import 'package:bilfoot/views/widgets/player_list_item.dart';
-import 'package:bilfoot/views/widgets/team_add_member_panel.dart';
 import 'package:flutter/material.dart';
 
 class PlayerListInTeamCard extends StatelessWidget {
