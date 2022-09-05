@@ -13,33 +13,23 @@ class MatchInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(2),
       child: Expanded(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            matchModel.isPitchApproved
-                ? const Icon(
-                    Icons.check_circle_outline,
-                    color: Colors.green,
-                    size: 32,
-                  )
-                : const Icon(
-                    Icons.warning_amber,
-                    color: Colors.amber,
-                    size: 32,
-                  ),
-            Column(
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   matchModel.hour,
-                  textAlign: TextAlign.end,
+                  textAlign: TextAlign.start,
                   style: Theme.of(context).textTheme.headline2!.copyWith(
                       color: Colors.black87, fontWeight: FontWeight.bold),
                 ),
+                const Text(" / "),
                 Text(
                   matchModel.date,
                   textAlign: TextAlign.start,
@@ -50,32 +40,53 @@ class MatchInfo extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(
+              height: 8,
+            ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  height: 20,
-                  child: Image.asset(
-                    "assets/images/pitch.png",
-                    color: Colors.green,
-                  ),
-                ),
-                const SizedBox(
-                  width: 1,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                      child: Image.asset(
+                        "assets/images/pitch.png",
+                        color: Color.fromARGB(255, 0, 75, 3),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 1,
+                    ),
+                    Text(
+                      matchModel.pitch,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    matchModel.isPitchApproved
+                        ? const Icon(
+                            Icons.check_circle_outline,
+                            color: Colors.green,
+                            size: 16,
+                          )
+                        : const Icon(
+                            Icons.warning_amber,
+                            color: Colors.amber,
+                            size: 16,
+                          ),
+                  ],
                 ),
                 Text(
-                  matchModel.pitch,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline2,
+                  '${matchModel.people.length}/${matchModel.peopleLimit}',
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                        color: _getColor(),
+                      ),
                 ),
               ],
-            ),
-            Text(
-              '${matchModel.people.length}/${matchModel.peopleLimit}',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline2!
-                  .copyWith(color: _getColor(), fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -98,11 +109,9 @@ class MatchInfo extends StatelessWidget {
 
   Color _getColor() {
     if (matchModel.people.length == matchModel.peopleLimit) {
-      return Colors.red;
-    } else if (matchModel.people.length >= matchModel.peopleLimit - 3) {
-      return Colors.orange;
+      return Colors.grey;
     } else {
-      return MyThemes.darkTheme.primaryColor;
+      return Colors.black;
     }
   }
 }
