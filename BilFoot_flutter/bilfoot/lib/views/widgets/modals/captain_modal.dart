@@ -15,7 +15,6 @@ class CaptainModal extends StatelessWidget {
     return BaseModal(
       type: Type.ANSWERABLE,
       text: "Oyuncuyu kaptan yapmak istiyor musun?",
-      //icon: //findicon,
       accepButtonText: "Evet",
       onAccepted: onAccepted,
       onRefused: () {
