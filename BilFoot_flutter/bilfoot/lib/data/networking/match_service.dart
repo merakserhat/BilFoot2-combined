@@ -132,7 +132,7 @@ class MatchService {
   }) async {
     Response? response = await BilfootClient().sendRequest(
       path:
-          "team/get-match-invitation?from_id=$fromId&to_id=$toId&match_id=$matchId",
+          "match/get-match-invitation?from_id=$fromId&to_id=$toId&match_id=$matchId",
     );
 
     if (response == null) {
@@ -163,9 +163,9 @@ class MatchService {
     required String toId,
   }) async {
     Response? response = await BilfootClient().sendRequest(
-      path: "team/invite-to-match",
+      path: "match/invite-to-match",
       body: {
-        "team_id": matchId,
+        "match_id": matchId,
         "to_id": toId,
       },
       method: Method.post,

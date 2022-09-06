@@ -39,7 +39,10 @@ class MatchModel {
     peopleLimit = json['people_limit'];
   }
 
-  static String formatDate(DateTime dateTime) {
+  static String formatDate(DateTime? dateTime) {
+    if (dateTime == null) {
+      return "";
+    }
     final DateFormat formatter = DateFormat('M MMMM E');
     return formatter.format(dateTime);
   }

@@ -64,6 +64,7 @@ class _AddMemberPanelState extends State<AddMemberPanel> {
                       .map((player) => AddPlayerListItem(
                             playerModel: player,
                             teamModel: widget.teamModel,
+                            matchModel: widget.matchModel,
                             key: ValueKey(player.id),
                           ))
                       .toList()),
@@ -102,6 +103,9 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
     super.initState();
     invitationSent = widget.invitationAlreadySent;
     _getInvitationStatus();
+
+    print("match model");
+    print(widget.matchModel);
   }
 
   @override
@@ -193,6 +197,9 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
           fromId: Program.program.user!.id,
           toId: widget.playerModel.id,
           matchId: widget.matchModel!.id);
+
+      print("invitationSent");
+      print(invitationSent);
     }
 
     setState(() {

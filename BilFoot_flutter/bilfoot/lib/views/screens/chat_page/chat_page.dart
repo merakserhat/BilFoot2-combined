@@ -130,7 +130,7 @@ class ChatPageState extends State<ChatPage> {
       controller: _scrollController,
       child: Builder(
         builder: (context) {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
             _scrollController.animateTo(
               _scrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 200),
