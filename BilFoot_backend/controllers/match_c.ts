@@ -23,6 +23,8 @@ export const getMatches = async (
     .limit(10)
     .sort({ date: -1 });
 
+  console.log("past_matches", past_matches);
+
   res.status(200).json({ past_matches, upcoming_matches });
 };
 
@@ -58,7 +60,7 @@ export const createMatch = async (
   }
 
   const match = new Match({
-    date: new Date(date),
+    date: new Date(`${date}Z`),
     hour,
     pitch,
     is_pitch_approved,

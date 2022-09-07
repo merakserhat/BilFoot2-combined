@@ -43,7 +43,7 @@ class MatchModel {
     if (dateTime == null) {
       return "";
     }
-    final DateFormat formatter = DateFormat('M MMMM E');
+    final DateFormat formatter = DateFormat('d MMMM E');
     return formatter.format(dateTime);
   }
 
