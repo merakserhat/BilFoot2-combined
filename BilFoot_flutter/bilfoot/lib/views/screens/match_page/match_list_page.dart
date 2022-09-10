@@ -43,89 +43,91 @@ class _MatchListPageState extends State<MatchListPage>
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 1.5,
-                    color: Color(0xFFDDDDFF),
+        body: BlocBuilder<MatchBloc, MatchState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 1.5,
+                        color: Color(0xFFDDDDFF),
+                      ),
+                    ),
+                  ),
+                  child: AbsorbPointer(
+                    absorbing: state.isLoading,
+                    child: TabBar(
+                      indicatorWeight: 4,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      labelColor: Theme.of(context).primaryColor,
+                      indicatorColor: Theme.of(context).primaryColor,
+                      unselectedLabelColor: Colors.black87,
+                      labelStyle: Theme.of(context).textTheme.headline4,
+                      controller: _tabController,
+                      tabs: const [
+                        Tab(
+                          text: "Upcoming",
+                        ),
+                        Tab(
+                          text: "Past",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              child: TabBar(
-                indicatorWeight: 4,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                labelColor: Theme.of(context).primaryColor,
-                indicatorColor: Theme.of(context).primaryColor,
-                unselectedLabelColor: Colors.black87,
-                labelStyle: Theme.of(context).textTheme.headline4,
-                controller: _tabController,
-                tabs: const [
-                  Tab(
-                    text: "Upcoming",
-                  ),
-                  Tab(
-                    text: "Past",
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<MatchBloc, MatchState>(
-                builder: (context, state) {
-                  return TabBarView(
-                    controller: _tabController,
-                    children: <Widget>[
-                      SingleChildScrollView(
-                        child: state.upcomingMatches == null
-                            ? const Center(
-                                child: SpinnerSmall(),
-                              )
-                            : Column(
-                                children: state.upcomingMatches!
-                                    .map((e) => MatchListItem(matchModel: e))
-                                    .toList(),
-                              ),
+                Expanded(
+                    child: TabBarView(
+                  controller: _tabController,
+                  children: <Widget>[
+                    state.upcomingMatches == null || state.isLoading
+                        ? const Center(
+                            child: SpinnerSmall(),
+                          )
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: state.upcomingMatches!
+                                  .map((e) => MatchListItem(matchModel: e))
+                                  .toList(),
+                            ),
+                          ),
+                    state.pastMatches == null || state.isLoading
+                        ? const Center(
+                            child: SpinnerSmall(),
+                          )
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: state.pastMatches!
+                                  .map((e) => MatchListItem(matchModel: e))
+                                  .toList(),
+                            ),
+                          ),
+                  ],
+                )),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        width: 1.5,
+                        color: Color(0xFFDDDDFF),
                       ),
-                      SingleChildScrollView(
-                        child: state.pastMatches == null
-                            ? const Center(
-                                child: SpinnerSmall(),
-                              )
-                            : Column(
-                                children: state.pastMatches!
-                                    .map((e) => MatchListItem(matchModel: e))
-                                    .toList(),
-                              ),
-                      ),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox.square(dimension: 5),
+                      _buildMyMatchesButton(context),
+                      const SizedBox.square(dimension: 10),
+                      _buildNewMatchButton(context),
+                      const SizedBox.square(dimension: 5),
                     ],
-                  );
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    width: 1.5,
-                    color: Color(0xFFDDDDFF),
                   ),
-                ),
-              ),
-              child: Row(
-                children: [
-                  const SizedBox.square(dimension: 5),
-                  _buildMyMatchesButton(context),
-                  const SizedBox.square(dimension: 10),
-                  _buildNewMatchButton(context),
-                  const SizedBox.square(dimension: 5),
-                ],
-              ),
-            )
-          ],
+                )
+              ],
+            );
+          },
         ),
       ),
     );

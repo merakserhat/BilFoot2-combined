@@ -12,13 +12,15 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
   }
 
   _matchGetMatches(MatchGetMatches event, Emitter<MatchState> emit) async {
+    emit(state.copyWith(isLoading: true));
     Map<String, List<MatchModel>>? matches = await BilfootClient().getMatches();
 
     if (matches != null) {
       emit(
         MatchState(
             pastMatches: matches["past_matches"],
-            upcomingMatches: matches["upcoming_matches"]),
+            upcomingMatches: matches["upcoming_matches"],
+            isLoading: false),
       );
     }
   }

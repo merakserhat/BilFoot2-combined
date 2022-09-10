@@ -4,12 +4,14 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/match_page/bloc/match_bloc.dart';
 import 'package:bilfoot/views/screens/match_page/create_edit_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_info.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/player_list_in_match_card.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:bilfoot/views/widgets/modals/quit_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MatchDetailedPage extends StatefulWidget {
   static const String routeName = "match_detailed_page";
@@ -45,32 +47,38 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const BasicAppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: ProgramConstants.pagePadding,
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Stack(
-                  children: [
-                    MatchInfo(matchModel: widget.match),
-                    if (viewMode == AUTH_VIEW) _buildEditMatchButton(),
-                  ],
-                ),
-                const SizedBox.square(dimension: 30),
-                PlayerListInMatchCard(
-                  matchModel: widget.match,
-                  isAuthView: viewMode == AUTH_VIEW,
-                ),
-                const SizedBox.square(dimension: 30),
-                viewMode != STRANGER_VIEW
-                    ? _buildLeaveButton(context)
-                    : _buildJoinButton(context),
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<MatchBloc>().add(MatchGetMatches());
+        return true;
+      },
+      child: Scaffold(
+        appBar: const BasicAppBar(),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: ProgramConstants.pagePadding,
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      MatchInfo(matchModel: widget.match),
+                      if (viewMode == AUTH_VIEW) _buildEditMatchButton(),
+                    ],
+                  ),
+                  const SizedBox.square(dimension: 30),
+                  PlayerListInMatchCard(
+                    matchModel: widget.match,
+                    isAuthView: viewMode == AUTH_VIEW,
+                  ),
+                  const SizedBox.square(dimension: 30),
+                  viewMode != STRANGER_VIEW
+                      ? _buildLeaveButton(context)
+                      : _buildJoinButton(context),
+                ],
+              ),
             ),
           ),
         ),
@@ -123,10 +131,10 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
                       await BilfootClient().quitMatch(matchId: widget.match.id);
                   Navigator.of(context).pop();
 
-                  // if (result) {
-                  //   Navigator.of(context).pop();
-                  //   context.read<TeamBloc>().add(TeamQuitTeam(teamId: team.id));
-                  // }
+                  if (result) {
+                    context.read<MatchBloc>().add(MatchGetMatches());
+                    Navigator.of(context).pop();
+                  }
                 },
                 quitMatch: true,
               ),
