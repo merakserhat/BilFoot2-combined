@@ -30,12 +30,16 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
 
   late int viewMode;
 
+  late MatchModel currentMatch;
+
   @override
   void initState() {
     super.initState();
 
-    if (widget.match.players.contains(Program.program.user)) {
-      if (widget.match.authPlayers.contains(Program.program.user!.id)) {
+    currentMatch = widget.match;
+
+    if (currentMatch.players.contains(Program.program.user)) {
+      if (currentMatch.authPlayers.contains(Program.program.user!.id)) {
         viewMode = AUTH_VIEW;
       } else {
         viewMode = MEMBER_VIEW;
@@ -64,14 +68,15 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
                 children: [
                   Stack(
                     children: [
-                      MatchInfo(matchModel: widget.match),
+                      MatchInfo(matchModel: currentMatch),
                       if (viewMode == AUTH_VIEW) _buildEditMatchButton(),
                     ],
                   ),
                   const SizedBox.square(dimension: 30),
                   PlayerListInMatchCard(
-                    matchModel: widget.match,
+                    matchModel: currentMatch,
                     isAuthView: viewMode == AUTH_VIEW,
+                    updateMatch: onMatchEdited,
                   ),
                   const SizedBox.square(dimension: 30),
                   viewMode != STRANGER_VIEW
@@ -95,7 +100,8 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
           ProgramConstants.showBlurryBackground(
               context: context,
               child: CreateEditMatchPanel(
-                prevMatch: widget.match,
+                prevMatch: currentMatch,
+                onMatchEdited: onMatchEdited,
               ));
         },
         child: Container(
@@ -128,7 +134,7 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
               child: QuitModal(
                 onAccepted: () async {
                   bool result =
-                      await BilfootClient().quitMatch(matchId: widget.match.id);
+                      await BilfootClient().quitMatch(matchId: currentMatch.id);
                   Navigator.of(context).pop();
 
                   if (result) {
@@ -188,5 +194,11 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
         ),
       ),
     );
+  }
+
+  onMatchEdited(MatchModel matchModel) {
+    setState(() {
+      currentMatch = matchModel;
+    });
   }
 }

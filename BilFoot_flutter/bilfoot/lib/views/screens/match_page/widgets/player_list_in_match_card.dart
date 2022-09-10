@@ -7,11 +7,15 @@ import 'package:flutter/material.dart';
 
 class PlayerListInMatchCard extends StatelessWidget {
   const PlayerListInMatchCard(
-      {Key? key, required this.matchModel, required this.isAuthView})
+      {Key? key,
+      required this.matchModel,
+      required this.isAuthView,
+      required this.updateMatch})
       : super(key: key);
 
   final MatchModel matchModel;
   final bool isAuthView;
+  final Function(MatchModel) updateMatch;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +47,7 @@ class PlayerListInMatchCard extends StatelessWidget {
               child: Column(
                 children: matchModel.players
                     .map((player) => PlayerListItem(
+                          updateMatch: updateMatch,
                           playerModel: player,
                           matchModel: matchModel,
                           isCurrentAuthorized: matchModel.authPlayers.contains(

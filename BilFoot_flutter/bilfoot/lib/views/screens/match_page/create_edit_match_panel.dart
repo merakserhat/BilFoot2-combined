@@ -12,9 +12,11 @@ import "package:flutter/material.dart";
 import 'package:numberpicker/numberpicker.dart';
 
 class CreateEditMatchPanel extends StatefulWidget {
-  const CreateEditMatchPanel({Key? key, this.prevMatch}) : super(key: key);
+  const CreateEditMatchPanel({Key? key, this.prevMatch, this.onMatchEdited})
+      : super(key: key);
 
   final MatchModel? prevMatch;
+  final Function(MatchModel matchModel)? onMatchEdited;
 
   @override
   State<CreateEditMatchPanel> createState() => _CreateEditMatchPanelState();
@@ -145,7 +147,7 @@ class _CreateEditMatchPanelState extends State<CreateEditMatchPanel> {
                         editMatch();
                       }
                     },
-                    child: const Text("Create"),
+                    child: Text(widget.prevMatch == null ? "Create" : "Edit"),
                   ),
                   widget.prevMatch == null
                       ? Container()
@@ -196,7 +198,7 @@ class _CreateEditMatchPanelState extends State<CreateEditMatchPanel> {
       isLoading = true;
     });
 
-    bool isSuccess = await BilfootClient().editMatch(
+    MatchModel? matchModel = await BilfootClient().editMatch(
         id: widget.prevMatch!.id,
         date: selectedDate,
         hour: selectedHour,
@@ -205,9 +207,9 @@ class _CreateEditMatchPanelState extends State<CreateEditMatchPanel> {
         pitch: selectedPitch,
         showOnTable: isPublish);
 
-    if (isSuccess) {
+    if (matchModel != null) {
       Navigator.of(context).pop();
-      //TODO: Update page
+      widget.onMatchEdited!(matchModel);
     } else {
       setState(() {
         isLoading = false;

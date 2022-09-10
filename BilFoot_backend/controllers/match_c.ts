@@ -137,9 +137,15 @@ export const editMatch = async (
   match.people_limit = people_limit || match.people_limit;
   match.date = date ? new Date(date) : match.date;
 
-  await match.save();
+  const newMatch = await match.save();
+  const matchPopulated = await Match.findById(newMatch._id).populate(
+    "players creator"
+  );
 
-  return res.status(201).json({ message: "match successfully edited" });
+  //   user.matches.push(newTeam._id);
+  //   await user.save();
+
+  return res.status(201).json({ match: matchPopulated });
 };
 
 export const kickPlayer = async (

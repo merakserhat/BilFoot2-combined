@@ -234,7 +234,7 @@ class MatchService {
   }
 
   //  const { date, hour, pitch, is_pitch_approved, show_on_table, people_limit } =
-  static Future<bool> editMatch({
+  static Future<MatchModel?> editMatch({
     required String id,
     required DateTime date,
     required String hour,
@@ -260,16 +260,23 @@ class MatchService {
     if (response == null) {
       //TODO
       print("null response editTeam");
-      return false;
+      return null;
     }
 
     if (response.statusCode >= 400) {
       //TODO
       print("error status editTeam");
       print(response.body);
-      return false;
+      return null;
     }
 
-    return true;
+    var jsonData = json.decode(response.body);
+    print("createTeam");
+    print(jsonData);
+    if (jsonData["match"] != null) {
+      return MatchModel.fromJson(jsonData["match"]);
+    }
+
+    return null;
   }
 }

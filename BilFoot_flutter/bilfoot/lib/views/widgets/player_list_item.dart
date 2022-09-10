@@ -27,6 +27,7 @@ class PlayerListItem extends StatelessWidget {
     required this.isAuthorized,
     this.teamModel,
     this.matchModel,
+    this.updateMatch,
   }) : super(key: key);
 
   final PlayerModel playerModel;
@@ -37,6 +38,7 @@ class PlayerListItem extends StatelessWidget {
   final bool isAuthorized;
   final TeamModel? teamModel;
   final MatchModel? matchModel;
+  final Function(MatchModel)? updateMatch;
 
   @override
   Widget build(BuildContext context) {
@@ -131,15 +133,10 @@ class PlayerListItem extends StatelessWidget {
                 matchId: matchModel!.id, kickedPlayerId: playerModel.id);
             Navigator.of(context).pop();
 
-            //TODO
-            // if (result) {
-            //   context.read<TeamBloc>().add(
-            //         TeamKickPlayer(
-            //           teamId: teamModel!.id,
-            //           kickedPlayerId: playerModel.id,
-            //         ),
-            //       );
-            // }
+            if (result) {
+              matchModel!.players.remove(playerModel);
+              updateMatch!(matchModel!);
+            }
           },
           playerModel: playerModel,
           kickFromMatch: true,
@@ -192,15 +189,10 @@ class PlayerListItem extends StatelessWidget {
                               newAuthId: playerModel.id);
                           Navigator.of(context).pop();
 
-                          //TODO
-                          // if (result) {
-                          //   context.read<TeamBloc>().add(
-                          //         TeamChangeCaptain(
-                          //           teamId: teamModel!.id,
-                          //           newCaptainId: playerModel.id,
-                          //         ),
-                          //       );
-                          // }
+                          if (result) {
+                            matchModel!.authPlayers.add(playerModel.id);
+                            updateMatch!(matchModel!);
+                          }
                         },
                         playerModel: playerModel,
                       ),
