@@ -2,6 +2,7 @@ import express from "express";
 import {
   createMatch,
   editMatch,
+  removeMatch,
   getMatches,
   getMatchInvitation,
   giveAuth,
@@ -15,6 +16,7 @@ const router = express.Router();
 
 router.post("/create-match", isAuth, createMatch);
 router.post("/edit-match", isAuth, editMatch);
+router.post("/remove-match", isAuth, removeMatch);
 router.post("/invite-to-match", isAuth, inviteToMatch);
 router.get("/get-match-invitation", isAuth, getMatchInvitation);
 router.post("/give-auth", isAuth, giveAuth);

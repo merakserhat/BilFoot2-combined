@@ -1,14 +1,18 @@
+import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/match_page/bloc/match_bloc.dart';
 import 'package:bilfoot/views/screens/match_page/match_detailed_page.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/date_picker.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_hour_selector.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/pitch_selector.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/publish_checkbox.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/reserved_checkbox.dart';
+import 'package:bilfoot/views/widgets/modals/remove_match_modal.dart';
 import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class CreateEditMatchPanel extends StatefulWidget {
@@ -152,8 +156,29 @@ class _CreateEditMatchPanelState extends State<CreateEditMatchPanel> {
                   widget.prevMatch == null
                       ? Container()
                       : TextButton(
-                          onPressed: () {
-                            //TODO: Remove match
+                          onPressed: () async {
+                            ProgramConstants.showBlurryBackground(
+                              context: context,
+                              child: RemoveMatchModal(
+                                onAccepted: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  Navigator.of(context).pop();
+
+                                  bool isSuccess = await BilfootClient()
+                                      .removeMatch(id: widget.prevMatch!.id);
+
+                                  if (isSuccess) {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    context
+                                        .read<MatchBloc>()
+                                        .add(MatchGetMatches());
+                                  }
+                                },
+                              ),
+                            );
                           },
                           child: Text(
                             "Remove Match",

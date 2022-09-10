@@ -82,6 +82,47 @@ export const createMatch = async (
   return res.status(201).json({ match: matchPopulated });
 };
 
+export const removeMatch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { match_id } = req.body;
+
+  if (match_id == undefined) {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const user_email = (req as any).user_email;
+
+  if (user_email == undefined) {
+    return res.status(500).json({ error: "user_mail is not defined" });
+  }
+
+  const user = await Player.findOne({ email: user_email });
+
+  if (user == null) {
+    return res.status(400).json({ error: "User not found" });
+  }
+
+  let match = await Match.findById(new mongoose.Types.ObjectId(match_id));
+
+  if (match == null) {
+    return res.status(400).json({ error: "Match not found" });
+  }
+
+  //check if the player has auth to remove match
+  if (!match.auth_players.includes(user.id)) {
+    return res
+      .status(401)
+      .json({ error: "You are not authorized to edit match" });
+  }
+
+  await match.remove();
+
+  res.status(200).json({ message: "success" });
+};
+
 export const editMatch = async (
   req: Request,
   res: Response,
@@ -115,11 +156,11 @@ export const editMatch = async (
 
   let match = await Match.findById(new mongoose.Types.ObjectId(match_id));
 
-  //check if the player has auth to edit match
   if (match == null) {
     return res.status(400).json({ error: "Match not found" });
   }
 
+  //check if the player has auth to edit match
   if (!match.auth_players.includes(user.id)) {
     return res
       .status(401)

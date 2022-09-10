@@ -279,4 +279,31 @@ class MatchService {
 
     return null;
   }
+
+  static Future<bool> removeMatch({
+    required String id,
+  }) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "match/remove-match",
+      body: {
+        "match_id": id,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response removeMatch");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status removeMatch");
+      print(response.body);
+      return false;
+    }
+
+    return true;
+  }
 }

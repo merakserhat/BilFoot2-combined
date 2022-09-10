@@ -42,6 +42,7 @@ class BilfootClient {
   final inviteToMatch = MatchService.inviteToMatch;
   final createMatch = MatchService.createMatch;
   final editMatch = MatchService.editMatch;
+  final removeMatch = MatchService.removeMatch;
 
   //Team endpoints
   final teamTest = TeamService.test;
