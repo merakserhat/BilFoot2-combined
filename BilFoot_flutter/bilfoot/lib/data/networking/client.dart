@@ -19,7 +19,7 @@ class BilfootClient {
   }
 
   //get ip by writing ipconfig to terminal
-  final String baseUrl = "http://192.168.43.172:8080/";
+  final String baseUrl = "http://192.168.1.101:8080/";
 
   //User endpoints
   final userTest = UserService.test;
@@ -41,6 +41,7 @@ class BilfootClient {
   final getMatchInvitation = MatchService.getMatchInvitation;
   final inviteToMatch = MatchService.inviteToMatch;
   final createMatch = MatchService.createMatch;
+  final editMatch = MatchService.editMatch;
 
   //Team endpoints
   final teamTest = TeamService.test;

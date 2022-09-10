@@ -4,6 +4,7 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/match_page/create_edit_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_info.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/player_list_in_match_card.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
@@ -83,14 +84,11 @@ class _MatchDetailedPageState extends State<MatchDetailedPage> {
       bottom: 0,
       child: GestureDetector(
         onTap: () {
-          /*ProgramConstants.showBlurryBackground(
+          ProgramConstants.showBlurryBackground(
               context: context,
-              child: BlocProvider(
-                create: (context) => TeamEditBloc(),
-                child: TeamEditPanel(
-                  teamModel: widget.team,
-                ),
-              ));*/
+              child: CreateEditMatchPanel(
+                prevMatch: widget.match,
+              ));
         },
         child: Container(
           width: 32,

@@ -82,6 +82,66 @@ export const createMatch = async (
   return res.status(201).json({ match: matchPopulated });
 };
 
+export const editMatch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let {
+    match_id,
+    date,
+    hour,
+    pitch,
+    is_pitch_approved,
+    show_on_table,
+    people_limit,
+  } = req.body;
+
+  if (match_id == undefined) {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const user_email = (req as any).user_email;
+
+  if (user_email == undefined) {
+    return res.status(500).json({ error: "user_mail is not defined" });
+  }
+
+  const user = await Player.findOne({ email: user_email });
+
+  if (user == null) {
+    return res.status(400).json({ error: "User not found" });
+  }
+
+  let match = await Match.findById(new mongoose.Types.ObjectId(match_id));
+
+  //check if the player has auth to edit match
+  if (match == null) {
+    return res.status(400).json({ error: "Match not found" });
+  }
+
+  if (!match.auth_players.includes(user.id)) {
+    return res
+      .status(401)
+      .json({ error: "You are not authorized to edit match" });
+  }
+
+  if (!date.includes("Z")) {
+    date = `${date}Z`;
+  }
+
+  match.hour = hour || match.hour;
+  match.pitch = pitch || match.pitch;
+  match.is_pitch_approved = is_pitch_approved || match.is_pitch_approved;
+  match.show_on_table = show_on_table || match.show_on_table;
+  match.people_limit = people_limit || match.people_limit;
+  match.date = date ? new Date(date) : match.date;
+
+  await match.save();
+
+  return res.status(201).json({ message: "match successfully edited" });
+};
+
 export const kickPlayer = async (
   req: Request,
   res: Response,

@@ -11,14 +11,16 @@ import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import "package:flutter/material.dart";
 import 'package:numberpicker/numberpicker.dart';
 
-class CreateMatchPanel extends StatefulWidget {
-  const CreateMatchPanel({Key? key}) : super(key: key);
+class CreateEditMatchPanel extends StatefulWidget {
+  const CreateEditMatchPanel({Key? key, this.prevMatch}) : super(key: key);
+
+  final MatchModel? prevMatch;
 
   @override
-  State<CreateMatchPanel> createState() => _CreateMatchPanelState();
+  State<CreateEditMatchPanel> createState() => _CreateEditMatchPanelState();
 }
 
-class _CreateMatchPanelState extends State<CreateMatchPanel> {
+class _CreateEditMatchPanelState extends State<CreateEditMatchPanel> {
   bool isReserved = false;
   bool isPublish = true;
   int peopleLimit = 12;
@@ -26,6 +28,20 @@ class _CreateMatchPanelState extends State<CreateMatchPanel> {
   String selectedHour = "??-??";
   DateTime selectedDate = DateTime.now();
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.prevMatch != null) {
+      isReserved = widget.prevMatch!.isPitchApproved;
+      isPublish = widget.prevMatch!.showOnTable;
+      peopleLimit = widget.prevMatch!.peopleLimit;
+      selectedPitch = widget.prevMatch!.pitch;
+      selectedHour = widget.prevMatch!.hour;
+      selectedDate = widget.prevMatch!.date;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,34 +135,83 @@ class _CreateMatchPanelState extends State<CreateMatchPanel> {
         const SizedBox.square(dimension: 20),
         isLoading
             ? SpinnerSmall()
-            : ElevatedButton(
-                onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-
-                  MatchModel? matchModel = await BilfootClient().createMatch(
-                      date: selectedDate,
-                      hour: selectedHour,
-                      isPitchApproved: isReserved,
-                      peopleLimit: peopleLimit,
-                      pitch: selectedPitch,
-                      showOnTable: isPublish);
-
-                  if (matchModel != null) {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => MatchDetailedPage(match: matchModel)));
-                  } else {
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }
-                },
-                child: const Text("Create"),
+            : Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (widget.prevMatch == null) {
+                        createMatch();
+                      } else {
+                        editMatch();
+                      }
+                    },
+                    child: const Text("Create"),
+                  ),
+                  widget.prevMatch == null
+                      ? Container()
+                      : TextButton(
+                          onPressed: () {
+                            //TODO: Remove match
+                          },
+                          child: Text(
+                            "Remove Match",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: Theme.of(context).errorColor),
+                          ))
+                ],
               ),
         const SizedBox.square(dimension: 10),
       ],
     ));
+  }
+
+  createMatch() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    MatchModel? matchModel = await BilfootClient().createMatch(
+        date: selectedDate,
+        hour: selectedHour,
+        isPitchApproved: isReserved,
+        peopleLimit: peopleLimit,
+        pitch: selectedPitch,
+        showOnTable: isPublish);
+
+    if (matchModel != null) {
+      Navigator.of(context).pop();
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => MatchDetailedPage(match: matchModel)));
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void editMatch() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    bool isSuccess = await BilfootClient().editMatch(
+        id: widget.prevMatch!.id,
+        date: selectedDate,
+        hour: selectedHour,
+        isPitchApproved: isReserved,
+        peopleLimit: peopleLimit,
+        pitch: selectedPitch,
+        showOnTable: isPublish);
+
+    if (isSuccess) {
+      Navigator.of(context).pop();
+      //TODO: Update page
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

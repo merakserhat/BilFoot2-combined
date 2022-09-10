@@ -232,4 +232,44 @@ class MatchService {
 
     return null;
   }
+
+  //  const { date, hour, pitch, is_pitch_approved, show_on_table, people_limit } =
+  static Future<bool> editMatch({
+    required String id,
+    required DateTime date,
+    required String hour,
+    required String pitch,
+    required bool isPitchApproved,
+    required bool showOnTable,
+    required int peopleLimit,
+  }) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "match/edit-match",
+      body: {
+        "match_id": id,
+        "date": date.toIso8601String(),
+        "hour": hour,
+        "pitch": pitch,
+        "is_pitch_approved": isPitchApproved,
+        "show_on_table": showOnTable,
+        "people_limit": peopleLimit,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response editTeam");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status editTeam");
+      print(response.body);
+      return false;
+    }
+
+    return true;
+  }
 }

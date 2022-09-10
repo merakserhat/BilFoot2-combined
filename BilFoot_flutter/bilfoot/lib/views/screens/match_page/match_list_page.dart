@@ -2,7 +2,7 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/views/screens/match_page/bloc/match_bloc.dart';
-import 'package:bilfoot/views/screens/match_page/create_match_panel.dart';
+import 'package:bilfoot/views/screens/match_page/create_edit_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
 import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import "package:flutter/material.dart";
@@ -160,7 +160,7 @@ class _MatchListPageState extends State<MatchListPage>
       child: InkWell(
         onTap: () {
           ProgramConstants.showBlurryBackground(
-              context: context, child: const CreateMatchPanel());
+              context: context, child: const CreateEditMatchPanel());
         },
         child: const SizedBox(
           height: 50,
