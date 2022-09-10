@@ -248,6 +248,8 @@ export const quitMatch = async (
   } else if (match_model.auth_players.length == 0) {
     match_model.auth_players = [match_model.players[0]];
     match_model.save();
+  } else {
+    match_model.save();
   }
 
   user_model.save();

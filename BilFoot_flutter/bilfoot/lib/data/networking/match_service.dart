@@ -72,7 +72,7 @@ class MatchService {
   static Future<bool> kickPlayer(
       {required String matchId, required String kickedPlayerId}) async {
     Response? response = await BilfootClient().sendRequest(
-      path: "team/kick-player",
+      path: "match/kick-player",
       body: {
         "match_id": matchId,
         "kicked_player_id": kickedPlayerId,
@@ -103,7 +103,7 @@ class MatchService {
       path: "match/give-auth",
       body: {
         "match_id": matchId,
-        "new_auth_id": newAuthId,
+        "auth_player_id": newAuthId,
       },
       method: Method.post,
     );

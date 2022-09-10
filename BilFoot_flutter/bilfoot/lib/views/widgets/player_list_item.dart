@@ -10,6 +10,7 @@ import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
 import 'package:bilfoot/views/widgets/modals/kick_modal.dart';
+import 'package:bilfoot/views/widgets/modals/match_auth_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -184,7 +185,7 @@ class PlayerListItem extends StatelessWidget {
                   onTap: () {
                     ProgramConstants.showBlurryBackground(
                       context: context,
-                      child: CaptainModal(
+                      child: MatchAuthModal(
                         onAccepted: () async {
                           bool result = await BilfootClient().giveAuth(
                               matchId: matchModel!.id,
