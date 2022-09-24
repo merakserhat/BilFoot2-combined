@@ -53,7 +53,7 @@ class MatchInfo extends StatelessWidget {
                       height: 20,
                       child: Image.asset(
                         "assets/images/pitch.png",
-                        color: Color.fromARGB(255, 0, 75, 3),
+                        color: Color.fromARGB(255, 3, 88, 6),
                       ),
                     ),
                     const SizedBox(
@@ -80,11 +80,23 @@ class MatchInfo extends StatelessWidget {
                           ),
                   ],
                 ),
-                Text(
-                  '${matchModel.people.length}/${matchModel.peopleLimit}',
-                  style: Theme.of(context).textTheme.headline2!.copyWith(
-                        color: _getColor(),
-                      ),
+                Row(
+                  children: [
+                    Text(
+                      '${matchModel.people.length}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline2!
+                          .copyWith(color: _getColor()),
+                    ),
+                    Text(
+                      '/${matchModel.peopleLimit}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline2!
+                          .copyWith(color: Colors.black),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -109,9 +121,9 @@ class MatchInfo extends StatelessWidget {
 
   Color _getColor() {
     if (matchModel.people.length == matchModel.peopleLimit) {
-      return Colors.grey;
+      return Color.fromARGB(255, 92, 6, 0);
     } else {
-      return Colors.black;
+      return Colors.blueGrey[500] as Color;
     }
   }
 }

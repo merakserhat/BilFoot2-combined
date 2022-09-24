@@ -20,6 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: SizedBox(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(36.0),
@@ -29,17 +30,29 @@ class _SettingsPageState extends State<SettingsPage> {
                       .headline1!
                       .copyWith(fontWeight: FontWeight.bold)),
             ),
-            const SettingsOptionItem(
-              label: "keksdsds",
-              icon: Icons.abc,
+
+            // ignore: prefer_const_constructors
+            SettingsOptionItem(
+              label: "Bildirimleri Yönet",
+              icon: Icons.arrow_forward_ios_rounded,
+              //TODO:
+              onClick: () {},
+            ),
+            SettingsOptionItem(
+              label: "Bİlfoot'u Değerlendir",
+              icon: Icons.arrow_forward_ios_rounded,
+              //TODO:
+              onClick: () {},
+            ),
+            SettingsOptionItem(
+              label: "Çıkış Yap",
+              icon: Icons.exit_to_app,
+              //TODO:
+              onClick: () {},
             )
           ],
         ),
       ),
     );
-  }
-
-  void lol() {
-    print("kek");
   }
 }
