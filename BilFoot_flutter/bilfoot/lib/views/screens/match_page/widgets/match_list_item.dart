@@ -50,7 +50,7 @@ class MatchListItem extends StatelessWidget {
                         .copyWith(color: Colors.black87),
                   ),
                   Text(
-                    matchModel.date,
+                    MatchModel.formatDate(matchModel.date),
                     textAlign: TextAlign.start,
                     style: Theme.of(context)
                         .textTheme
@@ -84,7 +84,7 @@ class MatchListItem extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        '${matchModel.people.length}/${matchModel.peopleLimit}',
+                        '${matchModel.players.length}/${matchModel.peopleLimit}',
                         style: Theme.of(context)
                             .textTheme
                             .headline2!
@@ -102,9 +102,9 @@ class MatchListItem extends StatelessWidget {
   }
 
   Color _getColor() {
-    if (matchModel.people.length == matchModel.peopleLimit) {
+    if (matchModel.players.length == matchModel.peopleLimit) {
       return Colors.red;
-    } else if (matchModel.people.length >= matchModel.peopleLimit - 3) {
+    } else if (matchModel.players.length >= matchModel.peopleLimit - 3) {
       return Colors.orange;
     } else {
       return MyThemes.darkTheme.primaryColor;

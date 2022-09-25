@@ -10,6 +10,7 @@ import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
 import 'package:bilfoot/views/widgets/modals/kick_modal.dart';
+import 'package:bilfoot/views/widgets/modals/match_auth_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +27,7 @@ class PlayerListItem extends StatelessWidget {
     required this.isAuthorized,
     this.teamModel,
     this.matchModel,
+    this.updateMatch,
   }) : super(key: key);
 
   final PlayerModel playerModel;
@@ -36,9 +38,13 @@ class PlayerListItem extends StatelessWidget {
   final bool isAuthorized;
   final TeamModel? teamModel;
   final MatchModel? matchModel;
+  final Function(MatchModel)? updateMatch;
 
   @override
   Widget build(BuildContext context) {
+    print(isAuthorized);
+    print(matchModel);
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: ProgramConstants.getDefaultBoxShadow(context),
@@ -96,6 +102,49 @@ class PlayerListItem extends StatelessWidget {
     );
   }
 
+  void handleKickClicked(BuildContext context) {
+    if (isForTeam) {
+      ProgramConstants.showBlurryBackground(
+        context: context,
+        child: KickModal(
+          onAccepted: () async {
+            bool result = await BilfootClient().kickFromTeam(
+                teamId: teamModel!.id, kickedPlayerId: playerModel.id);
+            Navigator.of(context).pop();
+
+            if (result) {
+              context.read<TeamBloc>().add(
+                    TeamKickPlayer(
+                      teamId: teamModel!.id,
+                      kickedPlayerId: playerModel.id,
+                    ),
+                  );
+            }
+          },
+          playerModel: playerModel,
+        ),
+      );
+    } else {
+      ProgramConstants.showBlurryBackground(
+        context: context,
+        child: KickModal(
+          onAccepted: () async {
+            bool result = await BilfootClient().kickFromMatch(
+                matchId: matchModel!.id, kickedPlayerId: playerModel.id);
+            Navigator.of(context).pop();
+
+            if (result) {
+              matchModel!.players.remove(playerModel);
+              updateMatch!(matchModel!);
+            }
+          },
+          playerModel: playerModel,
+          kickFromMatch: true,
+        ),
+      );
+    }
+  }
+
   Widget _buildButtons(BuildContext context) {
     List<Widget> buttons = [];
 
@@ -130,32 +179,29 @@ class PlayerListItem extends StatelessWidget {
                   })
               : CircularButtonInListItem(
                   buttonType: CircularButtonInListItem.authButton,
-                  onTap: () {}),
-          CircularButtonInListItem(
-              buttonType: CircularButtonInListItem.kickButton,
-              onTap: () {
-                ProgramConstants.showBlurryBackground(
-                  context: context,
-                  child: KickModal(
-                    onAccepted: () async {
-                      bool result = await BilfootClient().kickPlayer(
-                          teamId: teamModel!.id,
-                          kickedPlayerId: playerModel.id);
-                      Navigator.of(context).pop();
+                  onTap: () {
+                    ProgramConstants.showBlurryBackground(
+                      context: context,
+                      child: MatchAuthModal(
+                        onAccepted: () async {
+                          bool result = await BilfootClient().giveAuth(
+                              matchId: matchModel!.id,
+                              newAuthId: playerModel.id);
+                          Navigator.of(context).pop();
 
-                      if (result) {
-                        context.read<TeamBloc>().add(
-                              TeamKickPlayer(
-                                teamId: teamModel!.id,
-                                kickedPlayerId: playerModel.id,
-                              ),
-                            );
-                      }
-                    },
-                    playerModel: playerModel,
-                  ),
-                );
-              }),
+                          if (result) {
+                            matchModel!.authPlayers.add(playerModel.id);
+                            updateMatch!(matchModel!);
+                          }
+                        },
+                        playerModel: playerModel,
+                      ),
+                    );
+                  }),
+          CircularButtonInListItem(
+            buttonType: CircularButtonInListItem.kickButton,
+            onTap: () => handleKickClicked(context),
+          ),
           ...buttons
         ];
       }

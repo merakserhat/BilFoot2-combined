@@ -54,6 +54,10 @@ export const getPlayerNotifications = async (
       path: "team_model",
       populate: { path: "players" },
     })
+    .populate({
+      path: "match_model",
+      populate: { path: "players creator" },
+    })
     .limit(10); //TODO: match_model
 
   if (!notifications) {

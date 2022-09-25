@@ -4,7 +4,8 @@ export const NotificationTypes = {
   teamKicked: "team_kicked",
   teamCaptainSelected: "team_captain_selected",
 
-  matchCandidate: "match_candidate",
+  matchJoinRequest: "match_join_request",
+  matchJoinRequest_answer: "match_join_request_answer",
   matchInvitation: "match_invitation",
   matchInvitationAnswer: "match_invitation_answer",
   matchKicked: "match_kicked",

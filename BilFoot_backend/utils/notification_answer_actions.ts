@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Match from "../models/match";
 import Notification, { INotification } from "../models/notification";
 import Player, { IPlayer } from "../models/player";
 import Team from "../models/team";
@@ -44,6 +45,40 @@ export default async (
           interaction: "static",
           status: answer,
           type: NotificationTypes.teamInvitationAnswer,
+        });
+
+        answerNotification.save();
+      }
+      break;
+    case NotificationTypes.matchInvitation:
+      {
+        if (answer === "accepted") {
+          const match = await Match.findById(notification.match_model);
+          if (match === null) {
+            return console.log("team could not found at notification answer");
+          }
+
+          if (!match.players.includes(user._id)) {
+            match.players.push(user._id);
+          }
+          /*
+          if (!user.teams.includes(team._id)) {
+            user.teams.push(team._id);
+          }
+*/
+
+          match.save();
+          //user.save();
+        }
+
+        const answerNotification = new Notification({
+          from: notification.to,
+          to: notification.from,
+          player_model: user._id,
+          match_model: notification.match_model,
+          interaction: "static",
+          status: answer,
+          type: NotificationTypes.matchInvitationAnswer,
         });
 
         answerNotification.save();

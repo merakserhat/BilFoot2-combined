@@ -1,11 +1,7 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
-import 'package:bilfoot/data/models/announcements/player_announcement_model.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
-import 'package:bilfoot/data/models/team_model.dart';
-import 'package:bilfoot/views/screens/home_page/widgets/announcement_list_item.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
-import 'package:bilfoot/views/widgets/toggle_switch_menu.dart';
 import 'package:flutter/material.dart';
 
 class MatchTable extends StatefulWidget {
@@ -32,16 +28,17 @@ class _MatchTableState extends State<MatchTable> {
           itemBuilder: (context, index) {
             return MatchListItem(
               matchModel: MatchModel(
-                  date: "17 Tem. Salı",
+                  id: "12d",
+                  date: DateTime.now(),
                   hour: "9-10",
                   pitch: "Merkez 1",
                   isPitchApproved: false,
                   creator: Program.program.dummyPlayer2,
-                  people: [
+                  players: [
                     Program.program.dummyPlayer2,
                     Program.program.dummyPlayer1
                   ],
-                  authPeople: [Program.program.dummyPlayer2],
+                  authPlayers: [Program.program.dummyPlayer2.id],
                   showOnTable: true,
                   peopleLimit: 14),
             ); //TODO: buraya list item

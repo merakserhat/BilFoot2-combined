@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class TeamService {
@@ -17,7 +15,7 @@ class TeamService {
 
     if (response == null) {
       //TODO
-      print("null response createTeam");
+      print("null response getTeamModel");
       return null;
     }
 
