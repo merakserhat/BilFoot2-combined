@@ -30,7 +30,7 @@ class MatchInfo extends StatelessWidget {
                 ),
                 const Text(" / "),
                 Text(
-                  matchModel.date,
+                  MatchModel.formatDate(matchModel.date),
                   textAlign: TextAlign.start,
                   style: Theme.of(context)
                       .textTheme
@@ -82,7 +82,7 @@ class MatchInfo extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '${matchModel.people.length}',
+                      '${matchModel.players.length}',
                       style: Theme.of(context)
                           .textTheme
                           .headline2!
@@ -119,7 +119,7 @@ class MatchInfo extends StatelessWidget {
   }
 
   Color _getColor() {
-    if (matchModel.people.length == matchModel.peopleLimit) {
+    if (matchModel.players.length == matchModel.peopleLimit) {
       return Color.fromARGB(255, 92, 6, 0);
     } else {
       return Colors.blueGrey[500] as Color;
