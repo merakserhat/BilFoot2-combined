@@ -17,35 +17,40 @@ class SettingsOptionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        height: 44,
-        margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 18),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          boxShadow:
-              ProgramConstants.getDefaultBoxShadow(context, smallShadow: true),
-          color: Colors.white,
-        ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+      child: Material(
+        borderRadius: BorderRadius.circular(6),
         child: InkWell(
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+          ),
           onTap: onClick,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                label,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontWeight: FontWeight.bold),
+          child: Ink(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color: Colors.white,
+            ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    label,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Icon(
+                    icon,
+                    size: 18,
+                    color: Colors.blueGrey,
+                  )
+                ],
               ),
-              Icon(
-                icon,
-                size: 18,
-                color: Colors.blueGrey,
-              )
-            ],
+            ),
           ),
         ),
       ),
