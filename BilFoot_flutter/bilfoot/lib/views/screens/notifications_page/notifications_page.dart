@@ -5,7 +5,7 @@ import 'package:bilfoot/data/models/notification_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
-import 'package:bilfoot/views/screens/match_page/create_match_panel.dart';
+import 'package:bilfoot/views/screens/match_page/create_edit_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_table.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';

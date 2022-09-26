@@ -1,7 +1,9 @@
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
+import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'team_edit_event.dart';
 part 'team_edit_state.dart';
@@ -27,6 +29,7 @@ class TeamEditBloc extends Bloc<TeamEditEvent, TeamEditState> {
         shortName: event.teamModel.shortName,
         mainColor: event.teamModel.mainColor,
         accentColor: event.teamModel.accentColor,
+        teamId: event.teamModel.id,
       ),
     );
   }
@@ -54,13 +57,30 @@ class TeamEditBloc extends Bloc<TeamEditEvent, TeamEditState> {
       TeamEditSaveButtonClicked event, Emitter<TeamEditState> emit) async {
     emit(state.copyWith(isLoading: true));
 
-    if (state.isEditing) {
+    if (state.isEditing && state.teamId != null) {
+      bool isSuccess = await BilfootClient().editTeam(
+        shortName: state.shortName,
+        teamName: state.name,
+        mainColor: state.mainColor,
+        accentColor: state.accentColor,
+        teamId: state.teamId!,
+      );
+
+      if (isSuccess) {
+        event.teamBloc.add(TeamCreateTeam());
+        event.onFinished();
+      }
     } else {
-      await BilfootClient().createTeam(
+      bool isSuccess = await BilfootClient().createTeam(
           shortName: state.shortName,
           teamName: state.name,
           mainColor: state.mainColor,
           accentColor: state.accentColor);
+
+      if (isSuccess) {
+        event.teamBloc.add(TeamCreateTeam());
+        event.onFinished();
+      }
     }
 
     emit(state.copyWith(isLoading: false));

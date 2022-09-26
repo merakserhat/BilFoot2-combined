@@ -7,7 +7,7 @@ class Spinner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpinKitSpinningCircle(
+    return SpinKitThreeBounce(
       itemBuilder: (BuildContext context, int index) {
         return Container(
           decoration: BoxDecoration(

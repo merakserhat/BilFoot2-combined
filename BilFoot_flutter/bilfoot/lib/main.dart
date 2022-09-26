@@ -1,4 +1,3 @@
-import 'package:bilfoot/config/utils/auth_service.dart';
 import 'package:bilfoot/views/routes/router.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_verification_page.dart';
@@ -6,6 +5,8 @@ import 'package:bilfoot/views/screens/auth_page/bloc/authentication_bloc.dart';
 import 'package:bilfoot/views/screens/defining_page/bloc/defining_bloc.dart';
 import 'package:bilfoot/views/screens/defining_page/defining_page.dart';
 import 'package:bilfoot/views/screens/main_page/main_control_page.dart';
+import 'package:bilfoot/views/screens/match_page/bloc/match_bloc.dart';
+import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bilfoot/views/themes/my_themes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,11 +30,18 @@ class MyApp extends StatelessWidget {
         BlocProvider<DefiningBloc>(
           create: (BuildContext context) => DefiningBloc(),
         ),
+        BlocProvider<TeamBloc>(
+          create: (BuildContext context) => TeamBloc(),
+        ),
+        BlocProvider<MatchBloc>(
+          create: (BuildContext context) => MatchBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'First Page',
         theme: MyThemes.lightTheme,
         debugShowCheckedModeBanner: false,
+        onGenerateRoute: PageRouter.generateRoute,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             print("state");

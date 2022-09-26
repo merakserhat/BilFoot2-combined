@@ -1,4 +1,5 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
@@ -9,9 +10,11 @@ import 'package:bilfoot/views/widgets/panel_base.dart';
 import 'package:flutter/material.dart';
 
 class AddMemberPanel extends StatefulWidget {
-  const AddMemberPanel({Key? key, this.teamModel}) : super(key: key);
+  const AddMemberPanel({Key? key, this.teamModel, this.matchModel})
+      : super(key: key);
 
   final TeamModel? teamModel;
+  final MatchModel? matchModel;
 
   @override
   State<AddMemberPanel> createState() => _AddMemberPanelState();
@@ -61,6 +64,7 @@ class _AddMemberPanelState extends State<AddMemberPanel> {
                       .map((player) => AddPlayerListItem(
                             playerModel: player,
                             teamModel: widget.teamModel,
+                            matchModel: widget.matchModel,
                             key: ValueKey(player.id),
                           ))
                       .toList()),
@@ -73,15 +77,17 @@ class _AddMemberPanelState extends State<AddMemberPanel> {
 }
 
 class AddPlayerListItem extends StatefulWidget {
-  const AddPlayerListItem(
-      {required this.playerModel,
-      this.invitationAlreadySent = false,
-      Key? key,
-      this.teamModel})
-      : super(key: key);
+  const AddPlayerListItem({
+    required this.playerModel,
+    this.invitationAlreadySent = false,
+    Key? key,
+    this.teamModel,
+    this.matchModel,
+  }) : super(key: key);
 
   final PlayerModel playerModel;
   final TeamModel? teamModel;
+  final MatchModel? matchModel;
   final bool invitationAlreadySent;
 
   @override
@@ -97,6 +103,9 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
     super.initState();
     invitationSent = widget.invitationAlreadySent;
     _getInvitationStatus();
+
+    print("match model");
+    print(widget.matchModel);
   }
 
   @override
@@ -161,9 +170,11 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
         });
 
         if (widget.teamModel != null) {
-          print("giriyor");
           await BilfootClient().inviteToTeam(
               teamId: widget.teamModel!.id, toId: widget.playerModel.id);
+        } else if (widget.matchModel != null) {
+          await BilfootClient().inviteToMatch(
+              matchId: widget.matchModel!.id, toId: widget.playerModel.id);
         }
 
         setState(() {
@@ -176,8 +187,21 @@ class _AddPlayerListItemState extends State<AddPlayerListItem> {
   }
 
   void _getInvitationStatus() async {
-    invitationSent = await BilfootClient().getTeamInvitation(
-        fromId: Program.program.user!.id, toId: widget.playerModel.id);
+    if (widget.teamModel != null) {
+      invitationSent = await BilfootClient().getTeamInvitation(
+          fromId: Program.program.user!.id,
+          toId: widget.playerModel.id,
+          teamId: widget.teamModel!.id);
+    } else if (widget.matchModel != null) {
+      invitationSent = await BilfootClient().getMatchInvitation(
+          fromId: Program.program.user!.id,
+          toId: widget.playerModel.id,
+          matchId: widget.matchModel!.id);
+
+      print("invitationSent");
+      print(invitationSent);
+    }
+
     setState(() {
       invitationStatusLoading = false;
     });

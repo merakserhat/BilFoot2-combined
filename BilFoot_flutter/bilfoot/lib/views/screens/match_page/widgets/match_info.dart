@@ -1,4 +1,3 @@
-import 'package:bilfoot/config/utils/hex_color.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import '../../../themes/my_themes.dart';
 import 'match_list_item.dart';
@@ -107,8 +106,8 @@ class MatchInfo extends StatelessWidget {
       /*Column(
         children: [
           Text(
-            '${matchModel.date} ${matchModel.hour}',
-            style: Theme.of(context).textTheme.headline2,
+            '${MatchModel.formatDate(matchModel.date)} ${matchModel.hour}',
+            style: Theme.of(context).textTheme.headline1,
           ),
           Text(
             matchModel.pitch,

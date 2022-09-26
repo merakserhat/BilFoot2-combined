@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class CaptainModal extends StatelessWidget {
+class MatchAuthModal extends StatelessWidget {
   final VoidCallback onAccepted;
   final PlayerModel playerModel;
 
-  const CaptainModal(
+  const MatchAuthModal(
       {Key? key, required this.onAccepted, required this.playerModel})
       : super(key: key);
 
@@ -18,9 +18,7 @@ class CaptainModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseModal(
       type: Type.ANSWERABLE,
-
-      text:
-          "${playerModel.fullName} adlı oyuncuyu kaptan yapmak istiyor musun?",
+      text: "${playerModel.fullName} adlı oyuncuya yetki vermek istiyor musun?",
       //icon: //findicon,
       accepButtonText: "Evet",
       onAccepted: onAccepted,
@@ -29,11 +27,11 @@ class CaptainModal extends StatelessWidget {
       },
       refuseButtonText: "Hayır",
       child: const Text(
-        "C",
+        "A",
         style: TextStyle(
           decoration: TextDecoration.none,
           fontFamily: "assets/fonts/Poppins-ExtraBold.ttf",
-          color: Colors.orange,
+          color: Colors.green,
         ),
       ),
     );

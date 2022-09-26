@@ -39,7 +39,8 @@ class FCMService {
   void _handleMessage(RemoteMessage initialMessage) {
     if (initialMessage.data['type'] == 'chat') {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => TeamPage(team: Program.program.dummyTeam1)));
+          builder: (context) =>
+              TeamPage(teamModel: Program.program.dummyTeam1)));
     }
   }
 }

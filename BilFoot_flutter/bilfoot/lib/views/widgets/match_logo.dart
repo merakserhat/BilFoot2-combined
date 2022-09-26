@@ -22,7 +22,7 @@ class MatchLogo extends StatelessWidget {
                   color: Colors.black),
               child: Center(
                 child: Text(
-                  matchModel.date,
+                  MatchModel.formatDate(matchModel.date),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2!

@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/data/networking/client.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class TeamService {
@@ -17,7 +15,7 @@ class TeamService {
 
     if (response == null) {
       //TODO
-      print("null response createTeam");
+      print("null response getTeamModel");
       return null;
     }
 
@@ -36,6 +34,40 @@ class TeamService {
     }
 
     return null;
+  }
+
+  static Future<List<TeamModel>> getTeamsWithIds(
+      {required List<String> ids}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/get-teams-with-ids",
+      body: {"ids": ids},
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response get teams with ids");
+      return [];
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status get teams with ids");
+      print(response.body);
+      return [];
+    }
+
+    var jsonData = json.decode(response.body);
+    print(jsonData);
+    if (jsonData["teams"] != null) {
+      List<TeamModel> teams = (jsonData["teams"] as List<dynamic>)
+          .map((e) => TeamModel.fromJson(e))
+          .toList();
+
+      return teams;
+    }
+
+    return [];
   }
 
   static Future<bool> createTeam({
@@ -82,9 +114,11 @@ class TeamService {
   static Future<bool> getTeamInvitation({
     required String fromId,
     required String toId,
+    required String teamId,
   }) async {
     Response? response = await BilfootClient().sendRequest(
-      path: "team/get-team-invitation?from_id=$fromId&to_id=$toId",
+      path:
+          "team/get-team-invitation?from_id=$fromId&to_id=$toId&team_id=$teamId",
     );
 
     if (response == null) {
@@ -163,6 +197,96 @@ class TeamService {
     }
 
     print(response.body);
+    return true;
+  }
+
+  static Future<bool> makeCaptain(
+      {required String teamId, required String newCaptainId}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/make-captain",
+      body: {
+        "team_id": teamId,
+        "new_captain_id": newCaptainId,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response make captain");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status inviteToTeam");
+      print(response.body);
+      return false;
+    }
+
+    print(response.body);
+    return true;
+  }
+
+  static Future<bool> kickPlayer(
+      {required String teamId, required String kickedPlayerId}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/kick-player",
+      body: {
+        "team_id": teamId,
+        "kicked_player_id": kickedPlayerId,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response kick player");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status kick player");
+      print(response.body);
+      return false;
+    }
+
+    print(response.body);
+    return true;
+  }
+
+  static Future<bool> editTeam({
+    String? teamName,
+    String? shortName,
+    String? mainColor,
+    String? accentColor,
+    required String teamId,
+  }) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "team/edit-team",
+      body: {
+        "name": teamName,
+        "short_name": shortName,
+        "main_color": mainColor,
+        "accent_color": accentColor,
+        "team_id": teamId
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response editTeam");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status editTeam");
+      print(response.body);
+      return false;
+    }
     return true;
   }
 }

@@ -52,4 +52,9 @@ class TeamEditAccentColorChanged extends TeamEditEvent {
   List<Object?> get props => [accentColor];
 }
 
-class TeamEditSaveButtonClicked extends TeamEditEvent {}
+class TeamEditSaveButtonClicked extends TeamEditEvent {
+  final TeamBloc teamBloc;
+  final VoidCallback onFinished;
+
+  const TeamEditSaveButtonClicked(this.teamBloc, this.onFinished);
+}
