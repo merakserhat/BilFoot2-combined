@@ -4,6 +4,7 @@ import 'package:bilfoot/views/screens/home_page/home_page.dart';
 import 'package:bilfoot/views/screens/match_page/match_list_page.dart';
 import 'package:bilfoot/views/screens/notifications_page/notifications_page.dart';
 import 'package:bilfoot/views/screens/profile_page/profile_page.dart';
+import 'package:bilfoot/views/screens/settings_page/settings_page.dart';
 import "package:flutter/material.dart";
 
 // ignore: constant_identifier_names
@@ -120,7 +121,7 @@ class _MainControlPageState extends State<MainControlPage> {
     var settings = GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const ChatPeoplePage()));
+            MaterialPageRoute(builder: (context) => const SettingsPage()));
       },
       child: const Icon(
         Icons.settings,

@@ -35,21 +35,20 @@ class MatchListItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline3,
                 textAlign: TextAlign.center,
               ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    matchModel.hour,
-                    textAlign: TextAlign.end,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4!
-                        .copyWith(color: Colors.black87),
-                  ),
-                  Text(
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      matchModel.hour,
+                      textAlign: TextAlign.end,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4!
+                          .copyWith(color: Colors.black87),
+                    ),
+                     Text(
                     MatchModel.formatDate(matchModel.date),
                     textAlign: TextAlign.start,
                     style: Theme.of(context)
@@ -57,17 +56,21 @@ class MatchListItem extends StatelessWidget {
                         .headline4!
                         .copyWith(color: Colors.black87),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            height: 20,
-                            child: Image.asset(
-                              "assets/images/pitch.png",
-                              color: Colors.green,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                              child: Image.asset(
+                                "assets/images/pitch.png",
+                                color: Color.fromARGB(255, 3, 88, 6),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 1,
                             ),
                           ),
                           const SizedBox(
@@ -80,19 +83,31 @@ class MatchListItem extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.headline4,
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${matchModel.players.length}/${matchModel.peopleLimit}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline2!
-                            .copyWith(fontSize: 14, color: _getColor()),
-                      ),
-                    ],
-                  ),
-                ],
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '${matchModel.people.length}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(color: _getColor()),
+                            ),
+                            Text(
+                              '/${matchModel.peopleLimit}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
               ),
             ),
           ],
@@ -102,12 +117,10 @@ class MatchListItem extends StatelessWidget {
   }
 
   Color _getColor() {
-    if (matchModel.players.length == matchModel.peopleLimit) {
-      return Colors.red;
-    } else if (matchModel.players.length >= matchModel.peopleLimit - 3) {
-      return Colors.orange;
+    if (matchModel.people.length == matchModel.peopleLimit) {
+      return Color.fromARGB(255, 92, 6, 0);
     } else {
-      return MyThemes.darkTheme.primaryColor;
+      return Colors.blueGrey[700] as Color;
     }
   }
 }

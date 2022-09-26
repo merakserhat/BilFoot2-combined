@@ -18,6 +18,7 @@ class CaptainModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseModal(
       type: Type.ANSWERABLE,
+
       text:
           "${playerModel.fullName} adlı oyuncuyu kaptan yapmak istiyor musun?",
       //icon: //findicon,
