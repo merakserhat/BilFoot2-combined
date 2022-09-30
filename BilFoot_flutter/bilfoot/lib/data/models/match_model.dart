@@ -47,6 +47,14 @@ class MatchModel {
     return formatter.format(dateTime);
   }
 
+  static String formatSquareMatchDate(DateTime? dateTime) {
+    if (dateTime == null) {
+      return "";
+    }
+    final DateFormat formatter = DateFormat('d MMMM');
+    return formatter.format(dateTime);
+  }
+
   @override
   String toString() {
     return "auth_players: $authPlayers";

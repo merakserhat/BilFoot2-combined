@@ -19,26 +19,19 @@ class MatchComponentSquare extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              MatchModel.formatDate(matchModel.date),
+              MatchModel.formatSquareMatchDate(matchModel.date),
               textAlign: TextAlign.end,
               style: Theme.of(context)
                   .textTheme
                   .headline6!
                   .copyWith(color: Colors.black87),
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  matchModel.hour,
-                  textAlign: TextAlign.end,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Colors.black87,
-                      ),
-                ),
-              ],
+            Text(
+              matchModel.hour,
+              textAlign: TextAlign.end,
+              style: Theme.of(context).textTheme.headline6!.copyWith(
+                    color: Colors.black87,
+                  ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
