@@ -46,19 +46,19 @@ class NewAnnouncementTypePanel extends StatelessWidget {
             child: const Text("Opponent"),
           ),
         ),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const NewAnnouncementPage(
-                    announcementType: AnnouncementTypes.match);
-              }));
-            },
-            child: const Text("Match"),
-          ),
-        ),
+        // SizedBox(
+        //   width: double.infinity,
+        //   child: ElevatedButton(
+        //     onPressed: () {
+        //       Navigator.of(context).pop();
+        //       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        //         return const NewAnnouncementPage(
+        //             announcementType: AnnouncementTypes.match);
+        //       }));
+        //     },
+        //     child: const Text("Match"),
+        //   ),
+        // ),
       ],
     ));
   }

@@ -29,6 +29,8 @@ app.use(express.json());
 
 initializeApp();
 
+app.get("/test",(req,res,next) => res.json({message:"annen"}))
+
 // #region route registers
 app.use("/auth", authRoute);
 app.use("/announcement", announcementRoute);

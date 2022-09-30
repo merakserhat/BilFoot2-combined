@@ -63,10 +63,10 @@ class _HomePageState extends State<HomePage> {
                 labelStyle: Theme.of(context).textTheme.headline4,
                 tabs: const [
                   Tab(
-                    text: "Player Announcement",
+                    text: "Find Player",
                   ),
                   Tab(
-                    text: "Player Announcement",
+                    text: "Find Opponent",
                   ),
                 ],
               ),

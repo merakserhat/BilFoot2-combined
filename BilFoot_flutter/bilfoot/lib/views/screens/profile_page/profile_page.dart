@@ -39,15 +39,6 @@ class ProfilePage extends StatelessWidget {
                     playerModel: playerModel ?? Program.program.user!,
                     isStrangerView: playerModel != null);
               }),
-              playerModel == null
-                  ? ElevatedButton(
-                      onPressed: () {
-                        context
-                            .read<AuthenticationBloc>()
-                            .add(AuthenticationLogOut());
-                      },
-                      child: const Text("Log out"))
-                  : Container(),
             ],
           ),
         ),

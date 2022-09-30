@@ -1,9 +1,11 @@
+import 'package:bilfoot/views/screens/auth_page/bloc/authentication_bloc.dart';
 import 'package:bilfoot/views/screens/settings_page/widgets/setting_option_item.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -48,8 +50,12 @@ class _SettingsPageState extends State<SettingsPage> {
               label: "Çıkış Yap",
               icon: Icons.exit_to_app,
               //TODO:
-              onClick: () {},
-            )
+              onClick: () {
+                Navigator.of(context).pop();
+
+                context.read<AuthenticationBloc>().add(AuthenticationLogOut());
+              },
+            ),
           ],
         ),
       ),
