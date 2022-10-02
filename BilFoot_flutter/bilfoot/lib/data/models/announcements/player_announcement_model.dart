@@ -1,22 +1,19 @@
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
-import 'package:bilfoot/data/models/team_model.dart';
 
 class PlayerAnnouncementModel {
-  PlayerAnnouncementModel({
-    required this.announcer,
-    this.match,
-    required this.date,
-    required this.positions,
-    required this.forTeam,
-    this.teamModel,
-  });
+  PlayerAnnouncementModel(
+      {required this.announcer,
+      required this.match,
+      required this.date,
+      required this.positions,
+      required this.playerLimit});
   late final PlayerModel announcer;
   late final MatchModel? match;
   late final DateTime date;
   late final List<String> positions;
-  late final bool forTeam;
-  late TeamModel? teamModel;
+  late final int playerLimit;
+  late final MatchModel matchModel;
 
   PlayerAnnouncementModel.fromJson(Map<String, dynamic> json) {
     announcer = PlayerModel.fromJson(json['pitch']);
@@ -25,7 +22,7 @@ class PlayerAnnouncementModel {
     DateTime dataDate = DateTime.parse(json['date']);
     date = DateTime(dataDate.year, dataDate.month, dataDate.day);
     positions = List.from(json["positions"]);
-    forTeam = json["for_team"];
-    teamModel = json["team"] == null ? null : TeamModel.fromJson(json["team"]);
+    playerLimit = json["player_limit"];
+    matchModel = MatchModel.fromJson(json["match"]);
   }
 }

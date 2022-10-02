@@ -2,7 +2,6 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/announcements/match_announcement_model.dart';
 import 'package:bilfoot/data/models/announcements/opponent_announcement_model.dart';
 import 'package:bilfoot/data/models/announcements/player_announcement_model.dart';
-import 'package:bilfoot/views/screens/team_page/widgets/circular_button_in_list_item.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementListItem extends StatefulWidget {
@@ -97,11 +96,7 @@ class _AnnouncementItemState extends State<AnnouncementListItem> {
 
   String _getTitleText() {
     if (widget.playerAnnouncement != null) {
-      if (widget.playerAnnouncement!.forTeam) {
-        return '${widget.playerAnnouncement!.announcer.fullName} is looking for ${widget.playerAnnouncement!.positions.toString().substring(1, widget.playerAnnouncement!.positions.toString().length - 1)} for team ${widget.playerAnnouncement!.teamModel!.name}.';
-      } else {
-        return '${widget.playerAnnouncement!.announcer.fullName} is looking for ${widget.playerAnnouncement!.positions.toString().substring(1, widget.playerAnnouncement!.positions.toString().length - 1)}.';
-      }
+      return '${widget.playerAnnouncement!.announcer.fullName} is looking for ${widget.playerAnnouncement!.positions.toString().substring(1, widget.playerAnnouncement!.positions.toString().length - 1)}.';
     } else if (widget.opponentAnnouncement != null) {
       return '${widget.opponentAnnouncement!.announcer.fullName}\'s team ${widget.opponentAnnouncement!.teamModel.name} is looking for an opponent to play.';
     } else {
@@ -110,25 +105,27 @@ class _AnnouncementItemState extends State<AnnouncementListItem> {
   }
 
   Widget _getLeadingButton() {
-    if (widget.opponentAnnouncement != null ||
-        (widget.playerAnnouncement != null &&
-            widget.playerAnnouncement!.forTeam)) {
-      return Container(
-        margin: const EdgeInsets.only(right: 5),
-        child: CircularButtonInListItem(
-          buttonType: CircularButtonInListItem.teamButton,
-          onTap: () {
-            //TODO: Team
-          },
-        ),
-      );
-    } else {
-      return CircularButtonInListItem(
-        buttonType: CircularButtonInListItem.profileButton,
-        onTap: () {
-          //TODO: Profile
-        },
-      );
-    }
+    // if (widget.opponentAnnouncement != null ||
+    //     (widget.playerAnnouncement != null &&
+    //         widget.playerAnnouncement!.forTeam)) {
+    //   return Container(
+    //     margin: const EdgeInsets.only(right: 5),
+    //     child: CircularButtonInListItem(
+    //       buttonType: CircularButtonInListItem.teamButton,
+    //       onTap: () {
+    //         //TODO: Team
+    //       },
+    //     ),
+    //   );
+    // } else {
+    //   return CircularButtonInListItem(
+    //     buttonType: CircularButtonInListItem.profileButton,
+    //     onTap: () {
+    //       //TODO: Profile
+    //     },
+    //   );
+    // }
+
+    return Container();
   }
 }

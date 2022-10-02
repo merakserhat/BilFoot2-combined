@@ -4,16 +4,16 @@ interface IPlayerAnnouncement {
   announcer: Types.ObjectId;
   date: Date;
   positions: string[];
-  for_team: boolean;
-  team: Types.ObjectId;
+  match: Types.ObjectId;
+  player_limit: Number;
 }
 
 const playerAnnouncementSchema = new Schema<IPlayerAnnouncement>({
   announcer: { type: Schema.Types.ObjectId, required: true, ref: "player" },
   date: { type: Date, required: true },
   positions: [String],
-  for_team: { type: Boolean, default: false },
-  team: { type: Schema.Types.ObjectId, ref: "team" },
+  match: { type: Schema.Types.ObjectId, ref: "match" },
+  player_limit: { type: Number },
 });
 
 export default model<IPlayerAnnouncement>(
