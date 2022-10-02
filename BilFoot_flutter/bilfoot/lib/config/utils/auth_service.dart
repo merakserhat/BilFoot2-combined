@@ -93,5 +93,6 @@ class AuthService {
   Future getIdToken(User user) async {
     String token = await user.getIdToken();
     Program.program.token = token;
+    print("user token : " + token);
   }
 }
