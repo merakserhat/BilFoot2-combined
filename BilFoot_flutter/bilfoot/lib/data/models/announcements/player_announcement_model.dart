@@ -5,12 +5,12 @@ class PlayerAnnouncementModel {
   PlayerAnnouncementModel(
       {required this.announcer,
       required this.match,
-      required this.date,
+      required this.createdAt,
       required this.positions,
       required this.playerLimit});
   late final PlayerModel announcer;
   late final MatchModel? match;
-  late final DateTime date;
+  late final DateTime createdAt;
   late final List<String> positions;
   late final int playerLimit;
   late final MatchModel matchModel;
@@ -19,8 +19,8 @@ class PlayerAnnouncementModel {
     announcer = PlayerModel.fromJson(json['pitch']);
     match =
         json['match'] == null ? null : MatchModel.fromJson(json['matchTime']);
-    DateTime dataDate = DateTime.parse(json['date']);
-    date = DateTime(dataDate.year, dataDate.month, dataDate.day);
+    DateTime dataDate = DateTime.parse(json['created_at']);
+    createdAt = DateTime(dataDate.year, dataDate.month, dataDate.day);
     positions = List.from(json["positions"]);
     playerLimit = json["player_limit"];
     matchModel = MatchModel.fromJson(json["match"]);

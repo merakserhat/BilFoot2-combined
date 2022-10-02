@@ -2,7 +2,7 @@ import { Types, Schema, model } from "mongoose";
 
 interface IPlayerAnnouncement {
   announcer: Types.ObjectId;
-  date: Date;
+  created_at: Date;
   positions: string[];
   match: Types.ObjectId;
   player_limit: Number;
@@ -10,7 +10,7 @@ interface IPlayerAnnouncement {
 
 const playerAnnouncementSchema = new Schema<IPlayerAnnouncement>({
   announcer: { type: Schema.Types.ObjectId, required: true, ref: "player" },
-  date: { type: Date, required: true },
+  created_at: { type: Date, required: true },
   positions: [String],
   match: { type: Schema.Types.ObjectId, ref: "match" },
   player_limit: { type: Number },
