@@ -13,9 +13,9 @@ class MatchComponentSquare extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.all(2),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
