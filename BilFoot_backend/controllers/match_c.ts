@@ -461,3 +461,27 @@ export const inviteToMatch = async (
 
   res.status(201).json({ status: "success" });
 };
+
+export const getPlayerMatches = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { show_only_upcoming } = req.query;
+
+  const user = await Player.findOne({ email: (req as any).user_email });
+
+  if (user == null) {
+    return res.status(401).json({ error: "user not found" });
+  }
+
+  let filter = { _id: user.matches, date: {} };
+
+  if (show_only_upcoming) {
+    filter.date = { $gt: new Date(Date.now()) };
+  }
+
+  const matches = await Match.find(filter).populate("players creator");
+
+  return res.status(200).json({ matches });
+};
