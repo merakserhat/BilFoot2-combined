@@ -12,6 +12,7 @@ export interface IPlayer {
   pointer_num: number;
   image_url?: string;
   teams: Types.ObjectId[];
+  matches: Types.ObjectId[];
 }
 
 const playerSchema = new Schema<IPlayer>({
@@ -25,6 +26,7 @@ const playerSchema = new Schema<IPlayer>({
   pointer_num: { type: Number, default: 0 },
   image_url: String,
   teams: [{ type: Schema.Types.ObjectId, ref: "team" }],
+  matches: [{ type: Schema.Types.ObjectId, ref: "match" }],
 });
 
 export default model<IPlayer>("player", playerSchema);

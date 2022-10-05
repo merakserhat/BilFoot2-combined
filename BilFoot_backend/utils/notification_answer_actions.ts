@@ -61,14 +61,13 @@ export default async (
           if (!match.players.includes(user._id)) {
             match.players.push(user._id);
           }
-          /*
-          if (!user.teams.includes(team._id)) {
-            user.teams.push(team._id);
+
+          if (!user.matches.includes(match._id)) {
+            user.matches.push(match._id);
           }
-*/
 
           match.save();
-          //user.save();
+          user.save();
         }
 
         const answerNotification = new Notification({

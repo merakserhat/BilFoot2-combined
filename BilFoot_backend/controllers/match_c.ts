@@ -76,8 +76,8 @@ export const createMatch = async (
     "players creator"
   );
 
-  //   user.matches.push(newTeam._id);
-  //   await user.save();
+  user.matches.push(newMatch._id);
+  await user.save();
 
   return res.status(201).json({ match: matchPopulated });
 };
@@ -200,6 +200,8 @@ export const kickPlayer = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
+  const kickPlayerObjectId = new mongoose.Types.ObjectId(kicked_player_id);
+
   const user = await Player.findOne({ email: (req as any).user_email });
 
   if (user == null) {
@@ -218,27 +220,34 @@ export const kickPlayer = async (
       .json({ error: "You are not authorized to kick people!" });
   }
 
-  if (!match.players.includes(new mongoose.Types.ObjectId(kicked_player_id))) {
+  if (!match.players.includes(kickPlayerObjectId)) {
     return res.status(401).json({
       error: "You can not kick the person who is not in your team",
     });
   }
 
   match.players = match.players.filter(
-    (player) =>
-      !player._id.equals(new mongoose.Types.ObjectId(kicked_player_id))
+    (player) => !player._id.equals(kickPlayerObjectId)
   );
-  if (
-    match.auth_players.includes(new mongoose.Types.ObjectId(kicked_player_id))
-  ) {
+  if (match.auth_players.includes(kickPlayerObjectId)) {
     match.auth_players = match.auth_players.filter(
-      (auth_player) =>
-        !auth_player._id.equals(new mongoose.Types.ObjectId(kicked_player_id))
+      (auth_player) => !auth_player._id.equals(kickPlayerObjectId)
     );
   }
   await match.save();
 
   res.status(201).json({ status: "success" });
+
+  //remove match id from kicked player
+  const kickedPlayer = await Player.findById(kickPlayerObjectId);
+
+  if (kickedPlayer) {
+    kickedPlayer.matches = kickedPlayer?.matches.filter(
+      (matchId) => !matchId.equals(match.id)
+    );
+
+    kickedPlayer.save();
+  }
 };
 
 export const quitMatch = async (
@@ -267,9 +276,10 @@ export const quitMatch = async (
     return res.status(400).json({ error: "User Model not found" });
   }
 
-  // user_model.teams = user_model.teams.filter(
-  //   (team_id) => !team_id.equals(team_model._id)
-  // );
+  //remove match id when we quit
+  user_model.matches = user_model.matches.filter(
+    (matchId) => !matchId.equals(match_model._id)
+  );
 
   match_model.players = match_model.players.filter(
     (player_id) => !player_id.equals(user_model._id)
