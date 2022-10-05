@@ -125,6 +125,7 @@ class PlayerListItem extends StatelessWidget {
         ),
       );
     } else {
+      //kick for match
       ProgramConstants.showBlurryBackground(
         context: context,
         child: KickModal(
