@@ -99,7 +99,6 @@ export const createAnnouncement = async (
     return res.status(400).json({ error: "announcement type is invalid" });
   }
 };
-
 //example bodies
 /*
  * player announcement
@@ -117,5 +116,55 @@ export const createAnnouncement = async (
     "team_id": "62f01e9681c097b01e4d777f"
 }
 
-
 */
+
+////////////////////////////
+//Players click to join match button at player annaouncement
+// is auth -> player
+// annaouncement id
+export const playerAnnouncementJoinRequest = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { announcement_id } = req.body;
+
+  if (announcement_id === undefined) {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const user_email = (req as any).user_email;
+
+  if (user_email === undefined) {
+    return res.status(500).json({ error: "user_mail is not defined" });
+  }
+
+  const user = await Player.findOne({ email: user_email });
+
+  if (user === null) {
+    return res.status(400).json({ error: "User not found" });
+  }
+
+  const playerAnnouncement = await PlayerAnnouncement.findById(
+    new mongoose.Types.ObjectId(announcement_id)
+  );
+
+  if (!playerAnnouncement) {
+    return res.status(400).json({ error: "playerAnnouncement not found" });
+  }
+
+  //Notification oluşturmamız gerekiyor
+  const invitation = new Notification<INotification>({
+    from: user._id,
+    to: playerAnnouncement.announcer,
+    type: NotificationTypes.playerAnnouncementJoinRequest,
+    player_announcement_model: playerAnnouncement._id,
+    status: "vending",
+    interaction: "approval",
+  });
+
+  invitation.save();
+
+  playerAnnouncement.candidates.push(user._id);
+  playerAnnouncement.save();
+};

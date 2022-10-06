@@ -11,6 +11,6 @@ export const NotificationTypes = {
   matchKicked: "match_kicked",
   matchCaptainSelected: "match_captain_selected",
 
-  playerAnnouncementCandidate: "player_announcement_candidate",
-  opponentAnnouncementCandidate: "opponent_announcement_candidate",
+  playerAnnouncementJoinRequest: "player_announcement_join_request",
+  opponentAnnouncementJoinRequest: "opponent_announcement_join_request",
 };

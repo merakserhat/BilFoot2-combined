@@ -7,12 +7,14 @@ class PlayerAnnouncementModel {
       required this.match,
       required this.createdAt,
       required this.positions,
+      required this.candidates,
       required this.playerLimit});
   late final PlayerModel announcer;
   late final MatchModel? match;
   late final DateTime createdAt;
   late final List<String> positions;
   late final int playerLimit;
+  late final int candidates;
   late final MatchModel matchModel;
 
   PlayerAnnouncementModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class PlayerAnnouncementModel {
     createdAt = DateTime(dataDate.year, dataDate.month, dataDate.day);
     positions = List.from(json["positions"]);
     playerLimit = json["player_limit"];
+    candidates = json["candidates"];
     matchModel = MatchModel.fromJson(json["match"]);
   }
 }
