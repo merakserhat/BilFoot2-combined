@@ -2,6 +2,7 @@ import express from "express";
 import {
   createTeam,
   editTeam,
+  getPlayerTeams,
   getTeamInvitation,
   getTeamModel,
   getTeamsWithIds,
@@ -21,6 +22,7 @@ router.post("/make-captain", isAuth, makeCaptain);
 router.post("/kick-player", isAuth, kickPlayer);
 router.get("/get-team-model", getTeamModel);
 router.post("/get-teams-with-ids", getTeamsWithIds);
+router.post("/get-player-teams", isAuth, getPlayerTeams);
 router.post("/quit-team", isAuth, quitTeam);
 router.post("/edit-team", isAuth, editTeam);
 

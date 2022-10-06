@@ -415,3 +415,19 @@ export const editTeam = async (
 
   res.status(201).json({ message: "successful" });
 };
+
+export const getPlayerTeams = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = await Player.findOne({ email: (req as any).user_email });
+
+  if (user == null) {
+    return res.status(401).json({ error: "user not found" });
+  }
+
+  const matches = await Team.find({ _id: user.teams }).populate("players");
+
+  return res.status(200).json({ matches });
+};
