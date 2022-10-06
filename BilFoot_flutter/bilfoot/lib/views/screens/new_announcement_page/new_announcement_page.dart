@@ -1,10 +1,10 @@
 import 'package:bilfoot/config/constants/announcement_types.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
-import 'package:bilfoot/views/widgets/position_selector.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
+import 'package:bilfoot/views/widgets/position_selector.dart';
 import 'package:flutter/material.dart';
 
 class NewAnnouncementPage extends StatefulWidget {
@@ -67,10 +67,11 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
           const AnnouncementOptionTitle(title: "For What?"),
           TeamOrMatchToggle(
               teams: [
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
               ],
               onSelectionChanged: (team) {
                 teamModel = team;
@@ -88,10 +89,11 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
           const AnnouncementOptionTitle(title: "Your Team"),
           TeamSelector(
               teams: [
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
               ],
               onSelectionChanged: (team) {
                 teamModel = team;

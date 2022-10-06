@@ -40,7 +40,7 @@ class FCMService {
     if (initialMessage.data['type'] == 'chat') {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              TeamPage(teamModel: Program.program.dummyTeam1)));
+              TeamPage(teamModel: Program.program.dummyData.dummyTeam1)));
     }
   }
 }

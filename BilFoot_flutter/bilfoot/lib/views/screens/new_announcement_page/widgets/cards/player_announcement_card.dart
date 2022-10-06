@@ -1,7 +1,5 @@
 import 'package:bilfoot/data/models/match_model.dart';
-import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/views/widgets/match_component/match_comp_square.dart';
-import 'package:bilfoot/views/widgets/match_component/match_component_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -22,9 +20,12 @@ class PlayerAnnouncementCard extends StatefulWidget {
       hour: "9-10",
       pitch: "Merkez 1",
       isPitchApproved: false,
-      creator: Program.program.dummyPlayer2,
-      players: [Program.program.dummyPlayer2, Program.program.dummyPlayer1],
-      authPlayers: [Program.program.dummyPlayer2.id],
+      creator: Program.program.dummyData.dummyPlayer2,
+      players: [
+        Program.program.dummyData.dummyPlayer2,
+        Program.program.dummyData.dummyPlayer1
+      ],
+      authPlayers: [Program.program.dummyData.dummyPlayer2.id],
       showOnTable: true,
       peopleLimit: 14);
 
