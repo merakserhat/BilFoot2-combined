@@ -14,53 +14,35 @@ class PlayerAnnouncementCard extends StatefulWidget {
   }) : super(key: key);
 
   final List<String> positions = ["GK", "ST"];
-  final MatchModel matchModel = MatchModel(
-      id: "12s",
-      date: DateTime.now(),
-      hour: "9-10",
-      pitch: "Merkez 1",
-      isPitchApproved: false,
-      creator: Program.program.dummyData.dummyPlayer2,
-      players: [
-        Program.program.dummyData.dummyPlayer2,
-        Program.program.dummyData.dummyPlayer1
-      ],
-      authPlayers: [Program.program.dummyData.dummyPlayer2.id],
-      showOnTable: true,
-      peopleLimit: 14);
 
-  Color _getColor() {
-    if (matchModel.players.length == matchModel.peopleLimit) {
-      return Color.fromARGB(255, 92, 6, 0);
-    } else {
-      return Colors.blueGrey[700] as Color;
-    }
-  }
+
+
 
   @override
   State<PlayerAnnouncementCard> createState() => _PlayerAnnouncementCardState();
 }
 
 class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
+
   @override
   Widget build(BuildContext context) {
+
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      decoration: const BoxDecoration(border: Border(top: BorderSide(width: 0,color: Colors.black12))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: MatchComponentSquare(matchModel: widget.matchModel),
-            ),
+            MatchComponentSquare(matchModel: Program.program.dummyData.dummyMatch1),
+            const SizedBox.square(dimension: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${widget.matchModel.creator.fullName} Takımı fıqejpwfopqw için maç arıyor",
+                    "${Program.program.dummyData.dummyMatch1.creator.fullName} Takımı fıqejpwfopqw için maç arıyor",
                     softWrap: true,
                   ),
                   Row(
@@ -71,20 +53,20 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
                               .map((e) => Text(
                                     "$e ",
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        const TextStyle(fontWeight: FontWeight.bold),
                                   ))
                               .toList()),
                       Row(
                         children: [
                           Text(
-                            '${widget.matchModel.players.length}',
+                            '${Program.program.dummyData.dummyMatch1.players.length}',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!
-                                .copyWith(color: widget._getColor()),
+                                .copyWith(color: _getColor()),
                           ),
                           Text(
-                            '/${widget.matchModel.peopleLimit}',
+                            '/${Program.program.dummyData.dummyMatch1.peopleLimit}',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!
@@ -101,9 +83,17 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: ElevatedButton(onPressed: () {}, child: Text("Actions")),
+          child: ElevatedButton(onPressed: () {}, child: const Text("Actions")),
         )
       ]),
     );
+  }
+
+  Color _getColor() {
+    if (Program.program.dummyData.dummyMatch1.players.length == Program.program.dummyData.dummyMatch1.peopleLimit) {
+      return const Color.fromARGB(255, 92, 6, 0);
+    } else {
+      return Colors.blueGrey[700] as Color;
+    }
   }
 }

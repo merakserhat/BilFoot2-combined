@@ -76,8 +76,8 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
                 child: const TabBarView(
                   children: [
-                    Icon(Icons.directions_car),
-                    Icon(Icons.directions_transit),
+                    AnnouncementList(),
+                    AnnouncementList(),
                   ],
                 ),
               ),

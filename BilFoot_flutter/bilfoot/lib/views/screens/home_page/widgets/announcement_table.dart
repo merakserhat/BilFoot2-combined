@@ -3,66 +3,26 @@ import 'package:bilfoot/data/models/announcements/player_announcement_model.dart
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 import 'package:bilfoot/views/screens/home_page/widgets/announcement_list_item.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/widgets/cards/player_announcement_card.dart';
 import 'package:bilfoot/views/widgets/toggle_switch_menu.dart';
 import 'package:flutter/material.dart';
 
-class AnnouncementTable extends StatefulWidget {
-  const AnnouncementTable({Key? key}) : super(key: key);
+class AnnouncementList extends StatefulWidget {
+  const AnnouncementList({Key? key}) : super(key: key);
 
   @override
-  State<AnnouncementTable> createState() => _AnnouncementTableState();
+  State<AnnouncementList> createState() => _AnnouncementListState();
 }
 
-class _AnnouncementTableState extends State<AnnouncementTable> {
+class _AnnouncementListState extends State<AnnouncementList> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ToggleSwitchMenu(
-            options: const ["Player", "Opponent", "Match"],
-            onToggleChanged: (index, value) {
-              //TODO: change index
-            },
-          ),
-          const SizedBox.square(dimension: 10),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                boxShadow: ProgramConstants.getDefaultBoxShadow(context),
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Container();
-                  /* return AnnouncementListItem(
-                    playerAnnouncement: PlayerAnnouncementModel(
-                        announcer: Program.program.dummyPlayer1,
-                        date: DateTime.now(),
-                        positions: ["GK", "ST"],
-                        forTeam: true,
-                        teamModel: TeamModel(
-                            name: "Cu S.K",
-                            shortName: "CU",
-                            mainColor: "#347282",
-                            accentColor: "#f6f2c2",
-                            creator: Program.program.dummyPlayer1,
-                            captain: Program.program.dummyPlayer1,
-                            players: [])),
-                  ); //TODO: buraya list item
-
-                  */
-                },
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+    return Center(child: ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: 6,
+        itemBuilder: (BuildContext context, int index) {
+          return PlayerAnnouncementCard();
+        }
+    ),);
   }
 }
