@@ -1,4 +1,5 @@
 import 'package:bilfoot/data/models/conversation_model.dart';
+import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
 import 'package:bilfoot/data/models/team_model.dart';
 
@@ -17,8 +18,16 @@ class DummyData {
   late final TeamModel dummyTeam1;
 
   late final List<ConversationModel> conversations;
+  
+  late final MatchModel dummyMatch1;
 
   DummyData() {
+    initializePlayersAndTeams();
+    initializeMatches();
+    initializeConversations();
+  }
+
+  void initializePlayersAndTeams() {
     dummyPlayer1 = PlayerModel(
         id: "",
         email: "ayberk.senguder@ug.bilkent.edu.tr",
@@ -31,7 +40,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     dummyPlayer2 = PlayerModel(
         id: "",
         email: "serhat.merak@ug.bilkent.edu.tr",
@@ -44,7 +53,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     dummyPlayer3 = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -57,7 +66,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     boran = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -70,7 +79,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     ali = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -83,7 +92,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     mete = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -96,7 +105,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     ayberk = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -109,7 +118,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     memduh = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -122,7 +131,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     kerem = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -135,7 +144,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     defans = PlayerModel(
         id: "",
         email: "mirza.atalar@ug.bilkent.edu.tr",
@@ -148,7 +157,7 @@ class DummyData {
         matches: [],
         imageUrl:
             "https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg");
-
+    
     dummyTeam1 = TeamModel(
         id: "",
         name: "TUTUNAMAYANLAR",
@@ -243,5 +252,22 @@ class DummyData {
         ],
       ),
     ];
+  }
+
+  void initializeMatches() {
+    dummyMatch1 = MatchModel(
+        id: "12s",
+        date: DateTime.now(),
+        hour: "9-10",
+        pitch: "Merkez 1",
+        isPitchApproved: false,
+        creator: dummyPlayer2,
+        players: [
+          dummyPlayer2,
+          dummyPlayer1
+        ],
+        authPlayers: [dummyPlayer2.id],
+        showOnTable: true,
+        peopleLimit: 14);
   }
 }

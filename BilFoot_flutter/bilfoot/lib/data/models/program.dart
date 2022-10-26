@@ -18,7 +18,7 @@ class Program {
   PlayerModel? user;
   String? token;
   List<NotificationModel> notifications = [];
-  late final DummyData? _dummyData;
+   DummyData? _dummyData;
 
   DummyData get dummyData {
     _dummyData ??= DummyData();
