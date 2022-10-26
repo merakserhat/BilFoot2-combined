@@ -6,7 +6,10 @@ import 'package:bilfoot/views/screens/new_announcement_page/widgets/match_select
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
+import 'package:bilfoot/views/widgets/number_slider.dart';
 import 'package:bilfoot/views/widgets/position_selector.dart';
+import 'package:bilfoot/views/widgets/position_selector_small.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class NewAnnouncementPage extends StatefulWidget {
@@ -93,9 +96,20 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
                 forTeam = !forMatch;
               }),
           const AnnouncementOptionTitle(title: "Player's positions"),
-          PositionSelector(onSelectionChange: (List<String> positions) {
+          PositionSelectorSmall(onSelectionChange: (List<String> positions) {
             playerPositions = [...positions];
-          })
+          }),
+          const SizedBox.square(
+            dimension: 4,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: const Text("Select Number of Players"),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 4, right: 4, bottom: 12),
+            child: NumberSlider(firstNumber: 0, lastNumber: 14),
+          ),
         ];
       case AnnouncementTypes.opponent:
         return [

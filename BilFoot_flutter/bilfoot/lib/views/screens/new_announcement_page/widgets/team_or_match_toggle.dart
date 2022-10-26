@@ -69,13 +69,3 @@ class _TeamOrMatchToggleState extends State<TeamOrMatchToggle> {
     );
   }
 }
-/*MatchSelector(
-              matches: [
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-                
-              ],
-              onSelectionChanged: (match) {
-                teamModel = match;
-              })*/
