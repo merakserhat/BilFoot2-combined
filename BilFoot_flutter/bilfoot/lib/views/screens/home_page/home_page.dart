@@ -9,6 +9,7 @@ import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_typ
 import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
 import 'package:bilfoot/views/widgets/modals/kick_modal.dart';
 import 'package:bilfoot/views/widgets/modals/quit_modal.dart';
+import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,16 +84,20 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                     child: TabBarView(
                       children: [
-                        AnnouncementList(
-                            playerAnnouncementModels: context
-                                .read<AnnouncementBloc>()
-                                .state
-                                .playerAnnouncements),
-                        AnnouncementList(
-                            opponentAnnouncementModels: context
-                                .read<AnnouncementBloc>()
-                                .state
-                                .opponentAnnouncements),
+                        state.isLoading
+                            ? const SpinnerSmall()
+                            : AnnouncementList(
+                                playerAnnouncementModels: context
+                                    .read<AnnouncementBloc>()
+                                    .state
+                                    .playerAnnouncements),
+                        state.isLoading
+                            ? const SpinnerSmall()
+                            : AnnouncementList(
+                                opponentAnnouncementModels: context
+                                    .read<AnnouncementBloc>()
+                                    .state
+                                    .opponentAnnouncements),
                       ],
                     ),
                   ),

@@ -15,7 +15,8 @@ export const notificationPopulateRule: (PopulateOptions | string)[] = [
 export const teamPopulateRule: (PopulateOptions | string)[] = ["players"];
 
 export const matchPopulateRule: (PopulateOptions | string)[] = [
-  "players creator",
+  "players",
+  "creator",
 ];
 
 export const playerAnnouncementPopulateRule: (PopulateOptions | string)[] = [
