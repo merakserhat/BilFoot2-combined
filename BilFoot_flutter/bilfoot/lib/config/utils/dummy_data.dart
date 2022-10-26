@@ -1,3 +1,4 @@
+import 'package:bilfoot/data/models/announcements/player_announcement_model.dart';
 import 'package:bilfoot/data/models/conversation_model.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/player_model.dart';
@@ -21,10 +22,13 @@ class DummyData {
   
   late final MatchModel dummyMatch1;
 
+  late final PlayerAnnouncementModel dummyPlayerAnnouncement;
+
   DummyData() {
     initializePlayersAndTeams();
     initializeMatches();
     initializeConversations();
+    initializePlayerAnnouncement();
   }
 
   void initializePlayersAndTeams() {
@@ -269,5 +273,9 @@ class DummyData {
         authPlayers: [dummyPlayer2.id],
         showOnTable: true,
         peopleLimit: 14);
+  }
+
+  void initializePlayerAnnouncement() {
+    dummyPlayerAnnouncement = PlayerAnnouncementModel(announcer: ayberk, match: dummyMatch1, createdAt: DateTime.now(), positions: ["GK","ST"], candidates: 2, playerLimit: 4);
   }
 }

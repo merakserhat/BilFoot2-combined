@@ -21,7 +21,7 @@ class _AnnouncementListState extends State<AnnouncementList> {
         padding: const EdgeInsets.all(8),
         itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
-          return PlayerAnnouncementCard();
+          return PlayerAnnouncementCard(playerAnnouncementModel: Program.program.dummyData.dummyPlayerAnnouncement,);
         }
     ),);
   }

@@ -1,3 +1,4 @@
+import 'package:bilfoot/data/models/announcements/player_announcement_model.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/views/widgets/match_component/match_comp_square.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,13 +11,10 @@ import '../../../../../data/models/program.dart';
 class PlayerAnnouncementCard extends StatefulWidget {
   PlayerAnnouncementCard({
     Key? key,
-    /*required this.matchModel*/
+    required this.playerAnnouncementModel
   }) : super(key: key);
 
-  final List<String> positions = ["GK", "ST"];
-
-
-
+  final PlayerAnnouncementModel playerAnnouncementModel;
 
   @override
   State<PlayerAnnouncementCard> createState() => _PlayerAnnouncementCardState();
@@ -35,21 +33,21 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MatchComponentSquare(matchModel: Program.program.dummyData.dummyMatch1),
+            MatchComponentSquare(matchModel: widget.playerAnnouncementModel.match),
             const SizedBox.square(dimension: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${Program.program.dummyData.dummyMatch1.creator.fullName} Takımı fıqejpwfopqw için maç arıyor",
+                    "${widget.playerAnnouncementModel.announcer.fullName} ${MatchModel.formatDate(widget.playerAnnouncementModel.match.date)} tarihli maçı için adam arıyor.",
                     softWrap: true,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                          children: widget.positions
+                          children: widget.playerAnnouncementModel.positions
                               .map((e) => Text(
                                     "$e ",
                                     style:
@@ -59,14 +57,14 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
                       Row(
                         children: [
                           Text(
-                            '${Program.program.dummyData.dummyMatch1.players.length}',
+                            '${widget.playerAnnouncementModel.candidates}',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!
                                 .copyWith(color: _getColor()),
                           ),
                           Text(
-                            '/${Program.program.dummyData.dummyMatch1.peopleLimit}',
+                            '/${widget.playerAnnouncementModel.playerLimit}',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!
@@ -90,7 +88,7 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
   }
 
   Color _getColor() {
-    if (Program.program.dummyData.dummyMatch1.players.length == Program.program.dummyData.dummyMatch1.peopleLimit) {
+    if (widget.playerAnnouncementModel.candidates == widget.playerAnnouncementModel.playerLimit) {
       return const Color.fromARGB(255, 92, 6, 0);
     } else {
       return Colors.blueGrey[700] as Color;
