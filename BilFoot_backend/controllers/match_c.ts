@@ -4,6 +4,7 @@ import Match from "../models/match";
 import Notification, { INotification } from "../models/notification";
 import Player from "../models/player";
 import { NotificationTypes } from "../utils/notification/notification_types";
+import { matchPopulateRule } from "../utils/populate_rules";
 
 export const getMatches = async (
   req: Request,
@@ -13,13 +14,13 @@ export const getMatches = async (
   const past_matches = await Match.find({
     date: { $lt: new Date(Date.now()) },
   })
-    .populate("players creator")
+    .populate(matchPopulateRule)
     .limit(10)
     .sort({ date: -1 });
   const upcoming_matches = await Match.find({
     date: { $gt: new Date(Date.now()) },
   })
-    .populate("players creator")
+    .populate(matchPopulateRule)
     .limit(10)
     .sort({ date: -1 });
 
@@ -73,7 +74,7 @@ export const createMatch = async (
 
   const newMatch = await match.save();
   const matchPopulated = await Match.findById(newMatch._id).populate(
-    "players creator"
+    matchPopulateRule
   );
 
   user.matches.push(newMatch._id);
@@ -180,7 +181,7 @@ export const editMatch = async (
 
   const newMatch = await match.save();
   const matchPopulated = await Match.findById(newMatch._id).populate(
-    "players creator"
+    matchPopulateRule
   );
 
   //   user.matches.push(newTeam._id);
@@ -481,7 +482,7 @@ export const getPlayerMatches = async (
     filter.date = { $gt: new Date(Date.now()) };
   }
 
-  const matches = await Match.find(filter).populate("players creator");
+  const matches = await Match.find(filter).populate(matchPopulateRule);
 
   return res.status(200).json({ matches });
 };

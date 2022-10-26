@@ -7,6 +7,10 @@ import Player from "../models/player";
 import PlayerAnnouncement from "../models/player_announcement";
 import Team from "../models/team";
 import { NotificationTypes } from "../utils/notification/notification_types";
+import {
+  opponentAnnouncementPopulateRule,
+  playerAnnouncementPopulateRule,
+} from "../utils/populate_rules";
 
 /**
  *
@@ -181,17 +185,14 @@ export const getAnnouncements = async (
       ? await PlayerAnnouncement.find()
           .skip(10 * page)
           .limit(10)
-          .populate({ path: "match", populate: "creator players" })
-          .populate("announcer")
+          .populate(playerAnnouncementPopulateRule)
       : null;
   const opponentAnnouncement =
     type !== "player"
       ? await OpponentAnnouncement.find()
           .skip(10 * page)
           .limit(10)
-          .populate("announcer")
-          .populate({ path: "match", populate: "creator players" })
-          .populate({ path: "team", populate: "players" })
+          .populate(opponentAnnouncementPopulateRule)
       : null;
 
   return res.status(200).json({

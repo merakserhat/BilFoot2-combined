@@ -4,6 +4,7 @@ import Notification, { INotification } from "../models/notification";
 import Player, { IPlayer } from "../models/player";
 import Team from "../models/team";
 import answerNotificationActions from "../utils/notification/notification_answer_actions";
+import { notificationPopulateRule } from "../utils/populate_rules";
 
 interface IHomeDate {
   player: IPlayer;
@@ -49,16 +50,8 @@ export const getPlayerNotifications = async (
 
   const notifications = await Notification.find({ to: player._id })
     .sort({ $natural: -1 })
-    .populate("player_model from")
-    .populate({
-      path: "team_model",
-      populate: { path: "players" },
-    })
-    .populate({
-      path: "match_model",
-      populate: { path: "players creator" },
-    })
-    .limit(10); //TODO: match_model
+    .populate(notificationPopulateRule)
+    .limit(10);
 
   if (!notifications) {
     return res.status(400).json({ error: "Notifications not found" });
