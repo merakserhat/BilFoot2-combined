@@ -20,16 +20,19 @@ class _TeamSelectorState extends State<TeamSelector> {
     return CarouselSlider(
       options: CarouselOptions(
           viewportFraction: 0.42,
-          aspectRatio: 2.4,
+          aspectRatio: 3.51,
           enlargeCenterPage: true,
           enableInfiniteScroll: false,
           onPageChanged: (index, _) {
             widget.onSelectionChanged(widget.teams[index]);
           }),
       items: widget.teams.map((team) {
-        return TeamLogoTitle(
-          teamModel: team,
-          bigLogo: true,
+        return Container(
+          decoration: BoxDecoration(border: Border.all(width: 0)),
+          child: TeamLogoTitle(
+            teamModel: team,
+            bigLogo: true,
+          ),
         );
       }).toList(),
     );

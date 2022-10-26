@@ -1,6 +1,8 @@
 import 'package:bilfoot/config/constants/announcement_types.dart';
+import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/widgets/match_selector.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
@@ -20,6 +22,7 @@ class NewAnnouncementPage extends StatefulWidget {
 class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
   bool forTeam = false;
   TeamModel? teamModel;
+  MatchModel? matchModel;
   List<String> playerPositions = ["CM"];
 
   @override
@@ -65,6 +68,7 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
       case AnnouncementTypes.player:
         return [
           const AnnouncementOptionTitle(title: "For What?"),
+          //has to get both matches and teams arrays
           TeamOrMatchToggle(
               teams: [
                 Program.program.dummyData.dummyTeam1,
@@ -73,8 +77,17 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
                 Program.program.dummyData.dummyTeam1,
                 Program.program.dummyData.dummyTeam1,
               ],
+              mathces: [
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+              ],
               onSelectionChanged: (team) {
                 teamModel = team;
+              },
+              onSelectionChangedForMatch: (match) {
+                matchModel = match;
               },
               onToggleChanged: (forMatch) {
                 forTeam = !forMatch;
