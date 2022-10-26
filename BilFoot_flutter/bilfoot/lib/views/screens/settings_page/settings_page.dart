@@ -1,4 +1,5 @@
 import 'package:bilfoot/views/screens/auth_page/bloc/authentication_bloc.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/widgets/cards/player_announcement_card.dart';
 import 'package:bilfoot/views/screens/settings_page/widgets/setting_option_item.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../new_announcement_page/widgets/cards/opponent_announcement_card.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -24,6 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            OpponentAnnouncementCard(),
             Padding(
               padding: const EdgeInsets.all(36.0),
               child: Text("Ayarlar",
