@@ -1,4 +1,5 @@
 import 'package:bilfoot/config/utils/dummy_data.dart';
+import 'package:bilfoot/data/models/announcements/opponent_announcement_model.dart';
 import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:bilfoot/views/widgets/match_component/match_comp_square.dart';
@@ -13,20 +14,10 @@ import '../../../../../data/models/program.dart';
 class OpponentAnnouncementCard extends StatefulWidget {
   OpponentAnnouncementCard({
     Key? key,
-    /*required this.matchModel*/
+    required this.opponentAnnouncementModel,
   }) : super(key: key);
 
-  final List<String> positions = ["GK", "ST"];
-  final matchModel = Program.program.dummyData.dummyMatch1;
-
-  Color _getColor() {
-    if (Program.program.dummyData.dummyMatch1.players.length ==
-        Program.program.dummyData.dummyMatch1.peopleLimit) {
-      return const Color.fromARGB(255, 92, 6, 0);
-    } else {
-      return Colors.blueGrey[700] as Color;
-    }
-  }
+  final OpponentAnnouncementModel opponentAnnouncementModel;
 
   @override
   State<OpponentAnnouncementCard> createState() =>
@@ -46,7 +37,7 @@ class _OpponentAnnouncementCardState extends State<OpponentAnnouncementCard> {
             Padding(
               padding: const EdgeInsets.all(2.0),
               child: TeamLogoTitle(
-                  teamModel: Program.program.dummyData.dummyTeam1,
+                  teamModel: widget.opponentAnnouncementModel.teamModel,
                   bigLogo: true),
             ),
             const SizedBox.square(
@@ -58,10 +49,11 @@ class _OpponentAnnouncementCardState extends State<OpponentAnnouncementCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${widget.matchModel.creator.fullName} Takımı fıqejpwfopqw için maç arıyor",
+                    "${widget.opponentAnnouncementModel.announcer.fullName}, takımı ${widget.opponentAnnouncementModel.teamModel.name} için ${MatchModel.formatDate(widget.opponentAnnouncementModel.match.date)} tarihine rakip arıyor.",
                     softWrap: true,
                   ),
-                  MatchComponentLine(matchModel: widget.matchModel)
+                  MatchComponentLine(
+                      matchModel: widget.opponentAnnouncementModel.match)
                 ],
               ),
             ),

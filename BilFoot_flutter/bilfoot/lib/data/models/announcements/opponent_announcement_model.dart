@@ -15,7 +15,7 @@ class OpponentAnnouncementModel {
   late final TeamModel teamModel;
 
   OpponentAnnouncementModel.fromJson(Map<String, dynamic> json) {
-    announcer = PlayerModel.fromJson(json['pitch']);
+    announcer = PlayerModel.fromJson(json['announcer']);
     match = MatchModel.fromJson(json['match']);
     DateTime dataDate = DateTime.parse(json['created_at']);
     createdAt = DateTime(dataDate.year, dataDate.month, dataDate.day);

@@ -27,7 +27,6 @@ class _SettingsPageState extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            OpponentAnnouncementCard(),
             Padding(
               padding: const EdgeInsets.all(36.0),
               child: Text("Ayarlar",
