@@ -181,13 +181,21 @@ export const getAnnouncements = async (
       ? await PlayerAnnouncement.find()
           .skip(10 * page)
           .limit(10)
+          .populate({ path: "match", populate: "creator players" })
+          .populate("announcer")
       : null;
   const opponentAnnouncement =
     type !== "player"
       ? await OpponentAnnouncement.find()
           .skip(10 * page)
           .limit(10)
+          .populate("announcer")
+          .populate({ path: "match", populate: "creator players" })
+          .populate({ path: "team", populate: "players" })
       : null;
 
-  return res.status(200).json({ playerAnnouncements, opponentAnnouncement });
+  return res.status(200).json({
+    player_announcements: playerAnnouncements,
+    opponent_announcements: opponentAnnouncement,
+  });
 };
