@@ -168,3 +168,26 @@ export const playerAnnouncementJoinRequest = async (
   playerAnnouncement.candidates.push(user._id);
   playerAnnouncement.save();
 };
+
+export const getAnnouncements = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const page: number = +req.params.page || 0;
+  const type: string = req.params.announcement_type;
+  const playerAnnouncements =
+    type !== "opponent"
+      ? await PlayerAnnouncement.find()
+          .skip(10 * page)
+          .limit(10)
+      : null;
+  const opponentAnnouncement =
+    type !== "player"
+      ? await OpponentAnnouncement.find()
+          .skip(10 * page)
+          .limit(10)
+      : null;
+
+  return res.status(200).json({ playerAnnouncements, opponentAnnouncement });
+};
