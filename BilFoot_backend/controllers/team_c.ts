@@ -4,7 +4,7 @@ import Notification, { INotification } from "../models/notification";
 import Player, { IPlayer } from "../models/player";
 import Team, { ITeam } from "../models/team";
 import { Types, Schema, model, Document } from "mongoose";
-import { NotificationTypes } from "../utils/notification_types";
+import { NotificationTypes } from "../utils/notification/notification_types";
 import { ObjectId, ObjectIdLike } from "bson";
 
 export const createTeam = async (

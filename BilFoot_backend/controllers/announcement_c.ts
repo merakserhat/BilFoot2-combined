@@ -6,7 +6,7 @@ import OpponentAnnouncement from "../models/opponent_announcement";
 import Player from "../models/player";
 import PlayerAnnouncement from "../models/player_announcement";
 import Team from "../models/team";
-import { NotificationTypes } from "../utils/notification_types";
+import { NotificationTypes } from "../utils/notification/notification_types";
 
 /**
  *

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import Notification, { INotification } from "../models/notification";
 import Player, { IPlayer } from "../models/player";
 import Team from "../models/team";
-import answerNotificationActions from "../utils/notification_answer_actions";
+import answerNotificationActions from "../utils/notification/notification_answer_actions";
 
 interface IHomeDate {
   player: IPlayer;

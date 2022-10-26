@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import Match from "../models/match";
 import Notification, { INotification } from "../models/notification";
 import Player from "../models/player";
-import { NotificationTypes } from "../utils/notification_types";
+import { NotificationTypes } from "../utils/notification/notification_types";
 
 export const getMatches = async (
   req: Request,
