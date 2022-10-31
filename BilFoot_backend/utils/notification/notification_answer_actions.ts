@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Notification, { INotification } from "../../models/notification";
 import Player, { IPlayer } from "../../models/player";
 import { handleMatchInvitationAction } from "./handlers/match_invitation_action_handler";
+import { handlePlayerAnnouncementJoinRequest } from "./handlers/player_announcement_join_request_handler";
 import { handleTeamInvitationAction } from "./handlers/team_invitation_action_handler";
 import { NotificationTypes } from "./notification_types";
 
@@ -23,7 +24,9 @@ export default async (
     case NotificationTypes.matchInvitation:
       handleMatchInvitationAction(notification, answer, user);
       break;
-
+    case NotificationTypes.playerAnnouncementJoinRequest:
+      handlePlayerAnnouncementJoinRequest(notification, answer, user);
+      break;
     default:
       break;
   }

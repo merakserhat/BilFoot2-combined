@@ -193,3 +193,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+/* Some Notes
+FIND PLAYER ANNOUNCEMENT FLOW
+-> when clicked on action at find player, Open a model
+-> when that model is approved, send request [player-announcement-join-request]
+-> create a notification card (maybe it is done) for this notification
+-> (Notification Card) ->(Accept): create a field to playerAnnouncementModel for foundPlayers
+-> send notification to candidate whether the request is accepted or not
+
+
+FE task
+[3+3] Create a model for "Do you want to send
+   join request for this match -> match info -> author info"
+[?] Create a notification card for player_announcement_join_request
+
+BE task
+[5] create an endpoint for answer player announcement join request
+
+
+
+
+
+
+
+
+
+
+ */
