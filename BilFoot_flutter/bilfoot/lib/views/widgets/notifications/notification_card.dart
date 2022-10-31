@@ -9,6 +9,7 @@ import 'package:bilfoot/views/screens/profile_page/widgets/profile_page_photo.da
 import 'package:bilfoot/views/screens/team_page/team_page.dart';
 import 'package:bilfoot/views/screens/team_page/widgets/team_logo_title.dart';
 import 'package:bilfoot/views/widgets/markup_text.dart';
+import 'package:bilfoot/views/widgets/match_component/match_comp_square.dart';
 import 'package:bilfoot/views/widgets/match_logo.dart';
 import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,8 @@ class _NotificationCardState extends State<NotificationCard> {
       return ProfilePagePhoto(
           playerModel: widget.notificationModel.playerModel!);
     } else if (widget.notificationModel.matchModel != null) {
-      return MatchLogo(matchModel: widget.notificationModel.matchModel!);
+      return MatchComponentSquare(
+          matchModel: widget.notificationModel.matchModel!);
     } else if (widget.notificationModel.teamModel != null) {
       return TeamLogoTitle(
         teamModel: widget.notificationModel.teamModel!,
@@ -82,6 +84,7 @@ class _NotificationCardState extends State<NotificationCard> {
   }
 
   String _getText() {
+    //TODO: buraya bir text
     switch (widget.notificationModel.type) {
       case Notifications.teamInvitation:
         return "[b]${widget.notificationModel.from.fullName}[] has invited you to the team [b]${widget.notificationModel.teamModel?.name}[] ";
@@ -90,7 +93,11 @@ class _NotificationCardState extends State<NotificationCard> {
       case Notifications.matchInvitation:
         return "[b]${widget.notificationModel.from.fullName}[] has invited you to the match on [b]${MatchModel.formatDate(widget.notificationModel.matchModel?.date)}[] at  [b]${widget.notificationModel.matchModel?.hour}[]";
       case Notifications.matchInvitationAnswer:
-        return "[b]${widget.notificationModel.from.fullName}[] has [${widget.notificationModel.status == "accepted" ? "#4CAF50" : "#F44336"}] ${widget.notificationModel.status} [] your invitation to the match at [b]${widget.notificationModel.matchModel?.date}[] ";
+        return "[b]${widget.notificationModel.from.fullName}[] has [${widget.notificationModel.status == "accepted" ? "#4CAF50" : "#F44336"}] ${widget.notificationModel.status} [] your invitation to the match at [b]${MatchModel.formatDate(widget.notificationModel.matchModel?.date)}[] ";
+      case Notifications.playerAnnouncementJoinRequest:
+        return "[b]${widget.notificationModel.from.fullName}[] has requested to join your match at [b]${MatchModel.formatDate(widget.notificationModel.matchModel?.date)}[] ";
+      case Notifications.playerAnnouncementJoinRequestAnswer:
+        return "[b]${widget.notificationModel.from.fullName}[] has [${widget.notificationModel.status == "accepted" ? "#4CAF50" : "#F44336"}] ${widget.notificationModel.status} [] your join request to the match at [b]${MatchModel.formatDate(widget.notificationModel.matchModel?.date)}[] ";
     }
     return "Şimdilik burası [b]admin[] için bir deneme [#ff0000]notification[] testi.";
   }

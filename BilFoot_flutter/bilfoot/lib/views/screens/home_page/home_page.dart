@@ -204,7 +204,7 @@ FIND PLAYER ANNOUNCEMENT FLOW
 
 
 FE task
-[3+3] Create a model for "Do you want to send
+ok- [3+3] Create a model for "Do you want to send
    join request for this match -> match info -> author info"
 [?] Create a notification card for player_announcement_join_request
 

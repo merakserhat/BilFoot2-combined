@@ -48,4 +48,30 @@ class AnnouncementService {
 
     return returnValue;
   }
+
+  static Future<bool> sendPlayerAnnouncementJoinRequest(
+      String announcementId) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "announcement/player-announcement-join-request",
+      body: {
+        "announcement_id": announcementId,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response get matches");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status  get announcements");
+      print(response.body);
+      return false;
+    }
+
+    return true;
+  }
 }

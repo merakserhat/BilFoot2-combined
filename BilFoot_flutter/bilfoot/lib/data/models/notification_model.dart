@@ -8,6 +8,14 @@ class Notifications {
   static const String matchInvitation = "match_invitation";
   static const String matchInvitationAnswer = "match_invitation_answer";
   static const String opponentAnnouncement = "opponent_announcement";
+  static const String playerAnnouncementJoinRequest =
+      "player_announcement_join_request";
+  static const String playerAnnouncementJoinRequestAnswer =
+      "player_announcement_join_request_answer";
+  static const String opponentAnnouncementJoinRequest =
+      "opponent_announcement_join_request";
+  static const String opponentAnnouncementJoinRequestAnswer =
+      "opponent_announcement_join_request_answer";
 }
 
 class NotificationModel {

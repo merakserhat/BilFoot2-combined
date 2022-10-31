@@ -90,7 +90,19 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
                   child: ValidationModal(
                     text: _getValidationText(),
                     onAccepted: () async {
-                      //burada direkt join request çık
+                      bool result = await BilfootClient()
+                          .sendPlayerAnnouncementJoinRequest(
+                              widget.playerAnnouncementModel.id);
+                      Navigator.of(context).pop();
+
+                      if (result) {
+                        /* context.read<TeamBloc>().add(
+                              TeamChangeCaptain(
+                                teamId: teamModel!.id,
+                                newCaptainId: playerModel.id,
+                              ),
+                            );*/
+                      }
                     },
                   ),
                 );

@@ -36,6 +36,7 @@ export const handlePlayerAnnouncementJoinRequest = async (
     to: notification.from,
     player_model: user._id,
     team_model: notification.team_model,
+    match_model: notification.match_model,
     interaction: "static",
     status: answer,
     type: NotificationTypes.playerAnnouncementJoinRequestAnswer,

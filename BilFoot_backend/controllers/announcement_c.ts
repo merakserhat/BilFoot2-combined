@@ -163,9 +163,13 @@ export const playerAnnouncementJoinRequest = async (
     to: playerAnnouncement.announcer,
     type: NotificationTypes.playerAnnouncementJoinRequest,
     player_announcement_model: playerAnnouncement._id,
+    player_model: user._id,
+    match_model: playerAnnouncement.match._id,
     status: "vending",
     interaction: "approval",
   });
+
+  res.status(201).json({ message: "success" });
 
   invitation.save();
 

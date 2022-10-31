@@ -3,6 +3,7 @@ import 'package:bilfoot/data/models/player_model.dart';
 
 class PlayerAnnouncementModel {
   PlayerAnnouncementModel({
+    required this.id,
     required this.announcer,
     required this.match,
     required this.createdAt,
@@ -10,6 +11,7 @@ class PlayerAnnouncementModel {
     required this.candidates,
     required this.playerLimit,
   });
+  late final String id;
   late final PlayerModel announcer;
   late final MatchModel match;
   late final DateTime createdAt;
@@ -18,6 +20,7 @@ class PlayerAnnouncementModel {
   late final int candidates;
 
   PlayerAnnouncementModel.fromJson(Map<String, dynamic> json) {
+    id = json['_id'];
     announcer = PlayerModel.fromJson(json['announcer']);
     match = MatchModel.fromJson(json['match']);
     DateTime dataDate = DateTime.parse(json['created_at']);
