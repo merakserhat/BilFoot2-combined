@@ -102,9 +102,9 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
           const SizedBox.square(
             dimension: 4,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24),
-            child: const Text("Select Number of Players"),
+          const Padding(
+            padding: EdgeInsets.only(top: 24),
+            child: Text("Select Number of Players"),
           ),
           const Padding(
             padding: EdgeInsets.only(left: 4, right: 4, bottom: 12),
