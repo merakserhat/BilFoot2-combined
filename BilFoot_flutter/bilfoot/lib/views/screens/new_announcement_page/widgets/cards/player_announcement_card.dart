@@ -1,16 +1,20 @@
+import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/data/models/announcements/player_announcement_model.dart';
 import 'package:bilfoot/data/models/match_model.dart';
+import 'package:bilfoot/data/networking/client.dart';
 import 'package:bilfoot/views/widgets/match_component/match_comp_square.dart';
+import 'package:bilfoot/views/widgets/modals/base_modal.dart';
+import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
+import 'package:bilfoot/views/widgets/modals/quit_modal.dart';
+import 'package:bilfoot/views/widgets/modals/validation_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class PlayerAnnouncementCard extends StatefulWidget {
-  PlayerAnnouncementCard({
-    Key? key,
-    required this.playerAnnouncementModel
-  }) : super(key: key);
+  PlayerAnnouncementCard({Key? key, required this.playerAnnouncementModel})
+      : super(key: key);
 
   final PlayerAnnouncementModel playerAnnouncementModel;
 
@@ -19,19 +23,19 @@ class PlayerAnnouncementCard extends StatefulWidget {
 }
 
 class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
-
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-      decoration: const BoxDecoration(border: Border(top: BorderSide(width: 0,color: Colors.black12))),
+      decoration: const BoxDecoration(
+          border: Border(top: BorderSide(width: 0, color: Colors.black12))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MatchComponentSquare(matchModel: widget.playerAnnouncementModel.match),
+            MatchComponentSquare(
+                matchModel: widget.playerAnnouncementModel.match),
             const SizedBox.square(dimension: 8),
             Expanded(
               child: Column(
@@ -48,8 +52,8 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
                           children: widget.playerAnnouncementModel.positions
                               .map((e) => Text(
                                     "$e ",
-                                    style:
-                                        const TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ))
                               .toList()),
                       Row(
@@ -79,17 +83,34 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: ElevatedButton(onPressed: () {}, child: const Text("Actions")),
+          child: ElevatedButton(
+              onPressed: () {
+                ProgramConstants.showBlurryBackground(
+                  context: context,
+                  child: ValidationModal(
+                    text: _getValidationText(),
+                    onAccepted: () async {
+                      //burada direkt join request çık
+                    },
+                  ),
+                );
+              },
+              child: const Text("Actions")),
         )
       ]),
     );
   }
 
   Color _getColor() {
-    if (widget.playerAnnouncementModel.candidates == widget.playerAnnouncementModel.playerLimit) {
+    if (widget.playerAnnouncementModel.candidates ==
+        widget.playerAnnouncementModel.playerLimit) {
       return const Color.fromARGB(255, 92, 6, 0);
     } else {
       return Colors.blueGrey[700] as Color;
     }
+  }
+
+  String _getValidationText() {
+    return "${widget.playerAnnouncementModel.announcer.fullName}'ın maçına katılma istediği yollamak istiyor musunuz?";
   }
 }

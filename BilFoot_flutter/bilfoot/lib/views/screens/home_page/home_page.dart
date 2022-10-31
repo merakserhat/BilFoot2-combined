@@ -209,7 +209,7 @@ FE task
 [?] Create a notification card for player_announcement_join_request
 
 BE task
-[5] create an endpoint for answer player announcement join request
+ok- [5] create an endpoint for answer player announcement join request
 
 
 
