@@ -7,6 +7,8 @@ interface IPlayerAnnouncement {
   positions: string[];
   match: Types.ObjectId;
   candidates: Types.ObjectId[];
+  accepted_players: Types.ObjectId[];
+  refused_players: Types.ObjectId[];
   player_limit: Number;
 }
 
@@ -15,6 +17,8 @@ const playerAnnouncementSchema = new Schema<IPlayerAnnouncement>({
   created_at: { type: Date, required: true },
   positions: [String],
   candidates: [ObjectId],
+  accepted_players: [ObjectId],
+  refused_players: [ObjectId],
   match: { type: Schema.Types.ObjectId, ref: "match" },
   player_limit: { type: Number },
 });

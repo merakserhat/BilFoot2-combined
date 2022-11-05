@@ -59,7 +59,7 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
                       Row(
                         children: [
                           Text(
-                            '${widget.playerAnnouncementModel.candidates}',
+                            '${widget.playerAnnouncementModel.acceptedPlayers}',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!
@@ -114,7 +114,7 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
   }
 
   Color _getColor() {
-    if (widget.playerAnnouncementModel.candidates ==
+    if (widget.playerAnnouncementModel.acceptedPlayers ==
         widget.playerAnnouncementModel.playerLimit) {
       return const Color.fromARGB(255, 92, 6, 0);
     } else {

@@ -280,6 +280,8 @@ class DummyData {
         createdAt: DateTime.now(),
         positions: ["GK", "ST"],
         candidates: 2,
+        refusedPlayers: 2,
+        acceptedPlayers: 2,
         playerLimit: 4);
   }
 }

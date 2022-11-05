@@ -9,6 +9,8 @@ class PlayerAnnouncementModel {
     required this.createdAt,
     required this.positions,
     required this.candidates,
+    required this.refusedPlayers,
+    required this.acceptedPlayers,
     required this.playerLimit,
   });
   late final String id;
@@ -18,6 +20,8 @@ class PlayerAnnouncementModel {
   late final List<String> positions;
   late final int playerLimit;
   late final int candidates;
+  late final int refusedPlayers;
+  late final int acceptedPlayers;
 
   PlayerAnnouncementModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
@@ -28,5 +32,7 @@ class PlayerAnnouncementModel {
     positions = List.from(json["positions"]);
     playerLimit = json["player_limit"];
     candidates = List.from(json["candidates"]).length;
+    refusedPlayers = List.from(json["refused_players"]).length;
+    acceptedPlayers = List.from(json["accepted_players"]).length;
   }
 }
