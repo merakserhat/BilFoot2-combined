@@ -81,34 +81,7 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: ElevatedButton(
-              onPressed: () {
-                ProgramConstants.showBlurryBackground(
-                  context: context,
-                  child: ValidationModal(
-                    text: _getValidationText(),
-                    onAccepted: () async {
-                      bool result = await BilfootClient()
-                          .sendPlayerAnnouncementJoinRequest(
-                              widget.playerAnnouncementModel.id);
-                      Navigator.of(context).pop();
-
-                      if (result) {
-                        /* context.read<TeamBloc>().add(
-                              TeamChangeCaptain(
-                                teamId: teamModel!.id,
-                                newCaptainId: playerModel.id,
-                              ),
-                            );*/
-                      }
-                    },
-                  ),
-                );
-              },
-              child: const Text("Actions")),
-        )
+        _getActions(),
       ]),
     );
   }
@@ -124,5 +97,48 @@ class _PlayerAnnouncementCardState extends State<PlayerAnnouncementCard> {
 
   String _getValidationText() {
     return "${widget.playerAnnouncementModel.announcer.fullName}'ın maçına katılma istediği yollamak istiyor musunuz?";
+  }
+
+  Widget _getActions() {
+    if (widget.playerAnnouncementModel.acceptedPlayers ==
+        widget.playerAnnouncementModel.playerLimit) {
+      return Center(
+        child: Text(
+          "Full",
+          style: Theme.of(context)
+              .textTheme
+              .bodyText2!
+              .copyWith(color: Theme.of(context).errorColor),
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: ElevatedButton(
+          onPressed: () {
+            ProgramConstants.showBlurryBackground(
+              context: context,
+              child: ValidationModal(
+                text: _getValidationText(),
+                onAccepted: () async {
+                  bool result = await BilfootClient()
+                      .sendPlayerAnnouncementJoinRequest(
+                          widget.playerAnnouncementModel.id);
+                  Navigator.of(context).pop();
+
+                  if (result) {
+                    /* context.read<TeamBloc>().add(
+                              TeamChangeCaptain(
+                                teamId: teamModel!.id,
+                                newCaptainId: playerModel.id,
+                              ),
+                            );*/
+                  }
+                },
+              ),
+            );
+          },
+          child: const Text("Actions")),
+    );
   }
 }
