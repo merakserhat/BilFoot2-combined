@@ -7,17 +7,24 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class NumberSlider extends StatefulWidget {
   const NumberSlider(
-      {Key? key, required this.firstNumber, required this.lastNumber})
+      {Key? key, required this.min, required this.max, required this.onChanged})
       : super(key: key);
-  final double firstNumber;
-  final double lastNumber;
+  final double min;
+  final double max;
+  final Function(double) onChanged;
 
   @override
   State<NumberSlider> createState() => _NumberSliderState();
 }
 
 class _NumberSliderState extends State<NumberSlider> {
-  var _value = 0.0;
+  late double _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = (widget.max + widget.min) / 2;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +37,13 @@ class _NumberSliderState extends State<NumberSlider> {
         ),
       ),
       child: Slider(
-        min: widget.firstNumber,
-        max: widget.lastNumber,
+        min: widget.min,
+        max: widget.max,
         value: _value,
-        divisions: (widget.lastNumber - widget.firstNumber).round(),
+        divisions: (widget.max - widget.min).round(),
         label: '${_value.round()}',
         onChanged: (value) {
+          widget.onChanged(value);
           setState(() {
             _value = value;
           });
@@ -45,7 +53,7 @@ class _NumberSliderState extends State<NumberSlider> {
   }
 }
 
-class PolygonSliderThumb extends SliderComponentShape {
+class PolygonSliderThumb extends RoundSliderThumbShape {
   final double thumbRadius;
   final double sliderValue;
   const PolygonSliderThumb({
@@ -54,9 +62,7 @@ class PolygonSliderThumb extends SliderComponentShape {
   });
 
   @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size.fromRadius(thumbRadius);
-  }
+  double get enabledThumbRadius => thumbRadius;
 
   @override
   void paint(
@@ -74,8 +80,19 @@ class PolygonSliderThumb extends SliderComponentShape {
     required Size sizeWithOverflow,
   }) {
     // Define the slider thumb design here
+    super.paint(context, center,
+        activationAnimation: activationAnimation,
+        enableAnimation: enableAnimation,
+        isDiscrete: isDiscrete,
+        labelPainter: labelPainter,
+        parentBox: parentBox,
+        sliderTheme: sliderTheme,
+        textDirection: textDirection,
+        value: value,
+        textScaleFactor: textScaleFactor,
+        sizeWithOverflow: sizeWithOverflow);
     final Canvas canvas = context.canvas;
-    int sides = 4;
+    /*int sides = 3;
     double innerPolygonRadius = thumbRadius * 1.2;
     double outerPolygonRadius = thumbRadius * 1.4;
     double angle = (math.pi * 2) / sides;
@@ -128,7 +145,7 @@ class PolygonSliderThumb extends SliderComponentShape {
 
     innerPath.close();
     canvas.drawPath(innerPath, innerPathColor);
-
+*/
     TextSpan span = TextSpan(
       style: TextStyle(
         fontSize: thumbRadius,
