@@ -22,25 +22,6 @@ class MarkupText extends StatelessWidget {
     );
   }
 
-  List<Map<String, dynamic>> _defactorizeTexts() {
-    List<Map<String, dynamic>> texts = [];
-    List<String> dirtyTexts = text.split("<b>");
-    List<List<String>> textPairs =
-        dirtyTexts.map((dirtyText) => dirtyText.split("</>")).toList();
-    for (var textPair in textPairs) {
-      if (textPair.length == 1) {
-        texts.add({"text": textPair[0], "type": "normal"});
-      } else if (textPair.length == 2) {
-        texts.add({"text": textPair[0], "type": "bold"});
-        texts.add({"text": textPair[1], "type": "normal"});
-      } else {
-        throw AssertionError("Text pattern is not valid");
-      }
-    }
-
-    return texts;
-  }
-
   List<MarkupModel> _getMarkups() {
     RegExp regex = RegExp(r'\[[^\]]*]');
 

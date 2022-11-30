@@ -12,8 +12,8 @@ class NotificationTypes {
   static const String matchKicked = "match_kicked";
   static const String matchCaptainSelected = "match_captain_selected";
 
-  static const String playerAnnouncementCandidate =
-      "player_announcement_candidate";
-  static const String opponentAnnouncementCandidate =
-      "opponent_announcement_candidate";
+  static const String playerAnnouncementJoinRequest =
+      "player_announcement_join_request";
+  static const String opponentAnnouncementJoinRequest =
+      "opponent_announcement_join_request";
 }

@@ -1,3 +1,4 @@
+import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -12,69 +13,56 @@ class MatchComponentSquare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(2),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              MatchModel.formatSquareMatchDate(matchModel.date),
-              textAlign: TextAlign.end,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .copyWith(color: Colors.black87),
-            ),
-            Text(
-              matchModel.hour,
-              textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    color: Colors.black87,
-                  ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                      child: Image.asset(
-                        "assets/images/pitch.png",
-                        color: Color.fromARGB(255, 3, 88, 6),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 1,
-                    ),
-                    Text(
-                      matchModel.pitch,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    SizedBox(
-                      width: 2,
-                    ),
-                    matchModel.isPitchApproved
-                        ? const Icon(
-                            Icons.check_circle_outline,
-                            color: Colors.green,
-                            size: 14,
-                          )
-                        : const Icon(
-                            Icons.warning_amber,
-                            color: Colors.amber,
-                            size: 14,
-                          ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "${MatchModel.formatSquareMatchDate(matchModel.date)}\n${matchModel.hour}",
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6!.copyWith(
+                color: Colors.black87,
+              ),
         ),
-      ),
+        _buildBottomTitle(context),
+      ],
+    );
+  }
+
+  Widget _buildBottomTitle(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 20,
+          child: Image.asset(
+            "assets/images/pitch.png",
+            color: const Color.fromARGB(255, 3, 88, 6),
+          ),
+        ),
+        const SizedBox(
+          width: 1,
+        ),
+        Text(
+          matchModel.pitch,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        const SizedBox(
+          width: 2,
+        ),
+        matchModel.isPitchApproved
+            ? const Icon(
+                Icons.check_circle_outline,
+                color: Colors.green,
+                size: 14,
+              )
+            : const Icon(
+                Icons.warning_amber,
+                color: Colors.amber,
+                size: 14,
+              ),
+      ],
     );
   }
 }

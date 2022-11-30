@@ -3,13 +3,16 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/views/screens/auth_page/auth_page.dart';
 import 'package:bilfoot/views/screens/defining_page/position_selection_page.dart';
 import 'package:bilfoot/views/screens/defining_page/skill_selection_page.dart';
+import 'package:bilfoot/views/screens/home_page/bloc/announcement_bloc.dart';
 import 'package:bilfoot/views/screens/home_page/widgets/announcement_table.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/new_announcement_type_panel.dart';
 import 'package:bilfoot/views/widgets/modals/captain_modal.dart';
 import 'package:bilfoot/views/widgets/modals/kick_modal.dart';
 import 'package:bilfoot/views/widgets/modals/quit_modal.dart';
+import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,6 +31,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     pageController = PageController();
+    context.read<AnnouncementBloc>().add(AnnouncementGetAnnouncements());
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
@@ -71,16 +76,33 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: const TabBarView(
-                  children: [
-                    Icon(Icons.directions_car),
-                    Icon(Icons.directions_transit),
-                  ],
-                ),
-              ),
+            BlocBuilder<AnnouncementBloc, AnnouncementState>(
+              builder: (context, state) {
+                print("sasasa");
+                return Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: TabBarView(
+                      children: [
+                        state.isLoading
+                            ? const SpinnerSmall()
+                            : AnnouncementList(
+                                playerAnnouncementModels: context
+                                    .read<AnnouncementBloc>()
+                                    .state
+                                    .playerAnnouncements),
+                        state.isLoading
+                            ? const SpinnerSmall()
+                            : AnnouncementList(
+                                opponentAnnouncementModels: context
+                                    .read<AnnouncementBloc>()
+                                    .state
+                                    .opponentAnnouncements),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -171,3 +193,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+/* Some Notes
+FIND PLAYER ANNOUNCEMENT FLOW
+
+-> Pasife alma flowu yap
+
+-> Accepted players dolduğunda pasife al
+
+
+
+
+
+
+
+
+
+
+ */

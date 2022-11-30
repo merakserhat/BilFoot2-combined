@@ -1,4 +1,3 @@
-import 'package:bilfoot/data/models/team_model.dart';
 import 'package:equatable/equatable.dart';
 
 class PlayerModel extends Equatable {
@@ -12,6 +11,7 @@ class PlayerModel extends Equatable {
     required this.pointerNum,
     this.imageUrl,
     required this.teams,
+    required this.matches,
   });
   late final String id;
   late final String email;
@@ -22,6 +22,7 @@ class PlayerModel extends Equatable {
   late final int pointerNum;
   late final String? imageUrl;
   late final List<String> teams;
+  late final List<String> matches;
 
   PlayerModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -34,6 +35,7 @@ class PlayerModel extends Equatable {
     pointerNum = json['pointer_num'];
     imageUrl = json['image_url'];
     teams = List.castFrom<dynamic, String>(json["teams"]);
+    matches = List.castFrom<dynamic, String>(json["matches"]);
   }
 
   @override

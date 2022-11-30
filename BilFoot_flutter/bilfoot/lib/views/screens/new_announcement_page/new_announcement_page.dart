@@ -1,10 +1,16 @@
 import 'package:bilfoot/config/constants/announcement_types.dart';
+import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/data/models/match_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
-import 'package:bilfoot/views/widgets/position_selector.dart';
+import 'package:bilfoot/views/screens/new_announcement_page/widgets/match_selector.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
+import 'package:bilfoot/views/widgets/number_slider.dart';
+import 'package:bilfoot/views/widgets/position_selector.dart';
+import 'package:bilfoot/views/widgets/position_selector_small.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class NewAnnouncementPage extends StatefulWidget {
@@ -20,30 +26,32 @@ class NewAnnouncementPage extends StatefulWidget {
 class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
   bool forTeam = false;
   TeamModel? teamModel;
+  MatchModel? matchModel;
   List<String> playerPositions = ["CM"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BasicAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
+      appBar: const BasicAppBar(),
+      body: Padding(
+        padding: ProgramConstants.pagePadding,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
                 _getOpponentTitle(),
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline1,
               ),
-            ),
-            const Divider(),
-            const SizedBox.square(dimension: 15),
-            ..._getAnnouncementOptions(),
-            const SizedBox.square(dimension: 20),
-            ElevatedButton(
-                onPressed: createAnnouncement, child: const Text("Create"))
-          ],
+              const Divider(),
+              const SizedBox.square(dimension: 15),
+              ..._getAnnouncementOptions(),
+              const SizedBox.square(dimension: 30),
+              ElevatedButton(
+                  onPressed: createAnnouncement,
+                  child: const Text("Create Announcement"))
+            ],
+          ),
         ),
       ),
     );
@@ -64,38 +72,54 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
     switch (widget.announcementType) {
       case AnnouncementTypes.player:
         return [
-          const AnnouncementOptionTitle(title: "For What?"),
-          TeamOrMatchToggle(
-              teams: [
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-              ],
-              onSelectionChanged: (team) {
-                teamModel = team;
-              },
-              onToggleChanged: (forMatch) {
-                forTeam = !forMatch;
+          AnnouncementOptionItem(
+              widget: MatchSelector(matches: [
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+              ], onSelectionChanged: _onMatchSelectionChanged),
+              title: "Select Your Match"),
+          AnnouncementOptionItem(
+              widget: PositionSelectorSmall(
+                  onSelectionChange: (List<String> positions) {
+                setState(() {
+                  playerPositions = [...positions];
+                });
               }),
-          const AnnouncementOptionTitle(title: "Player's positions"),
-          PositionSelector(onSelectionChange: (List<String> positions) {
-            playerPositions = [...positions];
-          })
+              title: "Player's positions"),
+          AnnouncementOptionItem(
+              widget: NumberSlider(
+                min: 0,
+                max: 8,
+                onChanged: _onNumberOfPlayersChanged,
+              ),
+              title: "Select number of players you need"),
         ];
       case AnnouncementTypes.opponent:
         return [
-          const AnnouncementOptionTitle(title: "Your Team"),
-          TeamSelector(
-              teams: [
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-                Program.program.dummyTeam1,
-              ],
-              onSelectionChanged: (team) {
-                teamModel = team;
-              })
+          AnnouncementOptionItem(
+            widget: TeamSelector(
+                teams: [
+                  Program.program.dummyData.dummyTeam1,
+                  Program.program.dummyData.dummyTeam1,
+                  Program.program.dummyData.dummyTeam1,
+                  Program.program.dummyData.dummyTeam1,
+                  Program.program.dummyData.dummyTeam1,
+                ],
+                onSelectionChanged: (team) {
+                  teamModel = team;
+                }),
+            title: "Select your team",
+          ),
+          AnnouncementOptionItem(
+              widget: MatchSelector(matches: [
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+                Program.program.dummyData.dummyMatch1,
+              ], onSelectionChanged: _onMatchSelectionChanged),
+              title: "Select Your Match"),
         ];
       default:
         return [];
@@ -107,22 +131,33 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
     print(teamModel);
     print(playerPositions);
   }
+
+  _onNumberOfPlayersChanged(double value) {}
+
+  _onMatchSelectionChanged(MatchModel selectedMatch) {}
 }
 
-class AnnouncementOptionTitle extends StatelessWidget {
-  const AnnouncementOptionTitle({Key? key, required this.title})
+class AnnouncementOptionItem extends StatelessWidget {
+  const AnnouncementOptionItem(
+      {Key? key, required this.title, required this.widget})
       : super(key: key);
 
   final String title;
+  final Widget widget;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 15, bottom: 10),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.headline5,
-      ),
+    return Column(
+      children: [
+        const SizedBox.square(dimension: 5),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.headline2,
+        ),
+        const SizedBox.square(dimension: 10),
+        widget,
+        const SizedBox.square(dimension: 25),
+      ],
     );
   }
 }

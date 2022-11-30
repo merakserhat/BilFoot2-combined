@@ -4,8 +4,10 @@ import 'package:bilfoot/views/screens/auth_page/auth_verification_page.dart';
 import 'package:bilfoot/views/screens/auth_page/bloc/authentication_bloc.dart';
 import 'package:bilfoot/views/screens/defining_page/bloc/defining_bloc.dart';
 import 'package:bilfoot/views/screens/defining_page/defining_page.dart';
+import 'package:bilfoot/views/screens/home_page/bloc/announcement_bloc.dart';
 import 'package:bilfoot/views/screens/main_page/main_control_page.dart';
 import 'package:bilfoot/views/screens/match_page/bloc/match_bloc.dart';
+import 'package:bilfoot/views/screens/splash_page/splash_page.dart';
 import 'package:bilfoot/views/screens/team_page/bloc/team_bloc.dart';
 import 'package:bilfoot/views/themes/my_themes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,6 +38,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<MatchBloc>(
           create: (BuildContext context) => MatchBloc(),
         ),
+        BlocProvider<AnnouncementBloc>(
+          create: (BuildContext context) => AnnouncementBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'First Page',
@@ -47,7 +52,6 @@ class MyApp extends StatelessWidget {
             print("state");
             print(state);
             if (state is AuthenticationUninitialized) {
-              print("buraya nasıl girdi amk ");
               print(state);
               return const Text("Loading");
             } else if (state is AuthenticationAuthenticated) {
@@ -58,7 +62,7 @@ class MyApp extends StatelessWidget {
 
               if (state.homeDataLoading) {
                 print("home data loading");
-                return const CircularProgressIndicator();
+                return const SplashPage();
               }
 
               if (state.playerModel == null) {
@@ -69,6 +73,7 @@ class MyApp extends StatelessWidget {
 
               return const MainControlPage();
             }
+
             return const AuthPage();
           },
         ),

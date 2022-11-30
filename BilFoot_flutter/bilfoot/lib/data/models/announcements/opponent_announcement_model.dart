@@ -5,21 +5,20 @@ import 'package:bilfoot/data/models/team_model.dart';
 class OpponentAnnouncementModel {
   OpponentAnnouncementModel({
     required this.announcer,
-    this.match,
-    required this.date,
+    required this.match,
+    required this.createdAt,
     required this.teamModel,
   });
   late final PlayerModel announcer;
-  late final MatchModel? match;
-  late final DateTime date;
+  late final MatchModel match;
+  late final DateTime createdAt;
   late final TeamModel teamModel;
 
   OpponentAnnouncementModel.fromJson(Map<String, dynamic> json) {
-    announcer = PlayerModel.fromJson(json['pitch']);
-    match =
-        json['match'] == null ? null : MatchModel.fromJson(json['matchTime']);
-    DateTime dataDate = DateTime.parse(json['date']);
-    date = DateTime(dataDate.year, dataDate.month, dataDate.day);
+    announcer = PlayerModel.fromJson(json['announcer']);
+    match = MatchModel.fromJson(json['match']);
+    DateTime dataDate = DateTime.parse(json['created_at']);
+    createdAt = DateTime(dataDate.year, dataDate.month, dataDate.day);
     teamModel = TeamModel.fromJson(json["team"]);
   }
 }

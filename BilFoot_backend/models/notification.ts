@@ -7,6 +7,8 @@ export interface INotification {
   player_model?: Types.ObjectId;
   match_model?: Types.ObjectId;
   team_model?: Types.ObjectId;
+  player_announcement_model?: Types.ObjectId;
+  opponent_announcement_model?: Types.ObjectId;
   interaction: "static" | "chat" | "approval";
   type: String;
   status: "vending" | "accepted" | "refused"; // also add to answerNotification
@@ -18,6 +20,14 @@ const notificationSchema = new Schema<INotification>({
   match_model: { type: Schema.Types.ObjectId, ref: "match" },
   team_model: { type: Schema.Types.ObjectId, ref: "team" },
   player_model: { type: Schema.Types.ObjectId, ref: "player" },
+  player_announcement_model: {
+    type: Schema.Types.ObjectId,
+    ref: "player_announcement",
+  },
+  opponent_announcement_model: {
+    type: Schema.Types.ObjectId,
+    ref: "opponent_announcement",
+  },
   interaction: { type: String, required: true },
   type: { type: String, required: true },
   status: { type: String, required: true },

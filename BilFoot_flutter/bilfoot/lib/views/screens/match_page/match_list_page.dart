@@ -1,6 +1,4 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
-import 'package:bilfoot/data/models/match_model.dart';
-import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/views/screens/match_page/bloc/match_bloc.dart';
 import 'package:bilfoot/views/screens/match_page/create_edit_match_panel.dart';
 import 'package:bilfoot/views/screens/match_page/widgets/match_list_item.dart';
@@ -17,7 +15,6 @@ class MatchListPage extends StatefulWidget {
 
 class _MatchListPageState extends State<MatchListPage>
     with TickerProviderStateMixin {
-  late MatchModel matchModel;
   late final TabController _tabController;
 
   @override
@@ -25,17 +22,6 @@ class _MatchListPageState extends State<MatchListPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     context.read<MatchBloc>().add(MatchGetMatches());
-    matchModel = MatchModel(
-        id: "12s",
-        date: DateTime.now(),
-        hour: "9-10",
-        pitch: "Merkez 1",
-        isPitchApproved: false,
-        creator: Program.program.dummyPlayer2,
-        players: [Program.program.dummyPlayer2, Program.program.dummyPlayer1],
-        authPlayers: [Program.program.dummyPlayer2.id],
-        showOnTable: true,
-        peopleLimit: 14);
   }
 
   @override

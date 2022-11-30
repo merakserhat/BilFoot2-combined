@@ -50,8 +50,8 @@ class TeamLogoTitle extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 75,
-          height: 75,
+          width: 60,
+          height: 60,
           decoration: BoxDecoration(
             color: HexColor(teamModel.mainColor),
             borderRadius: BorderRadius.circular(100),

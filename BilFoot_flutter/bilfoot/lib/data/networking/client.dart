@@ -58,6 +58,9 @@ class BilfootClient {
 
   //Announcement endpoints
   final announcementTest = AnnouncementService.test;
+  final getAnnouncements = AnnouncementService.getAnnouncements;
+  final sendPlayerAnnouncementJoinRequest =
+      AnnouncementService.sendPlayerAnnouncementJoinRequest;
 
   Future<http.Response?> sendRequest({
     required String path,

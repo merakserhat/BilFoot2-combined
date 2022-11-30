@@ -20,7 +20,7 @@ class _TeamSelectorState extends State<TeamSelector> {
     return CarouselSlider(
       options: CarouselOptions(
           viewportFraction: 0.42,
-          aspectRatio: 2.4,
+          aspectRatio: 3.5,
           enlargeCenterPage: true,
           enableInfiniteScroll: false,
           onPageChanged: (index, _) {

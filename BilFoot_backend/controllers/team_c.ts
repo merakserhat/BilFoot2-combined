@@ -4,8 +4,9 @@ import Notification, { INotification } from "../models/notification";
 import Player, { IPlayer } from "../models/player";
 import Team, { ITeam } from "../models/team";
 import { Types, Schema, model, Document } from "mongoose";
-import { NotificationTypes } from "../utils/notification_types";
+import { NotificationTypes } from "../utils/notification/notification_types";
 import { ObjectId, ObjectIdLike } from "bson";
+import { teamPopulateRule } from "../utils/populate_rules";
 
 export const createTeam = async (
   req: Request,
@@ -295,7 +296,7 @@ export const getTeamModel = async (
 
   const team_model = await Team.findById(
     new mongoose.Types.ObjectId(id)
-  ).populate("players");
+  ).populate(teamPopulateRule);
 
   if (team_model == null) {
     return res.status(400).json({ error: "Team Model not found" });
@@ -317,7 +318,9 @@ export const getTeamsWithIds = async (
 
   const idObjectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
 
-  const teams = await Team.find({ _id: idObjectIds }).populate("players");
+  const teams = await Team.find({ _id: idObjectIds }).populate(
+    teamPopulateRule
+  );
 
   return res.status(200).json({ teams });
 };
@@ -414,4 +417,22 @@ export const editTeam = async (
   await team_model.save();
 
   res.status(201).json({ message: "successful" });
+};
+
+export const getPlayerTeams = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = await Player.findOne({ email: (req as any).user_email });
+
+  if (user == null) {
+    return res.status(401).json({ error: "user not found" });
+  }
+
+  const matches = await Team.find({ _id: user.teams }).populate(
+    teamPopulateRule
+  );
+
+  return res.status(200).json({ matches });
 };
