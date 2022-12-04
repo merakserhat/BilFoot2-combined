@@ -3,7 +3,6 @@ import 'package:bilfoot/data/models/announcements/opponent_announcement_model.da
 import 'package:bilfoot/data/models/announcements/player_announcement_model.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/data/models/team_model.dart';
-import 'package:bilfoot/views/screens/home_page/widgets/announcement_list_item.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/cards/opponent_announcement_card.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/cards/player_announcement_card.dart';
 import 'package:bilfoot/views/widgets/toggle_switch_menu.dart';

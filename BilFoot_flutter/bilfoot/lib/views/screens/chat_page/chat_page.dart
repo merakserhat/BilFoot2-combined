@@ -4,6 +4,13 @@ import 'package:bilfoot/views/screens/chat_page/widgets/chat_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+/**
+ * This page is not an active page for now.
+ *
+ * In order to publish this application with the core features,
+ * this part should be hidden.
+ */
+
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key, required this.conversationModel}) : super(key: key);
 

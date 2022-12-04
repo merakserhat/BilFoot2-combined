@@ -6,6 +6,12 @@ import 'package:bilfoot/views/widgets/spinners/spinner_small.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/**
+ * This page is not an active page for now.
+ *
+ * In order to publish this application with the core features,
+ * this part should be hidden.
+ */
 class MatchListPage extends StatefulWidget {
   const MatchListPage({Key? key}) : super(key: key);
 

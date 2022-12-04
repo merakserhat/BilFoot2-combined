@@ -1,6 +1,7 @@
 import 'package:bilfoot/config/utils/fcm_service.dart';
 import 'package:bilfoot/data/models/program.dart';
 import 'package:bilfoot/views/screens/chat_page/chat_people_page.dart';
+import 'package:bilfoot/views/screens/announcements_page/announcements_page.dart';
 import 'package:bilfoot/views/screens/home_page/home_page.dart';
 import 'package:bilfoot/views/screens/match_page/match_list_page.dart';
 import 'package:bilfoot/views/screens/notifications_page/notifications_page.dart';
@@ -9,7 +10,7 @@ import 'package:bilfoot/views/screens/settings_page/settings_page.dart';
 import "package:flutter/material.dart";
 
 // ignore: constant_identifier_names
-enum MainPages { HOME_PAGE, MATCHES_PAGE, PROFILE_PAGE }
+enum MainPages { HOME_PAGE, ANOUNCEMENTS_PAGE, PROFILE_PAGE }
 
 class MainControlPage extends StatefulWidget {
   static const String routeName = "/main_control_page";
@@ -61,14 +62,14 @@ class _MainControlPageState extends State<MainControlPage> {
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
-            "assets/images/nav_buttons/home_icon.png",
-            height: 20,
+            "assets/images/nav_buttons/announcement_grey.png",
+            height: 25,
           ),
           activeIcon: Image.asset(
-            "assets/images/nav_buttons/home_icon_gr.png",
-            height: 20,
+            "assets/images/nav_buttons/announcement_grey.png",
+            height: 25,
           ),
-          label: "Matches",
+          label: "Announcements",
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
@@ -99,8 +100,8 @@ class _MainControlPageState extends State<MainControlPage> {
     switch (activePage) {
       case MainPages.HOME_PAGE:
         return const HomePage();
-      case MainPages.MATCHES_PAGE:
-        return const MatchListPage();
+      case MainPages.ANOUNCEMENTS_PAGE:
+        return const AnnouncementsPage();
       case MainPages.PROFILE_PAGE:
         return const ProfilePage();
       default:
@@ -119,6 +120,7 @@ class _MainControlPageState extends State<MainControlPage> {
         color: Colors.white,
       ),
     );
+
     var settings = GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -142,8 +144,9 @@ class _MainControlPageState extends State<MainControlPage> {
     List<Widget> actions = [];
     if (_currentIndex == 0 || _currentIndex == 1) {
       actions.add(notifications);
-      actions.add(const SizedBox.square(dimension: 16));
-      actions.add(chat);
+      //actions.add(const SizedBox.square(dimension: 16));
+      //TODO: open this when chat feature is ready
+      //actions.add(chat);
     } else {
       actions.add(settings);
     }

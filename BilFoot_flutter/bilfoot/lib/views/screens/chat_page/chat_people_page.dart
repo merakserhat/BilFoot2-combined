@@ -7,6 +7,13 @@ import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:bilfoot/views/widgets/profile_photo.dart';
 import 'package:flutter/material.dart';
 
+/**
+ * This page is not an active page for now.
+ *
+ * In order to publish this application with the core features,
+ * this part should be hidden.
+ */
+
 class ChatPeoplePage extends StatefulWidget {
   const ChatPeoplePage({Key? key}) : super(key: key);
 

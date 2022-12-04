@@ -28,6 +28,23 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
   TeamModel? teamModel;
   MatchModel? matchModel;
   List<String> playerPositions = ["CM"];
+  List<MatchModel>? playerMatches;
+  List<TeamModel>? playerTeams;
+  bool isMatchesLoading = true;
+  bool isTeamsLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: burada maçları çek
+    //TODO: burada eğer opponent ise takımları da çek
+    getPlayerMatches();
+    if (widget.announcementType == AnnouncementTypes.opponent) {
+      getPlayerTeams();
+    } else {
+      isTeamsLoading = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +152,10 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
   _onNumberOfPlayersChanged(double value) {}
 
   _onMatchSelectionChanged(MatchModel selectedMatch) {}
+
+  void getPlayerTeams() {}
+
+  void getPlayerMatches() {}
 }
 
 class AnnouncementOptionItem extends StatelessWidget {
