@@ -28,38 +28,27 @@ class _HomePageState extends State<HomePage> {
       child: Form(
         key: formKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox.square(dimension: 40),
+            const SizedBox.square(dimension: 20),
             Text(
-              "To support the communication in our app, we are using WhatsApp",
+              "Your Phone Number",
               style: Theme.of(context).textTheme.headline1,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox.square(dimension: 40),
-            Center(
-              child: SizedBox(
-                  height: 80, child: Image.asset("assets/images/whatsapp.png")),
-            ),
-            const SizedBox.square(dimension: 60),
-            const PhoneNumberInput(),
-            Expanded(child: Container()),
-            BilfootButton(
-              customPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 100),
-              label: "Onayla",
-              onPressed: () {
-                formKey.currentState?.validate();
-              },
             ),
             const SizedBox.square(dimension: 20),
-            GestureDetector(
-              child: Text(
-                "Continue without phone number",
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w600),
-              ),
+            PhoneNumberInput(
+              initialNumber: "+905455591600",
             ),
-            const SizedBox.square(dimension: 40),
+            const SizedBox.square(dimension: 60),
+            Text(
+              "Only those people can reach your phone number:\n\n\t-Your teammates.\n\t-Players from your matches\n\t-Players you have interacted via announcements",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            const SizedBox.square(dimension: 60),
+            BilfootButton(
+              label: "Update",
+              onPressed: () {},
+            ),
           ],
         ),
       ),

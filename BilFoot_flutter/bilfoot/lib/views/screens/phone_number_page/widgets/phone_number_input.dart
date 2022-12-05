@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class PhoneNumberInput extends StatefulWidget {
-  const PhoneNumberInput({Key? key}) : super(key: key);
+  const PhoneNumberInput({Key? key, this.initialNumber}) : super(key: key);
+
+  final String? initialNumber;
 
   @override
   State<PhoneNumberInput> createState() => _PhoneNumberInputState();
@@ -11,15 +13,22 @@ class PhoneNumberInput extends StatefulWidget {
 class _PhoneNumberInputState extends State<PhoneNumberInput> {
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'TR';
-  PhoneNumber number = PhoneNumber(isoCode: 'TR');
+  late PhoneNumber number;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialNumber != null) {
+      _setInitialCountry();
+    }
+    number = PhoneNumber(isoCode: initialCountry);
+  }
 
   @override
   Widget build(BuildContext context) {
     return InternationalPhoneNumberInput(
       onInputChanged: (PhoneNumber number) {
-        setState(() {
-          this.number = number;
-        });
+        this.number = number;
         print(number.phoneNumber);
       },
       onInputValidated: (bool value) {
@@ -61,5 +70,11 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  void _setInitialCountry() async {
+    number =
+        await PhoneNumber.getRegionInfoFromPhoneNumber(widget.initialNumber!);
+    setState(() {});
   }
 }

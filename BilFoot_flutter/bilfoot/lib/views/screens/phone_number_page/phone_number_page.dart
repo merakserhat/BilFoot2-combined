@@ -22,7 +22,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         key: formKey,
         child: Column(
           children: [
-            const SizedBox.square(dimension: 40),
+            const SizedBox.square(dimension: 20),
             Text(
               "To support the communication in our app, we are using WhatsApp",
               style: Theme.of(context).textTheme.headline1,
