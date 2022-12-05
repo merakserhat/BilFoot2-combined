@@ -135,3 +135,61 @@ export const getPlayerModel = async (
 
   return res.status(200).json({ player_model });
 };
+
+export const updatePlayerPhoneNumber = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { phone_number } = req.body;
+
+  if (typeof phone_number !== "string") {
+    return res.status(400).json({ error: "missing parameters" });
+  }
+
+  const player = await Player.findOne({
+    email: (req as any).user_email,
+  });
+
+  if (player === null) {
+    return res.status(401).json({ error: "User not found" });
+  }
+
+  player.phone_number = phone_number;
+  await player.save();
+
+  return res.status(201).json({ message: "success" });
+};
+
+export const getPlayerPhoneNumber = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.query;
+
+  if (typeof user_id !== "string") {
+    const player = await Player.findOne({
+      email: (req as any).user_email,
+    });
+
+    if (player === null) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "success", phone_number: player.phone_number });
+  } else {
+    //TODO ileride be'de de validasyon yapılabilir
+    const player = await Player.findById(new mongoose.Types.ObjectId(user_id!));
+
+    if (player === null) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "success", phone_number: player.phone_number });
+  }
+};

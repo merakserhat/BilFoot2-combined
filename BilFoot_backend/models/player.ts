@@ -4,6 +4,7 @@ export interface IPlayer {
   _id: Types.ObjectId;
   firebase_id: string;
   email: string;
+  phone_number?: string;
   full_name: string;
   preferred_positions: string[];
   special_skills: string[];
@@ -18,6 +19,7 @@ export interface IPlayer {
 const playerSchema = new Schema<IPlayer>({
   firebase_id: { type: String, required: true },
   email: { type: String, required: true },
+  phone_number: { type: String },
   full_name: { type: String, required: true },
   preferred_positions: [String],
   dominant_feet: [String],
