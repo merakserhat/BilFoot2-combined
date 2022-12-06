@@ -2,6 +2,7 @@ import 'package:bilfoot/config/constants/program_constants.dart';
 import 'package:bilfoot/views/screens/phone_number_page/widgets/phone_number_input.dart';
 import 'package:bilfoot/views/screens/phone_number_page/widgets/phone_privacy_settings.dart';
 import 'package:bilfoot/views/widgets/bilfoot_button.dart';
+import 'package:bilfoot/views/widgets/modals/set_phone_modal.dart';
 import "package:flutter/material.dart";
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -47,7 +48,10 @@ class _HomePageState extends State<HomePage> {
             const SizedBox.square(dimension: 60),
             BilfootButton(
               label: "Update",
-              onPressed: () {},
+              onPressed: () {
+                ProgramConstants.showBlurryBackground(
+                    context: context, child: const SetPhoneModal());
+              },
             ),
           ],
         ),
