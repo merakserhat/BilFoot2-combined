@@ -35,11 +35,11 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox.square(dimension: 40),
-                Center(
+                /*Center(
                   child: SizedBox(
                       height: 80,
                       child: Image.asset("assets/images/whatsapp.png")),
-                ),
+                ),*/
                 const SizedBox.square(dimension: 60),
                 //const PhoneNumberInput(),
                 Expanded(child: Container()),
