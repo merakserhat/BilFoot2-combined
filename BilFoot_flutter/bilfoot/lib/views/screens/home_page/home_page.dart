@@ -1,3 +1,4 @@
+import 'package:bilfoot/config/constants/program_constants.dart';
 import "package:flutter/material.dart";
 
 class HomePage extends StatefulWidget {
@@ -8,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -15,6 +18,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Text("This is an empty Home Page"));
+    return Scaffold(
+        body: Padding(
+      padding: ProgramConstants.pagePadding,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: const [Text("Home Page")],
+      ),
+    ));
   }
 }

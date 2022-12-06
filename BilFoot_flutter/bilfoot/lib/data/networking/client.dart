@@ -28,6 +28,8 @@ class BilfootClient {
   final searchPlayers = UserService.searchPlayers;
   final registerUser = UserService.registerUser;
   final answerToNotification = UserService.answerToNotification;
+  final updatePhoneNumber = UserService.updatePhoneNumber;
+  final getPhoneNumber = UserService.getPhoneNumber;
 
   //Chat endpoints
   final chatTest = ChatService.test;

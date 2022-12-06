@@ -10,6 +10,7 @@ class PlayerModel extends Equatable {
     required this.averagePoint,
     required this.pointerNum,
     this.imageUrl,
+    this.phoneNumber,
     required this.teams,
     required this.matches,
   });
@@ -21,6 +22,7 @@ class PlayerModel extends Equatable {
   late final double averagePoint;
   late final int pointerNum;
   late final String? imageUrl;
+  String? phoneNumber;
   late final List<String> teams;
   late final List<String> matches;
 
@@ -34,6 +36,7 @@ class PlayerModel extends Equatable {
     averagePoint = json['average_point'] * 1.0;
     pointerNum = json['pointer_num'];
     imageUrl = json['image_url'];
+    phoneNumber = json['phone_number'];
     teams = List.castFrom<dynamic, String>(json["teams"]);
     matches = List.castFrom<dynamic, String>(json["matches"]);
   }

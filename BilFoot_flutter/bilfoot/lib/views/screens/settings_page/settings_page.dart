@@ -1,5 +1,6 @@
 import 'package:bilfoot/views/screens/auth_page/bloc/authentication_bloc.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/cards/player_announcement_card.dart';
+import 'package:bilfoot/views/screens/phone_number_page/phone_number_settings_page.dart';
 import 'package:bilfoot/views/screens/settings_page/widgets/setting_option_item.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,6 +43,14 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: Icons.arrow_forward_ios_rounded,
               //TODO:
               onClick: () {},
+            ),
+            SettingsOptionItem(
+              label: "Update Phone Number",
+              icon: Icons.arrow_forward_ios_rounded,
+              onClick: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => const PhoneNumberSettingsPage()));
+              },
             ),
             SettingsOptionItem(
               label: "Bİlfoot'u Değerlendir",

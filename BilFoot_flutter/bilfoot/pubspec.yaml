@@ -50,6 +50,9 @@ dependencies:
   numberpicker: ^2.1.1
   http: ^0.13.4
   flutter_spinkit: ^5.1.0
+  intl_phone_number_input: ^0.7.1
+  url_launcher: ^6.1.7
+  whatsapp_unilink: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -54,7 +54,7 @@ class MatchComponentSquare extends StatelessWidget {
         matchModel.isPitchApproved
             ? const Icon(
                 Icons.check_circle_outline,
-                color: Colors.green,
+                color: const Color.fromARGB(255, 3, 88, 6),
                 size: 14,
               )
             : const Icon(
