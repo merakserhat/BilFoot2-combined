@@ -186,6 +186,7 @@ class UserService {
       return false;
     }
 
+    print(response.body);
     //UPDATE user
     Program.program.user!.phoneNumber = phoneNumber;
     return true;

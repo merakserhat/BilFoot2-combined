@@ -7,6 +7,8 @@ import 'package:bilfoot/views/screens/new_announcement_page/widgets/match_select
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_match_toggle.dart';
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
+import 'package:bilfoot/views/widgets/bilfoot_button.dart';
+import 'package:bilfoot/views/widgets/modals/set_phone_modal.dart';
 import 'package:bilfoot/views/widgets/number_slider.dart';
 import 'package:bilfoot/views/widgets/position_selector.dart';
 import 'package:bilfoot/views/widgets/position_selector_small.dart';
@@ -64,9 +66,8 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
               const SizedBox.square(dimension: 15),
               ..._getAnnouncementOptions(),
               const SizedBox.square(dimension: 30),
-              ElevatedButton(
-                  onPressed: createAnnouncement,
-                  child: const Text("Create Announcement"))
+              BilfootButton(
+                  onPressed: createAnnouncement, label: "Create Announcement")
             ],
           ),
         ),
@@ -147,6 +148,13 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
     print(forTeam);
     print(teamModel);
     print(playerPositions);
+
+    if (Program.program.user!.phoneNumber == null) {
+      ProgramConstants.showBlurryBackground(
+          context: context,
+          child: const SetPhoneModal(
+              phoneModalText: PhoneModalText.announcementText));
+    }
   }
 
   _onNumberOfPlayersChanged(double value) {}

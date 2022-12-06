@@ -2,23 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class PhoneNumberInput extends StatefulWidget {
-  const PhoneNumberInput({Key? key, this.initialNumber}) : super(key: key);
+  const PhoneNumberInput(
+      {Key? key,
+      this.initialNumber,
+      required this.controller,
+      required this.setNumber})
+      : super(key: key);
 
   final String? initialNumber;
+  final TextEditingController controller;
+  final Function(PhoneNumber phoneNumber) setNumber;
 
   @override
   State<PhoneNumberInput> createState() => _PhoneNumberInputState();
 }
 
 class _PhoneNumberInputState extends State<PhoneNumberInput> {
-  final TextEditingController controller = TextEditingController();
   String initialCountry = 'TR';
   late PhoneNumber number;
 
   @override
   void initState() {
     super.initState();
+    print(widget.initialNumber!);
     if (widget.initialNumber != null) {
+      print(widget.initialNumber!);
+
       _setInitialCountry();
     }
     number = PhoneNumber(isoCode: initialCountry);
@@ -28,20 +37,18 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   Widget build(BuildContext context) {
     return InternationalPhoneNumberInput(
       onInputChanged: (PhoneNumber number) {
-        this.number = number;
-        print(number.phoneNumber);
+        widget.setNumber(number);
       },
       onInputValidated: (bool value) {
         print(value);
       },
-      validator: validatePhoneNumber,
       selectorConfig: const SelectorConfig(
         selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
       ),
       autoValidateMode: AutovalidateMode.disabled,
       selectorTextStyle: Theme.of(context).textTheme.headline3,
       initialValue: number,
-      textFieldController: controller,
+      textFieldController: widget.controller,
       formatInput: true,
       keyboardType:
           const TextInputType.numberWithOptions(signed: true, decimal: true),
@@ -50,26 +57,6 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         print('On Saved: $number');
       },
     );
-  }
-
-  String? validatePhoneNumber(String? number) {
-    print(number);
-    //TODO: do these validations for other common countries
-    if (number == null || number.isEmpty) {
-      return "Phone number can not be empty";
-    }
-
-    if (number.length != 10) {
-      return "Phone number is not valid";
-    }
-
-    return null;
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   void _setInitialCountry() async {

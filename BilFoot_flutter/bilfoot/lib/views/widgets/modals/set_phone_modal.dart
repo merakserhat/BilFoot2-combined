@@ -6,15 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class SetPhoneModal extends StatelessWidget {
-  const SetPhoneModal({Key? key}) : super(key: key);
+enum PhoneModalText {
+  announcementText,
+  whatsappButtonText,
+}
 
+class SetPhoneModal extends StatelessWidget {
+  const SetPhoneModal({Key? key, required this.phoneModalText})
+      : super(key: key);
+
+  final PhoneModalText phoneModalText;
   @override
   Widget build(BuildContext context) {
     return BaseModal(
         type: Type.ANSWERABLE,
-        text:
-            "Telefon numaranızı vererek birlikte oynamak istediğiniz kişiler ile daha kolay iletişim kurabilirsiniz.\n\nSadece bağlantılı olduğunuz kişiler numaranızı görebilir.",
+        text: _getModalText(),
         //icon: //findicon,
         accepButtonText: "Numaramı Ekle",
         onAccepted: () {
@@ -30,5 +36,16 @@ class SetPhoneModal extends StatelessWidget {
           Icons.whatsapp,
           color: Color(0xFF25D366),
         ));
+  }
+
+  String _getModalText() {
+    switch (phoneModalText) {
+      case PhoneModalText.announcementText:
+        return "Diğer oyuncuların ilanına daha kolay yanıt verebilmesi için numaranı ekleyebilirsin.\n\nSadece kabul ettiğin kişiler ilanlardan numarana erişebilir.";
+      case PhoneModalText.whatsappButtonText:
+        return "Telefon numaranı ekleyerek birlikte oynamak istediğiniz kişiler ile daha kolay iletişim kurabilirsiniz.\n\nSadece bağlantılı olduğunuz kişiler numaranızı görebilir.";
+      default:
+        return "Phone text not found";
+    }
   }
 }

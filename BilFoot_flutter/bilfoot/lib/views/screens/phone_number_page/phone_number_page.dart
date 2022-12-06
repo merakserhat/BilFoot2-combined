@@ -41,7 +41,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                       child: Image.asset("assets/images/whatsapp.png")),
                 ),
                 const SizedBox.square(dimension: 60),
-                const PhoneNumberInput(),
+                //const PhoneNumberInput(),
                 Expanded(child: Container()),
                 BilfootButton(
                   customPadding:

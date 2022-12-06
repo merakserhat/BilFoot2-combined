@@ -38,9 +38,9 @@ class _HomePageState extends State<HomePage> {
               style: Theme.of(context).textTheme.headline1,
             ),
             const SizedBox.square(dimension: 20),
-            PhoneNumberInput(
+            /*PhoneNumberInput(
               initialNumber: "+905455591600",
-            ),
+            ),*/
             const SizedBox.square(dimension: 60),
             Text(
               "Only those people can reach your phone number:\n\n\t-Your teammates.\n\t-Players from your matches\n\t-Players you have interacted via announcements",
@@ -51,7 +51,10 @@ class _HomePageState extends State<HomePage> {
               label: "Update",
               onPressed: () {
                 ProgramConstants.showBlurryBackground(
-                    context: context, child: const SetPhoneModal());
+                    context: context,
+                    child: const SetPhoneModal(
+                      phoneModalText: PhoneModalText.whatsappButtonText,
+                    ));
               },
             ),
             const WhatsappButton(
