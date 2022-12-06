@@ -173,8 +173,12 @@ export const getPlayerPhoneNumber = async (
       email: (req as any).user_email,
     });
 
-    if (player === null) {
-      return res.status(401).json({ error: "User not found" });
+    if (!player) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (!player.phone_number) {
+      return res.status(404).json({ error: "User's phone number found" });
     }
 
     return res
@@ -184,8 +188,12 @@ export const getPlayerPhoneNumber = async (
     //TODO ileride be'de de validasyon yapılabilir
     const player = await Player.findById(new mongoose.Types.ObjectId(user_id!));
 
-    if (player === null) {
-      return res.status(401).json({ error: "User not found" });
+    if (!player) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (!player.phone_number) {
+      return res.status(404).json({ error: "User's phone number found" });
     }
 
     return res

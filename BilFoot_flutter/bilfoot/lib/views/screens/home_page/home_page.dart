@@ -3,6 +3,7 @@ import 'package:bilfoot/views/screens/phone_number_page/widgets/phone_number_inp
 import 'package:bilfoot/views/screens/phone_number_page/widgets/phone_privacy_settings.dart';
 import 'package:bilfoot/views/widgets/bilfoot_button.dart';
 import 'package:bilfoot/views/widgets/modals/set_phone_modal.dart';
+import 'package:bilfoot/views/widgets/whatsapp_button.dart';
 import "package:flutter/material.dart";
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -52,6 +53,9 @@ class _HomePageState extends State<HomePage> {
                 ProgramConstants.showBlurryBackground(
                     context: context, child: const SetPhoneModal());
               },
+            ),
+            const WhatsappButton(
+              userId: "62f01e8381c097b01e4d777b",
             ),
           ],
         ),

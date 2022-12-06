@@ -163,4 +163,57 @@ class UserService {
 
     return true;
   }
+
+  static Future<bool> updatePhoneNumber({required String phoneNumber}) async {
+    Response? response = await BilfootClient().sendRequest(
+      path: "player/update-player-phone-number",
+      body: {
+        "phone_number": phoneNumber,
+      },
+      method: Method.post,
+    );
+
+    if (response == null) {
+      //TODO
+      print("null response updatePhoneNumber");
+      return false;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status answer updatePhoneNumber");
+      print(response.body);
+      return false;
+    }
+
+    //UPDATE user
+    Program.program.user!.phoneNumber = phoneNumber;
+    return true;
+  }
+
+  static Future<String?> getPhoneNumber({required String userId}) async {
+    Response? response = await BilfootClient()
+        .sendRequest(path: "player/get-player-phone-number?user_id=$userId");
+
+    if (response == null) {
+      //TODO
+      print("null responde getPhoneNumber");
+      return null;
+    }
+
+    if (response.statusCode >= 400) {
+      //TODO
+      print("error status getPhoneNumber");
+      print(response.body);
+      return null;
+    }
+
+    var jsonData = json.decode(response.body);
+    print(jsonData);
+    if (jsonData["phone_number"] != null) {
+      return jsonData["phone_number"];
+    }
+
+    return null;
+  }
 }

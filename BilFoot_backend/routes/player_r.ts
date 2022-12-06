@@ -17,7 +17,7 @@ router.get("/search-players", searchPlayers);
 router.get("/get-player-notifications", isAuth, getPlayerNotifications);
 router.get("/get-player-model", getPlayerModel);
 router.post("/answer-to-notification", isAuth, answerToNotification);
-router.post("/update_player_phone_number", isAuth, updatePlayerPhoneNumber);
-router.get("/get_player_phone_number", isAuth, getPlayerPhoneNumber);
+router.post("/update-player-phone-number", isAuth, updatePlayerPhoneNumber);
+router.get("/get-player-phone-number", isAuth, getPlayerPhoneNumber);
 
 export default router;
