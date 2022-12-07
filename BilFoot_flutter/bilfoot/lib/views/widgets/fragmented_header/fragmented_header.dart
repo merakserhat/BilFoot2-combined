@@ -3,94 +3,72 @@ import 'package:bilfoot/views/widgets/bilfoot_button.dart';
 import "package:flutter/material.dart";
 import 'dart:math' as math;
 
-class Mirza extends StatefulWidget {
-  const Mirza(
-      {Key? key,
-      required this.content,
-      required this.titles,
-      required this.msgSend})
-      : super(key: key);
-  final Widget content;
+class FragmentedHeader extends StatelessWidget {
+  const FragmentedHeader({
+    Key? key,
+    required this.titles,
+    required this.msgSend,
+    required this.onChanged,
+    required this.selectedIndex,
+  }) : super(key: key);
+
   final List<String> titles;
+  final int selectedIndex;
   final String msgSend;
-
-  @override
-  State<Mirza> createState() => _MirzaState();
-}
-
-class _MirzaState extends State<Mirza> {
-  int selectedIndex = 2;
+  final Function(int index, String title) onChanged;
   final double size = 40;
   final Color borderColor = const Color(0xFFDDDDDD);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedIndex++;
-
-          if (selectedIndex == widget.titles.length) selectedIndex = 0;
-        });
-      },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              SizedBox(
-                height: size,
-                width: double.infinity,
-                child: Stack(
-                  children: [
-                    ...widget.titles
-                        .getRange(selectedIndex + 1, widget.titles.length)
-                        .toList()
-                        .reversed
-                        .map((e) =>
-                            getSmallBox(currentIndex: widget.titles.indexOf(e)))
-                        .toList(),
-                    getCurrentBox(),
-                    ...widget.titles
-                        .getRange(0, selectedIndex)
-                        .toList()
-                        .reversed
-                        .map((e) =>
-                            getSmallBox(currentIndex: widget.titles.indexOf(e)))
-                        .toList(),
-                  ],
-                ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: size,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  ...titles
+                      .getRange(selectedIndex + 1, titles.length)
+                      .toList()
+                      .reversed
+                      .map((e) => getSmallBox(
+                          currentIndex: titles.indexOf(e), context: context))
+                      .toList(),
+                  getCurrentBox(context),
+                  ...titles
+                      .getRange(0, selectedIndex)
+                      .toList()
+                      .reversed
+                      .map((e) => getSmallBox(
+                          currentIndex: titles.indexOf(e), context: context))
+                      .toList(),
+                ],
               ),
-              const SizedBox.square(dimension: 10),
-              widget.content,
-              const SizedBox.square(dimension: 10),
-              BilfootButton(
-                label: selectedIndex == widget.titles.length - 1
-                    ? widget.msgSend
-                    : "Continue",
-                onPressed: () {},
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget getCurrentBox() {
+  Widget getCurrentBox(BuildContext context) {
     double currentWidth =
-        MediaQuery.of(context).size.width - (widget.titles.length - 1) * size;
+        MediaQuery.of(context).size.width - (titles.length - 1) * size;
     double arrowHeight = (size * math.sqrt(2)) / 2;
 
     return Positioned(
-      right: (widget.titles.length - 1 - selectedIndex) * size,
+      right: (titles.length - 1 - selectedIndex) * size,
       child: SizedBox(
           width: currentWidth,
           height: size,
           child: Stack(
             children: [
-              widget.titles.length - 1 == selectedIndex
+              titles.length - 1 == selectedIndex
                   ? Container()
                   : Positioned(
                       top: (size - arrowHeight) / 2,
@@ -110,7 +88,7 @@ class _MirzaState extends State<Mirza> {
                       ),
                     ),
               Container(
-                width: widget.titles.length - 1 == selectedIndex
+                width: titles.length - 1 == selectedIndex
                     ? currentWidth
                     : currentWidth - arrowHeight / 2,
                 height: size,
@@ -122,8 +100,8 @@ class _MirzaState extends State<Mirza> {
                   children: [
                     SizedBox.square(dimension: size),
                     Text(
-                      //"${selectedIndex + 1}) ${widget.titles[selectedIndex]}",
-                      "${widget.titles[selectedIndex]}",
+                      "${selectedIndex + 1}) ${titles[selectedIndex]}",
+                      //"${titles[selectedIndex]}",
                       style: Theme.of(context)
                           .textTheme
                           .headline3!
@@ -137,23 +115,24 @@ class _MirzaState extends State<Mirza> {
     );
   }
 
-  Widget getSmallBox({required int currentIndex}) {
+  Widget getSmallBox(
+      {required int currentIndex, required BuildContext context}) {
     print(currentIndex);
     double arrowHeight = (size * math.sqrt(2)) / 2;
 
     return Positioned(
       left: currentIndex < selectedIndex ? currentIndex * size : null,
       right: currentIndex > selectedIndex
-          ? (widget.titles.length - 1 - currentIndex) * size
+          ? (titles.length - 1 - currentIndex) * size
           : null,
       child: SizedBox(
         width: size + arrowHeight / 2,
         height: size,
         child: Stack(
           children: [
-            widget.titles.length - 1 == currentIndex
+            titles.length - 1 == currentIndex
                 ? Container(
-                    width: widget.titles.length - 1 == currentIndex
+                    width: titles.length - 1 == currentIndex
                         ? size + arrowHeight / 2
                         : size,
                     color: selectedIndex > currentIndex
@@ -180,7 +159,7 @@ class _MirzaState extends State<Mirza> {
                     ),
                   ),
             Positioned(
-              right: widget.titles.length - 1 == currentIndex ? 0 : null,
+              right: titles.length - 1 == currentIndex ? 0 : null,
               child: SizedBox(
                 width: size,
                 height: size,
@@ -191,10 +170,10 @@ class _MirzaState extends State<Mirza> {
                         : Color(0xFF444444),
                   ),
                   child: Align(
-                    alignment: widget.titles.length - 1 == currentIndex ||
-                            currentIndex == 0
-                        ? Alignment.center
-                        : Alignment.centerRight,
+                    alignment:
+                        titles.length - 1 == currentIndex || currentIndex == 0
+                            ? Alignment.center
+                            : Alignment.centerRight,
                     child: Text(
                       (currentIndex + 1).toString(),
                       style: Theme.of(context)
