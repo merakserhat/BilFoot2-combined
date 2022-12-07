@@ -1,4 +1,5 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/views/widgets/fragmented_header/fragmented_header.dart';
 import "package:flutter/material.dart";
 
 class HomePage extends StatefulWidget {
@@ -22,8 +23,10 @@ class _HomePageState extends State<HomePage> {
         body: Padding(
       padding: ProgramConstants.pagePadding,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: const [Text("Home Page")],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text("Home Page"),
+        ],
       ),
     ));
   }

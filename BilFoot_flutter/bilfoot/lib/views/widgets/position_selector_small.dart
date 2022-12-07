@@ -17,53 +17,55 @@ class _PositionSelectorSmallState extends State<PositionSelectorSmall> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: 365,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset("assets/images/football_pitch.png"),
+      child: FittedBox(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              height: 365,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset("assets/images/football_pitch.png"),
+              ),
             ),
-          ),
-          Positioned(
-              top: 40,
-              child: PositionCircle(
-                title: "ST",
-                onClick: changeSelection,
-              )),
-          Positioned(
-              right: 40,
-              top: 96,
-              child: PositionCircle(
-                title: "RW",
-                onClick: changeSelection,
-              )),
-          Positioned(
-              left: 40,
-              top: 96,
-              child: PositionCircle(
-                title: "LW",
-                onClick: changeSelection,
-              )),
-          PositionCircle(
-            title: "CM",
-            onClick: changeSelection,
-          ),
-          Positioned(
-              bottom: 80,
-              child: PositionCircle(
-                title: "CB",
-                onClick: changeSelection,
-              )),
-          Positioned(
-              bottom: 24,
-              child: PositionCircle(
-                title: "GK",
-                onClick: changeSelection,
-              )),
-        ],
+            Positioned(
+                top: 40,
+                child: PositionCircle(
+                  title: "ST",
+                  onClick: changeSelection,
+                )),
+            Positioned(
+                right: 40,
+                top: 96,
+                child: PositionCircle(
+                  title: "RW",
+                  onClick: changeSelection,
+                )),
+            Positioned(
+                left: 40,
+                top: 96,
+                child: PositionCircle(
+                  title: "LW",
+                  onClick: changeSelection,
+                )),
+            PositionCircle(
+              title: "CM",
+              onClick: changeSelection,
+            ),
+            Positioned(
+                bottom: 80,
+                child: PositionCircle(
+                  title: "CB",
+                  onClick: changeSelection,
+                )),
+            Positioned(
+                bottom: 24,
+                child: PositionCircle(
+                  title: "GK",
+                  onClick: changeSelection,
+                )),
+          ],
+        ),
       ),
     );
   }

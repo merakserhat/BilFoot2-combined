@@ -8,6 +8,7 @@ import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_or_matc
 import 'package:bilfoot/views/screens/new_announcement_page/widgets/team_selector.dart';
 import 'package:bilfoot/views/widgets/basic_app_bar.dart';
 import 'package:bilfoot/views/widgets/bilfoot_button.dart';
+import 'package:bilfoot/views/widgets/fragmented_header/fragmented_header.dart';
 import 'package:bilfoot/views/widgets/modals/set_phone_modal.dart';
 import 'package:bilfoot/views/widgets/number_slider.dart';
 import 'package:bilfoot/views/widgets/position_selector.dart';
@@ -34,6 +35,9 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
   List<TeamModel>? playerTeams;
   bool isMatchesLoading = true;
   bool isTeamsLoading = true;
+  late final List<String> newPlayerTitles, newOpponentTitles;
+  late final List<Widget> newPlayerWidgets, newOpponentWidgets;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -46,6 +50,9 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
     } else {
       isTeamsLoading = false;
     }
+    //TODO: bunu awaitten sonra söyle
+    _setAnnouncementOptions();
+    _setTitles();
   }
 
   @override
@@ -53,26 +60,135 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
     return Scaffold(
       appBar: const BasicAppBar(),
       body: Padding(
-        padding: ProgramConstants.pagePadding,
-        child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 24),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Column(
             children: [
-              Text(
-                _getOpponentTitle(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline1,
+              FragmentedHeader(
+                msgSend: "Announce",
+                selectedIndex: _selectedIndex,
+                titles: _getTitles(),
+                onChanged: (int index, String title) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
               ),
-              const Divider(),
-              const SizedBox.square(dimension: 15),
-              ..._getAnnouncementOptions(),
-              const SizedBox.square(dimension: 30),
-              BilfootButton(
-                  onPressed: createAnnouncement, label: "Create Announcement")
+              const SizedBox.square(dimension: 10),
+              Expanded(child: _getAnnouncementOptions()[_selectedIndex]),
+              const SizedBox.square(dimension: 10),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: BilfootButton(
+                    label: _selectedIndex == _getTitles().length - 1
+                        ? "Announce!"
+                        : "Continue",
+                    onPressed: createAnnouncement,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<String> _getTitles() {
+    switch (widget.announcementType) {
+      case AnnouncementTypes.player:
+        return newPlayerTitles;
+      case AnnouncementTypes.opponent:
+        return newOpponentTitles;
+      default:
+        return [];
+    }
+  }
+
+  List<Widget> _getAnnouncementOptions() {
+    switch (widget.announcementType) {
+      case AnnouncementTypes.player:
+        return newPlayerWidgets;
+      case AnnouncementTypes.opponent:
+        return newOpponentWidgets;
+      default:
+        return [];
+    }
+  }
+
+  void _setTitles() {
+    switch (widget.announcementType) {
+      case AnnouncementTypes.player:
+        newPlayerTitles = [
+          "Select Match",
+          "Select Positions",
+          "Select Player Limit",
+        ];
+        break;
+      case AnnouncementTypes.opponent:
+        newOpponentTitles = [
+          "Select Team",
+          "Select Match",
+        ];
+        break;
+      default:
+      //TODO: this part is now not active.
+    }
+  }
+
+  void _setAnnouncementOptions() {
+    switch (widget.announcementType) {
+      case AnnouncementTypes.player:
+        newPlayerWidgets = [
+          MatchSelector(matches: [
+            Program.program.dummyData.dummyMatch1,
+            Program.program.dummyData.dummyMatch1,
+            Program.program.dummyData.dummyMatch1,
+            Program.program.dummyData.dummyMatch1,
+          ], onSelectionChanged: _onMatchSelectionChanged),
+          PositionSelectorSmall(onSelectionChange: (List<String> positions) {
+            setState(() {
+              playerPositions = [...positions];
+            });
+          }),
+          NumberSlider(
+            min: 0,
+            max: 8,
+            onChanged: _onNumberOfPlayersChanged,
+          ),
+        ];
+        break;
+      case AnnouncementTypes.opponent:
+        newOpponentWidgets = [
+          TeamSelector(
+              teams: [
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+                Program.program.dummyData.dummyTeam1,
+              ],
+              onSelectionChanged: (team) {
+                teamModel = team;
+              }),
+          MatchSelector(matches: [
+            Program.program.dummyData.dummyMatch1,
+            Program.program.dummyData.dummyMatch1,
+            Program.program.dummyData.dummyMatch1,
+            Program.program.dummyData.dummyMatch1,
+          ], onSelectionChanged: _onMatchSelectionChanged),
+        ];
+        break;
+      case AnnouncementTypes.match:
+        //TODO: for now, this part is not active.
+        break;
+    }
   }
 
   String _getOpponentTitle() {
@@ -86,68 +202,21 @@ class _NewAnnouncementPageState extends State<NewAnnouncementPage> {
     }
   }
 
-  List<Widget> _getAnnouncementOptions() {
-    switch (widget.announcementType) {
-      case AnnouncementTypes.player:
-        return [
-          AnnouncementOptionItem(
-              widget: MatchSelector(matches: [
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-              ], onSelectionChanged: _onMatchSelectionChanged),
-              title: "Select Your Match"),
-          AnnouncementOptionItem(
-              widget: PositionSelectorSmall(
-                  onSelectionChange: (List<String> positions) {
-                setState(() {
-                  playerPositions = [...positions];
-                });
-              }),
-              title: "Player's positions"),
-          AnnouncementOptionItem(
-              widget: NumberSlider(
-                min: 0,
-                max: 8,
-                onChanged: _onNumberOfPlayersChanged,
-              ),
-              title: "Select number of players you need"),
-        ];
-      case AnnouncementTypes.opponent:
-        return [
-          AnnouncementOptionItem(
-            widget: TeamSelector(
-                teams: [
-                  Program.program.dummyData.dummyTeam1,
-                  Program.program.dummyData.dummyTeam1,
-                  Program.program.dummyData.dummyTeam1,
-                  Program.program.dummyData.dummyTeam1,
-                  Program.program.dummyData.dummyTeam1,
-                ],
-                onSelectionChanged: (team) {
-                  teamModel = team;
-                }),
-            title: "Select your team",
-          ),
-          AnnouncementOptionItem(
-              widget: MatchSelector(matches: [
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-                Program.program.dummyData.dummyMatch1,
-              ], onSelectionChanged: _onMatchSelectionChanged),
-              title: "Select Your Match"),
-        ];
-      default:
-        return [];
-    }
-  }
-
   void createAnnouncement() {
     print(forTeam);
     print(teamModel);
     print(playerPositions);
+
+    //if(_selectedIndex == _getTitles().length - 1) {
+
+    //} else {
+    setState(() {
+      _selectedIndex++;
+      if (_selectedIndex == _getTitles().length) {
+        _selectedIndex = 0;
+      }
+    });
+    //}
 
     if (Program.program.user!.phoneNumber == null) {
       ProgramConstants.showBlurryBackground(
