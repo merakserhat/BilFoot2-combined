@@ -78,7 +78,6 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
             ),
             BlocBuilder<AnnouncementBloc, AnnouncementState>(
               builder: (context, state) {
-                print("sasasa");
                 return Expanded(
                   child: Container(
                     color: Colors.white,

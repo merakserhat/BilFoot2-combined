@@ -9,5 +9,7 @@ class ProgramColors {
     Color(0xFF0367A6),
     Color(0xFFF28F79),
     Color(0xFFF2F2F2),
+    Color(0xFF059CfA),
+    Color(0xFF023e64)
   ];
 }

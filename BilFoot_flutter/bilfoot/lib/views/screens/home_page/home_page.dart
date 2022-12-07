@@ -1,4 +1,5 @@
 import 'package:bilfoot/config/constants/program_constants.dart';
+import 'package:bilfoot/views/widgets/mirza/mirza.dart';
 import "package:flutter/material.dart";
 
 class HomePage extends StatefulWidget {
@@ -22,8 +23,19 @@ class _HomePageState extends State<HomePage> {
         body: Padding(
       padding: ProgramConstants.pagePadding,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: const [Text("Home Page")],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Home Page"),
+          Mirza(
+            content: Center(child: Text("content")),
+            msgSend: "Announce",
+            titles: [
+              "Select Match",
+              "Select Positions",
+              "Select Player Limit",
+            ],
+          )
+        ],
       ),
     ));
   }
