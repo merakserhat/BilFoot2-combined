@@ -24,10 +24,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   @override
   void initState() {
     super.initState();
-    print(widget.initialNumber!);
     if (widget.initialNumber != null) {
-      print(widget.initialNumber!);
-
       _setInitialCountry();
     }
     number = PhoneNumber(isoCode: initialCountry);
