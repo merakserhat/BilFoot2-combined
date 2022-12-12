@@ -24,10 +24,12 @@ class _AuthVerificationPageState extends State<AuthVerificationPage> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
-      await FirebaseAuth.instance.currentUser!.reload();
-      if (FirebaseAuth.instance.currentUser?.emailVerified ?? false) {
-        context.read<AuthenticationBloc>().add(FirebaseEmailVerified());
-        timer.cancel();
+      if (FirebaseAuth.instance.currentUser != null) {
+        await FirebaseAuth.instance.currentUser!.reload();
+        if (FirebaseAuth.instance.currentUser?.emailVerified ?? false) {
+          context.read<AuthenticationBloc>().add(FirebaseEmailVerified());
+          timer.cancel();
+        }
       }
     });
   }
