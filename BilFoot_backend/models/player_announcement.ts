@@ -10,6 +10,7 @@ interface IPlayerAnnouncement {
   accepted_players: Types.ObjectId[];
   refused_players: Types.ObjectId[];
   player_limit: Number;
+  isDeleted: boolean;
 }
 
 const playerAnnouncementSchema = new Schema<IPlayerAnnouncement>({
@@ -21,6 +22,7 @@ const playerAnnouncementSchema = new Schema<IPlayerAnnouncement>({
   refused_players: [ObjectId],
   match: { type: Schema.Types.ObjectId, ref: "match" },
   player_limit: { type: Number },
+  isDeleted: { type: Boolean, default: false },
 });
 
 export default model<IPlayerAnnouncement>(

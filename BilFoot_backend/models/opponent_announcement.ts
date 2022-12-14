@@ -5,6 +5,7 @@ interface IOpponentAnnouncement {
   created_at: Date;
   team: Types.ObjectId;
   match: Types.ObjectId;
+  isDeleted: boolean;
 }
 
 const opponentAnnouncementSchema = new Schema<IOpponentAnnouncement>({
@@ -12,6 +13,7 @@ const opponentAnnouncementSchema = new Schema<IOpponentAnnouncement>({
   created_at: { type: Date, required: true },
   team: { type: Schema.Types.ObjectId, required: true, ref: "team" },
   match: { type: Schema.Types.ObjectId, required: true, ref: "match" },
+  isDeleted: { type: Boolean, default: false },
 });
 
 export default model<IOpponentAnnouncement>(
