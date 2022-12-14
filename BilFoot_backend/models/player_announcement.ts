@@ -10,7 +10,7 @@ interface IPlayerAnnouncement {
   accepted_players: Types.ObjectId[];
   refused_players: Types.ObjectId[];
   player_limit: Number;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const playerAnnouncementSchema = new Schema<IPlayerAnnouncement>({

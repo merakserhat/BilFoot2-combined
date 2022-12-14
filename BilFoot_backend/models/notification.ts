@@ -12,7 +12,7 @@ export interface INotification {
   interaction: "static" | "chat" | "approval";
   type: String;
   status: "vending" | "accepted" | "refused"; // also add to answerNotification
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const notificationSchema = new Schema<INotification>({

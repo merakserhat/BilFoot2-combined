@@ -7,7 +7,7 @@ interface IConversationSchema {
     content: string;
     date: Date;
   };
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const conversationSchema = new Schema<IConversationSchema>({

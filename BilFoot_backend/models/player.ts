@@ -14,7 +14,7 @@ export interface IPlayer {
   image_url?: string;
   teams: Types.ObjectId[];
   matches: Types.ObjectId[];
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const playerSchema = new Schema<IPlayer>({

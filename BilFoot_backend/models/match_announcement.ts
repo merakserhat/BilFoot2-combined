@@ -3,7 +3,7 @@ import { Types, Schema, model } from "mongoose";
 interface IMatchAnnouncement {
   announcer: Types.ObjectId;
   date: Date;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const matchAnnouncementSchema = new Schema<IMatchAnnouncement>({

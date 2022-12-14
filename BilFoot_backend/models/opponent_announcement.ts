@@ -5,7 +5,7 @@ interface IOpponentAnnouncement {
   created_at: Date;
   team: Types.ObjectId;
   match: Types.ObjectId;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const opponentAnnouncementSchema = new Schema<IOpponentAnnouncement>({

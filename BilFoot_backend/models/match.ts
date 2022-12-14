@@ -11,7 +11,7 @@ export interface IMatch {
   auth_players: Types.ObjectId[];
   show_on_table: boolean;
   people_limit: number;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const matchSchema = new Schema<IMatch>({

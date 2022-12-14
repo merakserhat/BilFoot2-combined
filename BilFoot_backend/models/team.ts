@@ -9,7 +9,7 @@ export interface ITeam {
   creator: Types.ObjectId;
   captain: Types.ObjectId;
   players: Types.ObjectId[];
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const teamSchema = new Schema<ITeam>({
