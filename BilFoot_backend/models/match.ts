@@ -11,6 +11,7 @@ export interface IMatch {
   auth_players: Types.ObjectId[];
   show_on_table: boolean;
   people_limit: number;
+  isDeleted?: boolean;
 }
 
 const matchSchema = new Schema<IMatch>({
@@ -23,6 +24,7 @@ const matchSchema = new Schema<IMatch>({
   players: [{ type: Schema.Types.ObjectId, ref: "player" }],
   show_on_table: { type: Boolean, required: true },
   people_limit: { type: Number, required: true },
+  isDeleted: { type: Boolean, default: false },
 });
 
 export default model<IMatch>("match", matchSchema);

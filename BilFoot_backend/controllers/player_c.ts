@@ -22,6 +22,7 @@ export const getHomeData = async (
 ) => {
   const player: IPlayer | null = await Player.findOne({
     email: (req as any).user_email,
+    isDeleted: { $ne: true },
   });
 
   if (player == null) {
@@ -42,13 +43,17 @@ export const getPlayerNotifications = async (
 ) => {
   const player = await Player.findOne({
     email: (req as any).user_email,
+    isDeleted: { $ne: true },
   });
 
   if (player == null) {
     return res.status(401).json({ error: "User not found" });
   }
 
-  const notifications = await Notification.find({ to: player._id })
+  const notifications = await Notification.find({
+    to: player._id,
+    isDeleted: { $ne: true },
+  })
     .sort({ $natural: -1 })
     .populate(notificationPopulateRule)
     .limit(10);
@@ -79,6 +84,7 @@ export const answerToNotification = async (
 
   const player: IPlayer | null = await Player.findOne({
     email: (req as any).user_email,
+    isDeleted: { $ne: true },
   });
 
   if (player == null) {
@@ -111,6 +117,7 @@ export const searchPlayers = async (
 
   const players: IPlayer[] = await Player.find({
     full_name: new RegExp(value as string, "i"),
+    isDeleted: { $ne: true },
   });
 
   return res.status(200).json({ players });
@@ -149,6 +156,7 @@ export const updatePlayerPhoneNumber = async (
 
   const player = await Player.findOne({
     email: (req as any).user_email,
+    isDeleted: { $ne: true },
   });
 
   if (player === null) {
@@ -171,6 +179,7 @@ export const getPlayerPhoneNumber = async (
   if (typeof user_id !== "string") {
     const player = await Player.findOne({
       email: (req as any).user_email,
+      isDeleted: { $ne: true },
     });
 
     if (!player) {

@@ -12,6 +12,7 @@ export interface INotification {
   interaction: "static" | "chat" | "approval";
   type: String;
   status: "vending" | "accepted" | "refused"; // also add to answerNotification
+  isDeleted?: boolean;
 }
 
 const notificationSchema = new Schema<INotification>({
@@ -31,6 +32,7 @@ const notificationSchema = new Schema<INotification>({
   interaction: { type: String, required: true },
   type: { type: String, required: true },
   status: { type: String, required: true },
+  isDeleted: { type: Boolean, default: false },
 });
 
 export default model<INotification>("notification", notificationSchema);

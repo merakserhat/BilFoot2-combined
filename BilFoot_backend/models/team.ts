@@ -9,6 +9,7 @@ export interface ITeam {
   creator: Types.ObjectId;
   captain: Types.ObjectId;
   players: Types.ObjectId[];
+  isDeleted?: boolean;
 }
 
 const teamSchema = new Schema<ITeam>({
@@ -19,6 +20,7 @@ const teamSchema = new Schema<ITeam>({
   creator: { type: Schema.Types.ObjectId, ref: "player" },
   captain: { type: Schema.Types.ObjectId, ref: "player" },
   players: [{ type: Schema.Types.ObjectId, ref: "player" }],
+  isDeleted: { type: Boolean, default: false },
 });
 
 export default model<ITeam>("team", teamSchema);

@@ -103,24 +103,6 @@ export const createAnnouncement = async (
     return res.status(400).json({ error: "announcement type is invalid" });
   }
 };
-//example bodies
-/*
- * player announcement
-{
-    "announcement_type": "player",
-    "player_limit": 3,
-    "positions": ["GK", "MD"],
-    "match_id": "630fa6c89ea3cd6cdc1634b7"
-}
-
-* opponent announcement
-{
-    "announcement_type": "opponent",
-    "match_id": "630fa6c89ea3cd6cdc1634b7"
-    "team_id": "62f01e9681c097b01e4d777f"
-}
-
-*/
 
 ////////////////////////////
 //Players click to join match button at player annaouncement
@@ -186,14 +168,14 @@ export const getAnnouncements = async (
   const type: string = req.params.announcement_type;
   const playerAnnouncements =
     type !== "opponent"
-      ? await PlayerAnnouncement.find()
+      ? await PlayerAnnouncement.find({ isDeleted: { $ne: true } })
           .skip(10 * page)
           .limit(10)
           .populate(playerAnnouncementPopulateRule)
       : null;
   const opponentAnnouncement =
     type !== "player"
-      ? await OpponentAnnouncement.find()
+      ? await OpponentAnnouncement.find({ isDeleted: { $ne: true } })
           .skip(10 * page)
           .limit(10)
           .populate(opponentAnnouncementPopulateRule)

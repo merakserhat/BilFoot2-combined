@@ -30,7 +30,10 @@ export const createTeam = async (
     return res.status(500).json({ error: "user_mail is not defined" });
   }
 
-  const user = await Player.findOne({ email: user_email });
+  const user = await Player.findOne({
+    email: user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(400).json({ error: "User not found" });
@@ -70,7 +73,10 @@ export const inviteToTeam = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
@@ -125,6 +131,7 @@ export const getTeamInvitation = async (
     type: NotificationTypes.teamInvitation,
     status: "vending",
     team_model: new mongoose.Types.ObjectId(team_id),
+    isDeleted: { $ne: true },
   });
 
   console.log(invitation);
@@ -207,7 +214,10 @@ export const makeCaptain = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
@@ -250,7 +260,10 @@ export const kickPlayer = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
@@ -318,9 +331,10 @@ export const getTeamsWithIds = async (
 
   const idObjectIds = ids.map((id) => new mongoose.Types.ObjectId(id));
 
-  const teams = await Team.find({ _id: idObjectIds }).populate(
-    teamPopulateRule
-  );
+  const teams = await Team.find({
+    _id: idObjectIds,
+    isDeleted: { $ne: true },
+  }).populate(teamPopulateRule);
 
   return res.status(200).json({ teams });
 };
@@ -343,7 +357,10 @@ export const quitTeam = async (
     return res.status(400).json({ error: "Team Model not found" });
   }
 
-  const user_model = await Player.findOne({ email: user_email });
+  const user_model = await Player.findOne({
+    email: user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user_model == null) {
     return res.status(400).json({ error: "User Model not found" });
@@ -397,7 +414,10 @@ export const editTeam = async (
     return res.status(500).json({ error: "user_mail is not defined" });
   }
 
-  const user = await Player.findOne({ email: user_email });
+  const user = await Player.findOne({
+    email: user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(400).json({ error: "User not found" });
@@ -424,15 +444,19 @@ export const getPlayerTeams = async (
   res: Response,
   next: NextFunction
 ) => {
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
   }
 
-  const matches = await Team.find({ _id: user.teams }).populate(
-    teamPopulateRule
-  );
+  const matches = await Team.find({
+    _id: user.teams,
+    isDeleted: { $ne: true },
+  }).populate(teamPopulateRule);
 
   return res.status(200).json({ matches });
 };

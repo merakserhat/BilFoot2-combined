@@ -7,6 +7,7 @@ interface IConversationSchema {
     content: string;
     date: Date;
   };
+  isDeleted?: boolean;
 }
 
 const conversationSchema = new Schema<IConversationSchema>({
@@ -16,6 +17,7 @@ const conversationSchema = new Schema<IConversationSchema>({
     content: { type: String, required: true },
     date: { type: Schema.Types.Date, required: true },
   },
+  isDeleted: { type: Boolean, default: false },
 });
 
 export default model<IConversationSchema>("conversation", conversationSchema);

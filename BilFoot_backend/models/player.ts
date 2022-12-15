@@ -14,6 +14,7 @@ export interface IPlayer {
   image_url?: string;
   teams: Types.ObjectId[];
   matches: Types.ObjectId[];
+  isDeleted?: boolean;
 }
 
 const playerSchema = new Schema<IPlayer>({
@@ -29,6 +30,7 @@ const playerSchema = new Schema<IPlayer>({
   image_url: String,
   teams: [{ type: Schema.Types.ObjectId, ref: "team" }],
   matches: [{ type: Schema.Types.ObjectId, ref: "match" }],
+  isDeleted: { type: Boolean, default: false },
 });
 
 export default model<IPlayer>("player", playerSchema);
