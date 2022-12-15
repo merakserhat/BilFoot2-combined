@@ -13,12 +13,14 @@ export const getMatches = async (
 ) => {
   const past_matches = await Match.find({
     date: { $lt: new Date(Date.now()) },
+    isDeleted: { $ne: true },
   })
     .populate(matchPopulateRule)
     .limit(10)
     .sort({ date: -1 });
   const upcoming_matches = await Match.find({
     date: { $gt: new Date(Date.now()) },
+    isDeleted: { $ne: true },
   })
     .populate(matchPopulateRule)
     .limit(10)
@@ -100,7 +102,10 @@ export const removeMatch = async (
     return res.status(500).json({ error: "user_mail is not defined" });
   }
 
-  const user = await Player.findOne({ email: user_email });
+  const user = await Player.findOne({
+    email: user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(400).json({ error: "User not found" });
@@ -149,7 +154,10 @@ export const editMatch = async (
     return res.status(500).json({ error: "user_mail is not defined" });
   }
 
-  const user = await Player.findOne({ email: user_email });
+  const user = await Player.findOne({
+    email: user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(400).json({ error: "User not found" });
@@ -203,7 +211,10 @@ export const kickPlayer = async (
 
   const kickPlayerObjectId = new mongoose.Types.ObjectId(kicked_player_id);
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
@@ -271,7 +282,10 @@ export const quitMatch = async (
     return res.status(400).json({ error: "Match Model not found" });
   }
 
-  const user_model = await Player.findOne({ email: user_email });
+  const user_model = await Player.findOne({
+    email: user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user_model == null) {
     return res.status(400).json({ error: "User Model not found" });
@@ -326,7 +340,10 @@ export const giveAuth = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
@@ -372,7 +389,10 @@ export const requestToJoin = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
@@ -406,6 +426,7 @@ export const getMatchInvitation = async (
     type: NotificationTypes.matchInvitation,
     status: "vending",
     match_model: new mongoose.Types.ObjectId(match_id),
+    isDeleted: { $ne: true },
   });
 
   console.log(invitation);
@@ -429,7 +450,10 @@ export const inviteToMatch = async (
     return res.status(400).json({ error: "missing parameters" });
   }
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
@@ -470,7 +494,10 @@ export const getPlayerMatches = async (
 ) => {
   const { show_only_upcoming } = req.query;
 
-  const user = await Player.findOne({ email: (req as any).user_email });
+  const user = await Player.findOne({
+    email: (req as any).user_email,
+    isDeleted: { $ne: true },
+  });
 
   if (user == null) {
     return res.status(401).json({ error: "user not found" });
